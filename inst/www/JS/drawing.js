@@ -45,25 +45,26 @@ function drawFullScreenButton()
 function drawButtonInSideBar(buttonText, className, offset)
 {
     if(offset == undefined)
-        offset = 3.3;
+        offset = 0;
         
     var canvas = d3.select("#sideBarCanvas");
     
     canvas.append("rect")
-            .attr("x", 0)
-            .attr("y", offset*buttonOffset)
-            .attr("width", sideBarWidth)
+            .attr("x", scaleForWindowSize(10))
+            .attr("y", canvasHeight - buttonOffset + offset*(buttonPadding + buttonHeight))
+            .attr("width", sideBarWidth - scaleForWindowSize(10)*2)
             .attr("height", buttonHeight)
             .attr("rx", scaleForWindowSize(10) + "px")
             .attr("ry", scaleForWindowSize(10) + "px")
-            .attr("fill", buttonColors["normal"])
+            .attr("fill", "url(#buttonFillNormal)")
+            .attr("filter", "url(#Bevel)")
             .attr("stroke", "black")
             .attr("id", "button")
             .attr("class", className);
     
     canvas.append("text")
             .attr("x", sideBarWidth/2)
-            .attr("y", offset*buttonOffset + buttonHeight/2 + yAxisTickTextOffset)
+            .attr("y", canvasHeight - buttonOffset + offset*(buttonPadding + buttonHeight) + buttonHeight/2 + yAxisTickTextOffset)
             .attr("text-anchor", "middle")
             .text(buttonText)
             .attr("id", "text")
@@ -185,6 +186,9 @@ function drawEffectSize(value)
     var type = testResults["effect-size-type"];
     console.log("type = " + type);
     
+    if(type == "d")
+        value = value > 3.0 ? 3.0 : value;
+    
     var min = parseFloat(effectSizeMins[type]);
     var max = parseFloat(effectSizeMaxs[type]);
     value = parseFloat(value);
@@ -299,8 +303,10 @@ function drawParameter(value)
         var mainText = sideBar.append("text")
                 .attr("x", X)
                 .attr("y", Y)
+                .attr("font-size", fontSizeSignificanceTestResults + "px")
                 .attr("text-anchor", "middle")
-                .attr("fill", "orange");
+                .attr("fill", "#627bf4")
+                .attr("class", "parameter");
             
         mainText.append("tspan")
                     .text("𝝌");
@@ -319,8 +325,10 @@ function drawParameter(value)
             sideBar.append("text")
                     .attr("x", X)
                     .attr("y", Y)
+                    .attr("font-size", fontSizeSignificanceTestResults + "px")
                     .attr("text-anchor", "middle")
-                    .attr("fill", "orange")
+                    .attr("fill", "#627bf4")
+                    .attr("class", "parameter")
                     .text(type + "(" + testResults["df"] + ") = " + testResults["parameter"]);
         }
         else
@@ -329,9 +337,24 @@ function drawParameter(value)
                 .attr("x", X)
                 .attr("y", Y)
                 .attr("text-anchor", "middle")
-                .attr("fill", "orange")
+                .attr("font-size", fontSizeSignificanceTestResults + "px")
+                .attr("fill", "#627bf4")
+                .attr("class", "parameter")
                 .text(type + " = " + testResults["parameter"]);
         }
     }
-}           
+}    
+
+function drawComputingResultsImage()
+{
+    var sideBar = d3.select("#sideBarCanvas");
+    
+    sideBar.append("image")
+            .attr("x", sideBarWidth/2 - computingResultsImageSize/2)
+            .attr("y", canvasHeight/2 - computingResultsImageSize/2)
+            .attr("xlink:href", "images/checkingAssumptions.gif")
+            .attr("height", computingResultsImageSize)
+            .attr("width", computingResultsImageSize)
+            .attr("id", "computingResultsImage");
+}
     

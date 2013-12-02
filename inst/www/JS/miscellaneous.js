@@ -5,40 +5,49 @@ function initiateLoadingDatasetAnimation()
     if(document.getElementsByClassName("loadingAnimation").length > 0)
             removeElementsByClassName("loadingAnimation");
             
-        var t = canvas.append("text")
-            .attr("x", canvasWidth/2)
-            .attr("y", canvasHeight/2)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "32px")
-            .text("Loading data")
-            .attr("id", "loadingData")
-            .attr("class", "loadingAnimation");
-        
-        t.transition().duration(500).attr("opacity", "0.3");
-        
-        t.transition().delay(500).duration(500).attr("opacity", "1.0");
-        
-        t.transition().delay(1000).duration(500).attr("opacity", "0.3");
+    var t = canvas.append("text")
+        .attr("x", canvasWidth/2)
+        .attr("y", canvasHeight/2)
+        .attr("text-anchor", "middle")
+        .attr("font-size", "32px")
+        .text("Loading data")
+        .attr("id", "loadingData")
+        .attr("class", "loadingAnimation");
+
+//     t.transition().duration(500).attr("opacity", "0.3");
+// 
+//     t.transition().delay(500).duration(500).attr("opacity", "1.0");
+// 
+//     t.transition().delay(1000).duration(500).attr("opacity", "0.3");
+    
+    canvas.append("image")
+            .attr("x", canvasWidth/2 - loadingImageSize/2)
+            .attr("y", canvasHeight/4)
+            .attr("xlink:href", "images/loading.gif")
+            .attr("height", loadingImageSize)
+            .attr("width", loadingImageSize)
+            .attr("id", "loadingImage");
             
-    loadingDataAnimation = setInterval(function()
-    {
-        if(document.getElementsByClassName("loadingAnimation").length > 0)
-            removeElementsByClassName("loadingAnimation");
-            
-        var t = canvas.append("text")
-            .attr("x", canvasWidth/2)
-            .attr("y", canvasHeight/2)
-            .attr("text-anchor", "middle")
-            .attr("font-size", "32px")
-            .text("Loading data")
-            .attr("id", "loadingData")
-            .attr("class", "loadingAnimation");
-        
-        t.transition().duration(500).attr("opacity", "0.3");
-        
-        t.transition().delay(500).duration(500).attr("opacity", "1.0");
-        
-        t.transition().delay(1000).duration(500).attr("opacity", "0.3");
-    }, 1500);
+    // loadingDataAnimation = setInterval(function()
+//     {
+//         if(document.getElementsByClassName("loadingAnimation").length > 0)
+//             removeElementsByClassName("loadingAnimation");
+//             
+//         var t = canvas.append("text")
+//             .attr("x", canvasWidth/2)
+//             .attr("y", canvasHeight/2)
+//             .attr("text-anchor", "middle")
+//             .attr("font-size", "32px")
+//             .text("Loading data")
+//             .attr("id", "loadingData")
+//             .attr("class", "loadingAnimation");
+//         
+//         t.transition().duration(500).attr("opacity", "0.3");
+//         
+//         t.transition().delay(500).duration(500).attr("opacity", "1.0");
+//         
+//         t.transition().delay(1000).duration(500).attr("opacity", "0.3");
+//         
+//     }, 1500);
             
 }

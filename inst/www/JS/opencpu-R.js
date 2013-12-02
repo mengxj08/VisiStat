@@ -13,7 +13,7 @@ function loadFile(filePath)
         
     //for each variable, get the data and the IQR
     for(var i=0; i<output.variableNames.length; i++)
-    {
+    {      
         variables[output.variableNames[i]] = new Object();
         MIN[output.variableNames[i]] = new Object();
         MAX[output.variableNames[i]] = new Object();
@@ -23,8 +23,6 @@ function loadFile(filePath)
         getData(dataset, output.variableNames[i]);                 
         getIQR(dataset, output.variableNames[i]);  
     }
-    
-    
      }).fail(function(){
           alert("Failure: " + req.responseText);
     });
@@ -100,8 +98,10 @@ function getData(dataset, variableName, level)
             
             testForEvilVariables();
             
-            clearInterval(loadingDataAnimation);
+//             clearInterval(loadingDataAnimation);
+            
             removeElementsByClassName("loadingAnimation");
+            removeElementById("loadingImage");
             experimentalDesign = findExperimentalDesign();
             
             console.log("\n\tEXPERIMENTAL DESIGN = " + experimentalDesign);
@@ -198,8 +198,11 @@ function performHomoscedasticityTestNotNormal(dependent, independent)
                     if(output.p < 0.05)
                     {
                         d3.select("#homogeneity.crosses").attr("display", "inline");                  
+                        d3.select("#homogeneity.loading").attr("display", "none");                  
                         
-                        if(experimentalDesign == "between-groups")
+                        drawComputingResultsImage();
+                        
+                        if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
                         {
                             performFriedmanTest(variableList["dependent"][0], variableList["independent"][0]);
                         }
@@ -212,8 +215,11 @@ function performHomoscedasticityTestNotNormal(dependent, independent)
                     {   
                         //equal variances
                         d3.select("#homogeneity.ticks").attr("display","inline");
+                        d3.select("#homogeneity.loading").attr("display", "none"); 
+                        
+                        drawComputingResultsImage();
                     
-                        if(experimentalDesign == "between-groups")
+                        if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
                         {
                             performFriedmanTest(variableList["dependent"][0], variableList["independent"][0]);
                         }
@@ -227,29 +233,47 @@ function performHomoscedasticityTestNotNormal(dependent, independent)
                 {  
                     if(output.p < 0.05)
                     {
-                        d3.select("#homogeneity.crosses").attr("display", "inline");                 
-                        if(experimentalDesign == "between-groups")
-                        {                        
-                            performWilcoxonTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                        d3.select("#homogeneity.crosses").attr("display", "inline"); 
+                        d3.select("#homogeneity.loading").attr("display", "none"); 
+                        
+                        drawComputingResultsImage();
+                        
+                        if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
+                        {   
+                            if(!pairwiseComparisons)
+                                performWilcoxonTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                            else
+                                performPairwiseWilcoxTest("FALSE", "TRUE");
                         }
                         else
                         {
-                            performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "FALSE");
+                            if(!pairwiseComparisons)
+                                performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "FALSE");
+                            else
+                                performPairwiseWilcoxTest("FALSE", "FALSE");
                         }                         
                     }
                     else
                     {   
                         //equal variances
                         d3.select("#homogeneity.ticks").attr("display","inline");
+                        d3.select("#homogeneity.loading").attr("display", "none");                     
+                        
+                        drawComputingResultsImage();
                     
-                    
-                        if(experimentalDesign == "between-groups")
-                        {                        
-                            performWilcoxonTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                        if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
+                        {      
+                            if(!pairwiseComparisons)
+                                performWilcoxonTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                            else
+                                performPairwiseWilcoxTest("TRUE", "TRUE");
                         }
                         else
                         {
-                            performMannWhitneyTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                            if(!pairwiseComparisons)
+                                performMannWhitneyTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                            else
+                                performPairwiseWilcoxTest("TRUE", "FALSE");
                         }                                        
                     }
                 }
@@ -302,14 +326,16 @@ function performHomoscedasticityTestNormal(dependent, independent)
                     variableList = getSelectedVariables();
                     console.log("number of levels: " + variableList["independent-levels"].length);
                 
-            
-                
                     if(variableList["independent-levels"].length > 2)
                     {
                         if(output.p < 0.05)
                         {
-                            d3.select("#homogeneity.crosses").attr("display", "inline");                  
-                            if(experimentalDesign == "between-groups")
+                            d3.select("#homogeneity.crosses").attr("display", "inline");
+                            d3.select("#homogeneity.loading").attr("display", "none"); 
+                            
+                            drawComputingResultsImage();
+                            
+                            if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
                             {
                                 performOneWayRepeatedMeasuresANOVA(variableList["dependent"][0], variableList["independent"][0]);
                             }
@@ -322,8 +348,11 @@ function performHomoscedasticityTestNormal(dependent, independent)
                         {   
                             //equal variances
                             d3.select("#homogeneity.ticks").attr("display","inline");
+                            d3.select("#homogeneity.loading").attr("display", "none"); 
                     
-                            if(experimentalDesign == "between-groups")
+                            drawComputingResultsImage();
+                            
+                            if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
                             {
                                 performOneWayRepeatedMeasuresANOVA(variableList["dependent"][0], variableList["independent"][0]);
                             }
@@ -337,29 +366,47 @@ function performHomoscedasticityTestNormal(dependent, independent)
                     {               
                         if(output.p < 0.05)
                         {
-                            d3.select("#homogeneity.crosses").attr("display", "inline");     
+                            d3.select("#homogeneity.crosses").attr("display", "inline");  
+                            d3.select("#homogeneity.loading").attr("display", "none"); 
                             
-                            if(experimentalDesign == "between-groups")
+                            drawComputingResultsImage();
+                            
+                            if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
                             {
-                                performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "FALSE", "TRUE");
+                                if(!pairwiseComparisons)
+                                    performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "FALSE", "TRUE");
+                                else
+                                    performPairwiseTTest("FALSE", "TRUE");
                             }
                             else
                             {
-                                performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "FALSE", "FALSE");
+                                if(!pairwiseComparisons)
+                                    performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "FALSE", "FALSE");
+                                else
+                                    performPairwiseTTest("FALSE", "FALSE");
                             }
                         }
                         else
                         {   
                             //equal variances
                             d3.select("#homogeneity.ticks").attr("display","inline");
+                            d3.select("#homogeneity.loading").attr("display", "none"); 
                     
-                            if(experimentalDesign == "between-groups")
+                            drawComputingResultsImage();
+                            
+                            if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
                             {
-                                performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "TRUE", "TRUE");
+                                if(!pairwiseComparisons)
+                                    performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "TRUE", "TRUE");
+                                else
+                                    performPairwiseTTest("TRUE", "TRUE");
                             }
                             else
                             {
-                                performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "TRUE", "FALSE");
+                                if(!pairwiseComparisons)
+                                    performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "TRUE", "FALSE");
+                                else
+                                    performPairwiseTTest("TRUE", "FALSE");
                             }                                        
                         }
                     }
@@ -397,7 +444,9 @@ function performNormalityTest(dist, dependentVariable, level)
                     if(variableList["independent"].length == 0)
                     {
                         //one sample t-test
-                        d3.select("#normality.crosses").attr("display", "inline");                                  
+                        d3.select("#normality.crosses").attr("display", "inline");
+                        d3.select("#normality.loading").attr("display", "none");
+                        
                         d3.select("#plotCanvas").transition().duration(1000).attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight*1.5);
                 
                         //draw boxplots in red 
@@ -415,7 +464,9 @@ function performNormalityTest(dist, dependentVariable, level)
                 {   
                     if(variableList["independent"].length == 0)
                     {
-                        d3.select("#normality.ticks").attr("display", "inline");                          
+                        d3.select("#normality.ticks").attr("display", "inline");
+                        d3.select("#normality.loading").attr("display", "none");
+                        
                         drawDialogBoxToGetPopulationMean();
                     }
                     else
@@ -521,6 +572,7 @@ function findTransformForDependentVariables(numericVariables)
         
     });
 }
+
 function applyTransform(dependentVariable, level, last)
 {
     // Get variable names and their data type
@@ -572,6 +624,7 @@ function applyTransform(dependentVariable, level, last)
                     
                     d3.select("#normality.crosses").attr("display", "none");  
                     d3.select("#normality.ticks").attr("display", "inline");  
+                    d3.select("#normality.loading").attr("display", "none");
                     var variableList = sort(currentVariableSelection);                                        
                     
                     d3.select("#plotCanvas").transition().delay(2000).duration(1000).attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight);

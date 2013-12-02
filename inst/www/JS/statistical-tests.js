@@ -27,7 +27,7 @@ function compareMeans()
                     loadAssumptionCheckList();
                     
                     var sampleSize;
-                    var sampleSizesAreEqual = true;
+                    sampleSizesAreEqual = true;
                     
                     if(variableList["independent"].length == 2)
                     {
@@ -75,41 +75,115 @@ function compareMeans()
     }
 }
 
+function doPairwiseTests()
+{
+    var completeLines = d3.selectAll(".completeLines");
+    var variableList = getSelectedVariables();  
+    
+    console.log("variableList:");
+    console.dir(variableList);    
+    
+    console.log("\t Pairwise comparisons!");
+
+    //homoscedasticity
+    loadAssumptionCheckList();
+    
+    var sampleSize;
+    sampleSizesAreEqual = true;
+    
+    if(variableList["independent"].length == 2)
+    {
+        var levelsA = variableList["independent-levels"][0];
+        var levelsB = variableList["independent-levels"][1];
+        
+        console.log("colourBoxPlotData=");
+        console.dir(colourBoxPlotData);
+        
+        console.log(levelsA[0]);
+        console.log(levelsB[0]);
+        
+        sampleSize = colourBoxPlotData[levelsA[0]][levelsB[0]].length;
+    }
+    else
+    {
+        sampleSize = variables[variableList["dependent"][0]][variableList["independent-levels"][0]].length;
+        
+        sampleSizesAreEqual = variables[variableList["dependent"][0]][variableList["independent-levels"][1]].length == variables[variableList["dependent"][0]][variableList["independent-levels"][0]].length ? true : false;
+    }
+    
+    if(!sampleSizesAreEqual && experimentalDesign=="Between-groups")
+    {
+        alert("Between-groups design was detected but number of samples are different!");
+        return;
+    }                    
+    else
+    {
+        performNormalityTests(); 
+    }                   
+}
+
 function loadAssumptionCheckList()
 {
     var canvas = d3.select("#sideBarCanvas");
     
-    for(var i=0; i<assumptions.length; i++)
-    {
-        canvas.append("text")
-            .attr("x", assumptionImageSize*1.25)
-            .attr("y", i*30 + assumptionOffsetTop)
-            .attr("font-size", fontSizeAssumptions + "px")
-            .attr("fill", meanColors["normal"])
-            .text(assumptionsText[assumptions[i]])
-            .attr("id", assumptions[i])
-            .attr("class", "assumptions");
-        canvas.append("image")
-            .attr("x", 0)
-            .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
-            .attr("text-anchor", "end")
-            .attr("xlink:href", "images/tick.png")
-            .attr("height", assumptionImageSize)            
-            .attr("width", assumptionImageSize)
-            .attr("display", "none")
-            .attr("id", assumptions[i])
-            .attr("class", "ticks");
-        canvas.append("image")
-            .attr("x", 0)
-            .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
-            .attr("text-anchor", "end")
-            .attr("xlink:href", "images/cross.png")
-            .attr("height", assumptionImageSize)
-            .attr("width", assumptionImageSize)
-            .attr("display", "none")
-            .attr("id", assumptions[i])
-            .attr("class", "crosses");
-    }
+    var title = canvas.append("text")
+            .attr("x", sideBarWidth/2)
+            .attr("y", 30 + assumptionOffsetTop)
+            .attr("font-size", fontSizeAssumptionsTitle + "px")
+            .attr("text-anchor", "middle")
+            .attr("fill", "#627bf4")
+            .text("CHECKING ASSUMPTIONS")
+            .attr("class", "checkingAssumptions");
+    
+    title.transition().delay(500).duration(800).attr("y", assumptionOffsetTop - 50);
+    
+    //timer for 500 ms
+    window.setTimeout(function(){
+        for(var i=0; i<assumptions.length; i++)
+        {
+            canvas.append("text")
+                .attr("x", assumptionImageSize*1.25)
+                .attr("y", i*assumptionStep + assumptionOffsetTop)
+                .attr("font-size", fontSizeAssumptions + "px")
+                .attr("fill", "black")
+                .text(assumptionsText[assumptions[i]])
+                .attr("id", assumptions[i])
+                .attr("class", "assumptions");
+            canvas.append("image")
+                .attr("x", 0)
+                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                .attr("text-anchor", "end")
+                .attr("xlink:href", "images/checkingAssumptions.gif")
+                .attr("height", assumptionImageSize)            
+                .attr("width", assumptionImageSize)
+                .attr("id", assumptions[i])
+                .attr("class", "loading");
+                
+            canvas.append("image")
+                .attr("x", 0)
+                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                .attr("text-anchor", "end")
+                .attr("xlink:href", "images/tick.png")
+                .attr("height", assumptionImageSize)            
+                .attr("width", assumptionImageSize)
+                .attr("display", "none")
+                .attr("id", assumptions[i])
+                .attr("class", "ticks");
+                         
+            canvas.append("image")
+                .attr("x", 0)
+                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2)
+                .attr("text-anchor", "end")
+                .attr("xlink:href", "images/cross.png")
+                .attr("height", assumptionImageSize)
+                .attr("width", assumptionImageSize)
+                .attr("display", "none")
+                .attr("id", assumptions[i])
+                .attr("class", "crosses");
+        }    
+    }, 1300);
+    
+    
 }
 
 function performNormalityTests()
@@ -159,7 +233,8 @@ function setDistribution(dependentVariable, level, normal)
         {   
             if(distributions[dependentVariable][variableList["independent-levels"][i]] == false)
             {
-                d3.select("#normality.crosses").attr("display", "inline");                  
+                d3.select("#normality.crosses").attr("display", "inline"); 
+                d3.select("#normality.loading").attr("display", "none"); 
                 normal = false;
                 
                 d3.select("#plotCanvas").transition().duration(1000).attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight*1.5);
@@ -175,6 +250,7 @@ function setDistribution(dependentVariable, level, normal)
             console.log("\n\tall distributions are normal!");
             
             d3.select("#normality.ticks").attr("display", "inline");  
+            d3.select("#normality.loading").attr("display", "none"); 
             
             for(var i=0; i<variableList["independent"].length; i++)
             {
@@ -206,7 +282,8 @@ function setHomogeneityOfVariances(dependentVariable, independentVariable, homog
         {   
             if(variances[dependentVariable][variableList["independent"][i]] == false)
             {
-                d3.select("#homogeneity.crosses").attr("display", "inline");                  
+                d3.select("#homogeneity.crosses").attr("display", "inline");
+                d3.select("#homogeneity.loading").attr("display", "none"); 
                 homogeneity = false;
             }
         }
@@ -215,7 +292,11 @@ function setHomogeneityOfVariances(dependentVariable, independentVariable, homog
         {         
             console.log("\n\tHomogeneous requirement satisfied!");
             
-            d3.select("#homogeneous.ticks").attr("display", "inline");  
+            d3.select("#homogeneity.ticks").attr("display", "inline"); 
+            d3.select("#homogeneity.loading").attr("display", "none"); 
+            
+            drawComputingResultsImage();
+            
             performTwoWayANOVA(variableList["dependent"][0], variableList["independent"][0], variableList["independent"][1]);
         }
         else
@@ -247,6 +328,7 @@ function displayOneSampleTestResults()
     var cy = [];
 
     removeElementsByClassName("significanceTest");
+    removeElementById("computingResultsImage");
     
     var means = document.getElementsByClassName("means");
     var medians = document.getElementsByClassName("medians");
@@ -357,7 +439,7 @@ function displayOneSampleTestResults()
             .attr("text-anchor", "middle")
             .attr("font-size", "16px")
             .attr("fill", "orange")
-            .text("p = " + testResults["p"])
+            .text(testResults["p"])
             .attr("class", "significanceTest");
     
     
@@ -379,6 +461,7 @@ function displaySignificanceTestResults()
     var cy = [];
 
     removeElementsByClassName("significanceTest");
+    removeElementById("computingResultsImage");
     
     var means = document.getElementsByClassName("means");
     var meanRefLines = [];
@@ -397,7 +480,7 @@ function displaySignificanceTestResults()
                                  .attr("y1", means[i].getAttribute("cy"))
                                  .attr("x2", canvasWidth/2 + plotWidth/2)
                                  .attr("y2", means[i].getAttribute("cy"))
-                                 .attr("stroke", meanColors["normal"])
+                                 .attr("stroke", "black")
                                  .attr("stroke-dasharray","5,5")
                                  .attr("id", "meanrefLine")
                                  .attr("class", "significanceTest");
@@ -407,8 +490,8 @@ function displaySignificanceTestResults()
                                  .attr("y1", means[i].getAttribute("cy"))
                                  .attr("x2", canvasWidth/2 - plotWidth/2 - axesOffset)
                                  .attr("y2", means[i].getAttribute("cy"))
-                                 .attr("stroke", meanColors["normal"])
-                                 .attr("opacity", "0.45")
+                                 .attr("stroke", "black")
+                                 .attr("opacity", "0.25")
                                  .attr("stroke-dasharray","5,5")
                                  .attr("id", "meanrefLine")
                                  .attr("class", "significanceTest");
@@ -449,8 +532,8 @@ function displaySignificanceTestResults()
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "16px")
-            .attr("fill", "orange")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
+            .attr("fill", "#627bf4")
             .text(testResults["method"])
             .attr("class", "significanceTest");
     
@@ -469,9 +552,9 @@ function displaySignificanceTestResults()
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + 3*significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "16px")
-            .attr("fill", "orange")
-            .text("p = " + testResults["p"])
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
+            .attr("fill", "#627bf4")
+            .text(testResults["p"])
             .attr("class", "significanceTest");
     
     
@@ -523,8 +606,8 @@ function drawScales(cx, cy)
     canvas.append("text")
                 .attr("x", x + scaleForWindowSize(35))
                 .attr("y", (yMin + yMax)/2)
-                .attr("fill", meanColors["normal"])
-                .attr("font-size", scaleForWindowSize(26) + "px")
+                .attr("fill", "black")
+                .attr("font-size", scaleForWindowSize(20) + "px")
                 .attr("id", "tickText")
                 .attr("class", "significanceTest")
                 .text(format(means[means.length-1] - means[0]));
@@ -536,7 +619,7 @@ function drawScales(cx, cy)
             canvas.append("text")
                 .attr("x", x + scaleForWindowSize(5))
                 .attr("y", (parseFloat(cy[i]) + parseFloat(cy[i+1]))/2 + yAxisTickTextOffset)
-                .attr("fill", meanColors["normal"])
+                .attr("fill", "black")
                 .attr("id", "DIM" + i)
                 .attr("class", "differenceInMeansText")
                 .attr("display", "none")
@@ -547,7 +630,7 @@ function drawScales(cx, cy)
                 .attr("y1", cy[i])
                 .attr("x2", x)
                 .attr("y2", cy[i])
-                .attr("stroke", meanColors["normal"])
+                .attr("stroke", "black")
                 .attr("stroke-width", scaleForWindowSize(3) + "px")
                 .attr("id", "DIM" + i)
                 .attr("class", "differenceInMeans");       
@@ -557,7 +640,7 @@ function drawScales(cx, cy)
                 .attr("y1", cy[i+1])
                 .attr("x2", x)
                 .attr("y2", cy[i+1])
-                .attr("stroke", meanColors["normal"])
+                .attr("stroke", "black")
                 .attr("stroke-width", scaleForWindowSize(3) + "px")
                 .attr("id", "DIM" + i)
                 .attr("class", "differenceInMeans"); 
@@ -567,7 +650,7 @@ function drawScales(cx, cy)
                 .attr("y1", cy[i])
                 .attr("x2", x)
                 .attr("y2", cy[i+1])
-                .attr("stroke", meanColors["normal"])
+                .attr("stroke", "black")
                 .attr("stroke-width", scaleForWindowSize(5) + "px")
                 .attr("id", "DIM" + i)
                 .attr("class", "differenceInMeans");       
@@ -578,6 +661,8 @@ function drawScales(cx, cy)
 function displayCorrelationResults()
 { 
     var sideBar = d3.select("#sideBarCanvas");
+    
+    removeElementById("computingResultsImage");
     
     sideBar.append("text")
             .attr("x", sideBarWidth/2)
@@ -603,7 +688,7 @@ function displayCorrelationResults()
             .attr("text-anchor", "middle")
             .attr("font-size", "16px")
             .attr("fill", "orange")
-            .text("p = " + testResults["p"])
+            .text(testResults["p"])
             .attr("class", "significanceTest");
     
     
@@ -624,6 +709,8 @@ function displayBiserialCorrelationResults()
 {   
     var sideBar = d3.select("#sideBarCanvas");
     
+    removeElementById("computingResultsImage");
+    
     sideBar.append("text")
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + significanceTestResultOffset)
@@ -640,6 +727,8 @@ function displayBiserialCorrelationResults()
 function displaySimpleRegressionResults()
 {   
     var sideBar = d3.select("#sideBarCanvas");    
+    
+    removeElementById("computingResultsImage");
     
     sideBar.append("text")
             .attr("x", sideBarWidth/2)
@@ -692,6 +781,8 @@ function displaySimpleRegressionResults()
 function displayMultipleRegressionResults()
 {   
     var sideBar = d3.select("#sideBarCanvas");    
+    
+    removeElementById("computingResultsImage");
     
     sideBar.append("text")
             .attr("x", sideBarWidth/2)

@@ -113,13 +113,6 @@ function makeBoxplot()
         means[0] = mean(data[0]);  
     }   
     
-    console.log("data = [" + data + "]");
-    console.log("mins = [" + mins + "]");
-    console.log("maxs = [" + maxs + "]");
-    console.log("medians = [" + medians + "]");
-    console.log("iqrs = [" + iqrs + "]");
-    console.log("cis = [" + CIs + "]");    
-    
     min = Array.min(mins);
     max = Array.max(maxs);
     
@@ -165,13 +158,15 @@ function makeBoxplot()
                 .attr("transform", "rotate (-90 " + (LEFT - axesOffset - 1.5*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
                 .attr("font-size", fontSizeLabels + "px")
                 .text(variableList["dependent"][0])
-                .attr("fill", "orange");
+                .attr("fill", "black");
     }
     
     //grooves
     
     //x-axis grooves           
-    nGroovesX = labels.length;    
+    nGroovesX = labels.length;  
+    
+    console.log("number of grooves in X-axis = " + nGroovesX);
     widthOfEachBox = plotWidth/(labels.length*2) > boxWidth ? boxWidth : plotWidth/(labels.length*2);
     
     var xStep = plotWidth/nGroovesX;  
@@ -182,8 +177,9 @@ function makeBoxplot()
         {
             var levelsForXAxis = variableList["independent-levels"][0];
             xStep = plotWidth/levelsForXAxis.length;  
-            if(i%levelsForXAxis.length)
+            if(i<levelsForXAxis.length)
             {
+                console.log("i=" + i + ", levels=" + levelsForXAxis.length);
                 canvas.append("line")
                         .attr("x1", LEFT + index*xStep + xStep/2)
                         .attr("y1", BOTTOM  + axesOffset)
@@ -548,7 +544,7 @@ function redrawBoxPlot()
                 .attr("transform", "rotate (-90 " + (LEFT - axesOffset - 1.5*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
                 .attr("font-size", fontSizeLabels + "px")
                 .text(variableList["dependent"][0])
-                .attr("fill", "orange");
+                .attr("fill", "black");
     }
     
     //grooves
@@ -753,7 +749,7 @@ function drawBoxPlotLegends(varNames)
                 .attr("fill", colors[i])
                 .attr("stroke", "black")
                 .attr("id", "legend" + i)
-                .attr("class", "rect");
+                .attr("class", "boxplotLegends");
         
         canvas.append("text")
                 .attr("x", sideBarWidth/2 + histLegendSize)
@@ -763,7 +759,7 @@ function drawBoxPlotLegends(varNames)
                 .attr("font-size", fontSizeTicks + "px")
                 .text(varNames[i])
                 .attr("id", "legend" + i)
-                .attr("class", "text");
+                .attr("class", "boxplotLegends");
             
     }
 }

@@ -55,6 +55,9 @@ var variances = new Object();
 var participants;
 var interactions = [];
     var tukeyResults = new Object();
+    
+var sampleSizesAreEqual = true;
+var pairwiseComparisons = false;
 
 //transformations
 var transformationType;

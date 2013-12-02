@@ -39,7 +39,55 @@
         <script src="opencpu/jquery-1.10.1.min.js"></script>
         <script src="opencpu/opencpu.js"></script>
     </head>
-    <body>        
+    <body>   
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+          <defs>
+            <filter id="shadow" x="0" y="0" width="150%" height="150%">
+              <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+              <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+              <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+            </filter>            
+            <filter id="Bevel" filterUnits="objectBoundingBox" x="-10%" y="-10%" width="150%" height="150%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+              <feSpecularLighting in="blur" surfaceScale="5" specularConstant="0.5" specularExponent="10" result="specOut" lighting-color="white">
+                <fePointLight x="-5000" y="-10000" z="20000"/>
+              </feSpecularLighting>
+              <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut2"/>
+              <feComposite in="SourceGraphic" in2="specOut2" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint" />
+              <feOffset result="offOut" in="SourceAlpha" dx="2.5" dy="2.5" />
+              <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+              <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+            </filter>
+            <filter id="buttonFilterNormal" filterUnits="objectBoundingBox" x="-0.1" y="-0.1" width="1.2" height="1.2">
+                <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+                <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+                <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="alpha_blur"/>
+                <feSpecularLighting in="alpha_blur" surfaceScale="5" specularConstant="1" specularExponent="15" lighting-color="#FFFFFF" result="spec_light">
+                    <fePointLight x="-200" y="75" z="250"/>
+                </feSpecularLighting>
+                <feComposite in="SourceGraphic" in2="spec_light" operator="out"/>
+            </filter>
+            <filter id="buttonFilterSelected" filterUnits="objectBoundingBox" x="-0.1" y="-0.1" width="1.2" height="1.2">
+                <feOffset result="offOut" in="SourceAlpha" dx="5" dy="5" />
+                <feGaussianBlur result="blurOut" in="offOut" stdDeviation="5" />
+                <feBlend in="SourceGraphic" in2="blurOut" mode="normal" />
+                <feGaussianBlur in="SourceAlpha" stdDeviation="1" result="alpha_blur"/>
+                <feSpecularLighting in="alpha_blur" surfaceScale="5" specularConstant="1" specularExponent="15" lighting-color="#FFFFFF" result="spec_light">
+                    <fePointLight x="+200" y="+400" z="50"/>
+                </feSpecularLighting>
+                <feComposite in="SourceGraphic" in2="spec_light" operator="out"/>
+            </filter>
+            <linearGradient id="buttonFillNormal" gradientUnits="objectBoundingBox" x1="1" x2="1" y1="0" y2="1">
+                    <stop stop-color="#f8f9f7" offset="0"/>
+                    <stop stop-color="#b6b6b6" offset="1.0"/>
+                </linearGradient>
+            <linearGradient id="buttonFillSelected" gradientUnits="objectBoundingBox" x1="1" x2="1" y1="0" y2="1">
+                    <stop stop-color="#627bf4" offset="0"/>
+                    <stop stop-color="#6B8FD4" offset="1.0"/>
+            </linearGradient>
+          </defs>
+        </svg>
         <script type="text/javascript">            
         
             window.onload = function()
@@ -47,8 +95,8 @@
                 initMouseEventHandlers();
                 
                 // Set the width and height of panels
-                d3.select("#variable.panel").attr("style", "width: " + (width - canvasWidth - sideBarWidth) + "px; height: " + height + "px; position: absolute; left: 0px; top: 0px;");    
-                d3.select("#visualization.panel").attr("style", "position: absolute; top: " + canvasHeight + "px; left: " + (width - canvasWidth - sideBarWidth) + "px; width: " + (canvasWidth + sideBarWidth) + "px; height: " + height/4 + "px;");                    
+                d3.select("#variable.panel").attr("style", "width: " + (width - canvasWidth - sideBarWidth) + "px; height: " + height + "px; position: absolute; left: 0px; top: 0px;");
+                d3.select("#visualization.panel").attr("style", "position: absolute; top: " + canvasHeight + "px; left: " + (width - canvasWidth - sideBarWidth) + "px; width: " + (canvasWidth + sideBarWidth) + "px; height: " + height/4 + "px;");
                 d3.select("#canvas").attr("style", "position: absolute; width: " + canvasWidth + "px; height: " + canvasHeight + "px; top: 0px; left: " + (width - canvasWidth - sideBarWidth) + "px;");    
                 d3.select("#sideBar").attr("style", "position: absolute; width: " + sideBarWidth + "px; height: " + canvasHeight + "px; top: 0px; left: " + (width - sideBarWidth) + "px;");    
                 
@@ -73,7 +121,8 @@
                                             .attr("height", variablePanel.style("height"))
                                             .attr("width", variablePanel.style("width"))
                                             .attr("left", variablePanel.style("left"))
-                                            .attr("top", variablePanel.style("top"));  
+                                            .attr("top", variablePanel.style("top"))
+                                            .attr("fill", "url(#buttonFillNormal)");      
                 
                 for(var i=0; i<variableNames.length; i++)
                 {                
@@ -81,44 +130,17 @@
                                                     .attr("x", variableNameHolderPadding)
                                                     .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding))                                                   
                                                     .attr("height", variableNameHolderHeight)
-                                                    .attr("width",  variableNameHolderWidth)     
+                                                    .attr("width",  variableNameHolderWidth - variableTypeSelectionButtonWidth)     
                                                     .attr("rx", radius)
                                                     .attr("ry", radius)
-                                                    .attr("fill", panelColors.normal)
+                                                    .attr("fill", "url(#buttonFillNormal)")
+                                                    .attr("filter","url(#Bevel)")
+                                                    .attr("stroke", "black")
                                                     .attr("id", variableNames[i])
                                                     .attr("class", "variableNameHolderBack");
-                                                    
-//                     variablePanelSVG.append("rect")
-//                                         .attr("x", variableNameHolderWidth - variableNameHolderPadding/2 - flagImageSize)
-//                                         .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + (variableNameHolderHeight - flagImageSize)/2)                                                   
-//                                         .attr("width", flagImageSize)
-//                                         .attr("height", flagImageSize)
-//                                         .attr("rx", radius)
-//                                         .attr("ry", radius)
-//                                         .attr("fill", "green")
-//                                         .attr("id", variableNames[i])
-//                                         .attr("class", "variableSelectionButton");
-                    
-//                     variablePanelSVG.append("image")
-//                                                     .attr("x", variableNameHolderWidth - flagImageSize - variableNameHolderPadding/2)
-//                                                     .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + (variableNameHolderHeight - flagImageSize)/2)                                                   
-//                                                     .attr("xlink:href", "images/black.png")
-//                                                     .attr("height", flagImageSize)
-//                                                     .attr("width", flagImageSize)
-//                                                     .attr("id", variableNames[i])
-//                                                     .attr("class", "variableSelectionButton");  
-                    
-//                     variablePanelSVG.append("image")
-//                                                     .attr("x", variableNameHolderWidth - 2*flagImageSize - variableNameHolderPadding/2)
-//                                                     .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + (variableNameHolderHeight - flagImageSize)/2)                                                   
-//                                                     .attr("xlink:href", "images/independent.png")
-//                                                     .attr("height", flagImageSize)
-//                                                     .attr("width", flagImageSize*3)
-//                                                     .attr("id", variableNames[i])
-//                                                     .attr("class", "variableInformationButton");  
                                                 
                     variablePanelSVG.append("text")
-                                                    .attr("x", variableNameHolderPadding + variableNameHolderWidth/3)
+                                                    .attr("x", variableNameHolderPadding + (variableNameHolderWidth - variableTypeSelectionButtonWidth)/2)
                                                     .attr("y", variableNameHolderPadding + variableNameHolderHeight/2 + i*(variableNameHolderHeight + variableNameHolderPadding) + yAxisTickTextOffset)
                                                     .attr("fill", "black")
                                                     .attr("font-size", fontSizeVariablePanel + "px")
@@ -130,79 +152,42 @@
                                                     .attr("x", variableNameHolderPadding)
                                                     .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding))                                                   
                                                     .attr("height", variableNameHolderHeight)
-                                                    .attr("width",  variableNameHolderWidth)     
+                                                    .attr("width",  variableNameHolderWidth - variableTypeSelectionButtonWidth)     
                                                     .attr("rx", radius)
                                                     .attr("ry", radius)
                                                     .attr("fill", panelColors.normal)
                                                     .attr("id", variableNames[i])
                                                     .attr("opacity", "0.1")
                                                     .attr("class", "variableNameHolderFront");
-                   
-                   
-                    variablePanelSVG.append("rect")
-                                    .attr("x", variableNameHolderWidth - variableNameHolderPadding/4 - variableTypeSelectionButtonWidth)
-                                    .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + scaleForWindowSize(2))                                                   
-                                    .attr("height", variableNameHolderHeight/2 - 2*scaleForWindowSize(2))
-                                    .attr("width", variableTypeSelectionButtonWidth)
-                                    .attr("rx", "5px")
-                                    .attr("ry", "5px")
-                                    .attr("fill", variableTypeButtonColors["dependent"]["normal"])
-                                    .attr("id", variableNames[i])
-                                    .attr("class", "dependentVariableButtonBack");
-                                    
+                    
+                    variablePanelSVG.append("image")
+                                        .attr("x", variableNameHolderWidth - variableTypeSelectionButtonWidth + 2*variableNameHolderPadding)
+                                        .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + scaleForWindowSize(2))                                                   
+                                        .attr("height", variableNameHolderHeight)
+                                        .attr("width", (variableNameHolderHeight - variableNameHolderPadding/2)/1.75)
+                                        .attr("xlink:href", "images/toggle_up.png")
+                                        .attr("id", variableNames[i])
+                                        .attr("class", "variableTypeToggleButton");
+ 
                     variablePanelSVG.append("text")
-                                    .attr("x", variableNameHolderWidth - variableNameHolderPadding/4 - variableTypeSelectionButtonWidth/2)
+                                    .attr("x", variableNameHolderWidth - variableTypeSelectionButtonWidth + (variableNameHolderHeight - variableNameHolderPadding/2)/2 +  variableNameHolderPadding/4 + 2*variableNameHolderPadding)
                                     .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + (variableNameHolderHeight)/4 + yAxisTickTextOffset/2)                                                   
-                                    .attr("text-anchor", "middle")
-                                    .attr("font-size", fontSizeTicks/1.2)
+                                    .attr("text-anchor", "left")
+                                    .attr("font-size", fontSizeTicks/1.4)
                                     .attr("fill", variableTypeTextColors["dependent"]["normal"])
                                     .text("DEPENDENT")
                                     .attr("id", variableNames[i])
                                     .attr("class", "dependentVariableText");
-                    
-                    variablePanelSVG.append("rect")
-                                    .attr("x", variableNameHolderWidth - variableNameHolderPadding/4 - variableTypeSelectionButtonWidth)
-                                    .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + scaleForWindowSize(2))                                                   
-                                    .attr("height", variableNameHolderHeight/2 - 2*scaleForWindowSize(2))
-                                    .attr("width", variableTypeSelectionButtonWidth)
-                                    .attr("rx", "5px")
-                                    .attr("ry", "5px")
-                                    .attr("fill", variableTypeButtonColors["dependent"]["normal"])
-                                    .attr("opacity", "0.01")
-                                    .attr("id", variableNames[i])
-                                    .attr("class", "dependentVariableButtonFront");
-                                    
-                    variablePanelSVG.append("rect")
-                                    .attr("x", variableNameHolderWidth - variableNameHolderPadding/4 - variableTypeSelectionButtonWidth)
-                                    .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + variableNameHolderHeight/2 + 2*scaleForWindowSize(2))                                                   
-                                    .attr("height", variableNameHolderHeight/2 - 2*scaleForWindowSize(2))
-                                    .attr("width", variableTypeSelectionButtonWidth)
-                                    .attr("rx", "5px")
-                                    .attr("ry", "5px")
-                                    .attr("fill", variableTypeButtonColors["independent"]["normal"])
-                                    .attr("id", variableNames[i])
-                                    .attr("class", "independentVariableButtonBack");
-                                    
+
                     variablePanelSVG.append("text")
-                                    .attr("x", variableNameHolderWidth - variableNameHolderPadding/4 - variableTypeSelectionButtonWidth/2)
+                                    .attr("x", variableNameHolderWidth - variableTypeSelectionButtonWidth + (variableNameHolderHeight - variableNameHolderPadding/2)/2 + variableNameHolderPadding/4 + 2*variableNameHolderPadding)
                                     .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + 3*(variableNameHolderHeight)/4 + yAxisTickTextOffset)                                                   
-                                    .attr("text-anchor", "middle")
+                                    .attr("text-anchor", "left")
                                     .text("INDEPENDENT")
-                                    .attr("font-size", fontSizeTicks/1.2)
+                                    .attr("font-size", fontSizeTicks/1.4)
                                     .attr("fill", variableTypeTextColors["independent"]["normal"])
                                     .attr("id", variableNames[i])
                                     .attr("class", "independentVariableText");
-                    
-                    variablePanelSVG.append("rect")
-                                    .attr("x", variableNameHolderWidth - variableNameHolderPadding/4 - variableTypeSelectionButtonWidth)
-                                    .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + variableNameHolderHeight/2 + 2*scaleForWindowSize(2))                                                   
-                                    .attr("height", variableNameHolderHeight/2 - 2*scaleForWindowSize(2))
-                                    .attr("width", variableTypeSelectionButtonWidth)
-                                    .attr("rx", "5px")
-                                    .attr("ry", "5px")
-                                    .attr("fill", "transparent")
-                                    .attr("id", variableNames[i])
-                                    .attr("class", "independentVariableButtonFront");
                 }                    
             }
             
@@ -221,7 +206,8 @@
                                             .attr("height", visualizationPanelHeight)
                                             .attr("width", visualizationPanelWidth)
                                             .attr("left", visualizationPanel.style("left"))
-                                            .attr("top", visualizationPanel.style("top"));  
+                                            .attr("top", visualizationPanel.style("top"))
+                                            .attr("fill", "url(#buttonFillNormal)");      
                 
                 var visualizations = ["Histogram", "Boxplot", "Scatterplot", "Scatterplot-matrix"];
                 
@@ -237,7 +223,9 @@
                                                     .attr("rx", radius)
                                                     .attr("ry", radius)
                                                     .attr("id", visualizations[i])
-                                                    .attr("fill", panelColors.normal)
+                                                    .attr("stroke", "black")
+                                                    .attr("fill", "url(#buttonFillNormal)")
+                                                    .attr("filter","url(#Bevel)")
                                                     .attr("class", "visualizationHolderBack");
                                                     
                     visualizationPanelSVG.append("image")
@@ -246,7 +234,7 @@
                                                     .attr("xlink:href", "images/" + (i+1) + ".png")
                                                     .attr("height", visualizationImageSize)
                                                     .attr("width", visualizationImageSize)
-                                                    .attr("style", "opacity: 0.75;")
+                                                    .attr("style", "opacity: 0.35;")
                                                     .attr("id", visualizations[i])
                                                     .attr("class", "visualizationHolderImage");
                                                 
@@ -267,7 +255,7 @@
                                                     .attr("rx", radius)
                                                     .attr("ry", radius)
                                                     .attr("id", visualizations[i])
-                                                    .attr("fill", panelColors.normal)
+                                                    .attr("fill", "url(#buttonFillNormal)")
                                                     .attr("opacity", "0.1")
                                                     .attr("class", "visualizationHolderFront");
                 } 
@@ -279,6 +267,5 @@
         <div id="visualization" class="panel"></div>
         <div id="canvas"></div>    
         <div id="sideBar"></div>    
-
     </body>
 </html>   

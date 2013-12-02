@@ -19,14 +19,13 @@ function drawInteractionEffectPlot()
     var max = Array.max(dependentVariableData);
     var min = Array.min(dependentVariableData);
     
-    console.log("max=" + max);
-    console.log("min=" + min);
-    
     var independentVariableXAxisData = variables[independentVariableXAxis]["dataset"];
     var independentVariableColorData = variables[independentVariableColor]["dataset"];
     
     var levelsOfIndependentVariableXAxis = independentVariableXAxisData.unique();
     var levelsOfIndependentVariableColor = independentVariableColorData.unique();
+    
+    drawInteractionPlotLegends(levelsOfIndependentVariableColor);
     
     
     //Axes
@@ -50,13 +49,13 @@ function drawInteractionEffectPlot()
     
     //Y-axis label
     canvas.append("text")
-                .attr("x", LEFT - axesOffset - labelOffset)
+                .attr("x", LEFT - axesOffset - 1.5*labelOffset)
                 .attr("y", (TOP + BOTTOM)/2)
-                .attr("text-anchor", "end")
-                .attr("font-size", "24px")
-                .attr("transform", "rotate -90 " + (LEFT - axesOffset - labelOffset) + " " + ((TOP + BOTTOM)/2))
+                .attr("text-anchor", "middle")
+                .attr("font-size", fontSizeLabels + "px")
+                .attr("transform", "rotate(-90 " + (LEFT - axesOffset - 1.5*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
                 .text(dependentVariable)
-                .attr("fill", "orange");
+                .attr("fill", "black");
                 
     //X-axis grooves
     var numberOfGroovesInXAxis = levelsOfIndependentVariableXAxis.length;
@@ -145,5 +144,36 @@ function drawInteractionEffectPlot()
                         .attr("stroke", colors[i]);
             }
         }        
+    }
+}
+
+function drawInteractionPlotLegends(varNames)
+{
+    var canvas = d3.select("#sideBarCanvas");
+    
+    var yStep = plotHeight/10;
+    
+    for(var i=0; i<varNames.length; i++)
+    {
+        canvas.append("rect")
+                .attr("x", sideBarWidth/4)
+                .attr("y", TOP + histLegendOffsetY + i*yStep - histLegendSize/2)
+                .attr("width", histLegendSize)
+                .attr("height", histLegendSize)
+                .attr("fill", colors[i])
+                .attr("stroke", "black")
+                .attr("id", "legend" + i)
+                .attr("class", "boxplotLegends");
+        
+        canvas.append("text")
+                .attr("x", sideBarWidth/2 + histLegendSize)
+                .attr("y", TOP + histLegendOffsetY + i*yStep + 3)
+                .attr("text-anchor", "start")
+                .attr("fill", "black")
+                .attr("font-size", fontSizeTicks + "px")
+                .text(varNames[i])
+                .attr("id", "legend" + i)
+                .attr("class", "boxplotLegends");
+            
     }
 }

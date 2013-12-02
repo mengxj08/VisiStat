@@ -1,3 +1,14 @@
+.labels
+{
+    font-size: 24px;
+    color: #627bf4;
+}
+
+h2
+{
+    font-size: 40px;
+}
+
 #datasetDropDownList
 {
     font-size: 30px;
@@ -6,7 +17,7 @@
     font: 1.2em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     color:#08233e;
     padding:5px;
-    width: 20em;
+    width: 17em;
     height: 2.2em;
     background-color:rgba(253,252,253,0.85);
 }
@@ -16,8 +27,14 @@
     width: 100%;
     height: 80%;
     border-collapse:collapse;
-    background-color: LemonChiffon;
+    background-color: white;
     font:1.2em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+#datasetInformation
+{
+    width: 30em;
+    display: inline-block;
 }
 
 #variablesDiv
@@ -28,8 +45,8 @@
 .variableList
 {
     border-collapse: collapse; 
-    padding: 10px;
-    background-color: LemonChiffon;
+    padding: 15px;
+    background-color: #f8f9f7;
     color: black;
     table-layout: fixed;
     font:1.0em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -37,8 +54,8 @@
 
 th
 {
-    background-color: DarkSlateGray;
-    font:1.2em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    background-color: #627bf4;
+    font:1.1em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     padding: 15px;
     color: white;
 }
@@ -71,22 +88,26 @@ th
 #submitButton
 {
     width: 15em;
-    height: 5em;
+    height: 3em;
     position: relative;
-    top: 90%;
-    color: LemonChiffon;
+    color: black;
     font:1.7em Futura, ‘Century Gothic’, AppleGothic, sans-serif;
-    padding:14px;
-    background-color:DarkKhaki;
-    border:1px solid #ffee00;
-    -moz-border-radius:10px;
-    -webkit-border-radius:10px;
-    border-radius:10px;
+    padding:25px;
+    background-color:#f8f9f7;
+    -moz-border-radius:25px;
+    -webkit-border-radius:25px;
+    border-radius:25px;
     border-bottom:1px solid #9f9f9f;
-    -moz-box-shadow:inset 0 1px 0 DarkKhaki;
-    -webkit-box-shadow:inset 0 1px 0 DarkKhaki;
-    box-shadow:inset 0 1px 0 DarkKhaki;
+    -moz-box-shadow:inset 0 1px 0 black;
+    -webkit-box-shadow:inset 0 2px 0 black;
+    box-shadow:inset 0 1px 0 #f8f9f7;
     cursor:pointer;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 0px 9px 0px lightgrey, 0px 9px 25px rgba(0,0,0,.7);
+    -moz-box-shadow: 0px 9px 0px lightgrey, 0px 9px 25px rgba(0,0,0,.7);
+    box-shadow: 0px 9px 0px lightgrey, 0px 9px 25px rgba(0,0,0,.7);
 }
 
 #buttonWrapper
@@ -97,5 +118,5 @@ th
 
 body
 {
-    background-color: LemonChiffon;
+    background-color: white;
 }
