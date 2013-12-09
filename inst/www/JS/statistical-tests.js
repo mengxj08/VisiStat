@@ -30,17 +30,16 @@ function compareMeans()
                     sampleSizesAreEqual = true;
                     
                     if(variableList["independent"].length == 2)
-                    {
-                        var levelsA = variableList["independent-levels"][0];
-                        var levelsB = variableList["independent-levels"][1];
-                        
+                    {                        
                         console.log("colourBoxPlotData=");
                         console.dir(colourBoxPlotData);
                         
-                        console.log(levelsA[0]);
-                        console.log(levelsB[0]);
+                        var selectedMeans = getSelectedMeansForColourBoxPlotData();
                         
-                        sampleSize = colourBoxPlotData[levelsA[0]][levelsB[0]].length;
+                        var levelA = selectedMeans[0].getAttribute("data-levelA");
+                        var levelB = selectedMeans[0].getAttribute("data-levelB");
+                        
+                        sampleSize = colourBoxPlotData[levelA][levelB].length;
                     }
                     else
                     {
@@ -138,7 +137,7 @@ function loadAssumptionCheckList()
     title.transition().delay(500).duration(800).attr("y", assumptionOffsetTop - 50);
     
     //timer for 500 ms
-    window.setTimeout(function(){
+    setTimeout(function(){
         for(var i=0; i<assumptions.length; i++)
         {
             canvas.append("text")
@@ -181,7 +180,7 @@ function loadAssumptionCheckList()
                 .attr("id", assumptions[i])
                 .attr("class", "crosses");
         }    
-    }, 1300);
+    }, 1200);
     
     
 }
@@ -205,9 +204,9 @@ function performNormalityTests()
     }
     else
     {
-        for(var i=0; i<variableList["dependent"].length; i++)                        
+        for(i=0; i<variableList["dependent"].length; i++)                        
         {
-            for(var j=0; j<variableList["independent-levels"].length; j++)
+            for(j=0; j<variableList["independent-levels"].length; j++)
             {   
                 //performNormalityTest(dist, dependentVariable, level)
                 performNormalityTest(variables[variableList["dependent"][i]][variableList["independent-levels"][j]], variableList["dependent"][i], variableList["independent-levels"][j]);
@@ -271,7 +270,6 @@ function setHomogeneityOfVariances(dependentVariable, independentVariable, homog
         variances[dependentVariable] = new Object();
     
     variances[dependentVariable][independentVariable] = homogeneous;
-
     
     if(getObjectLength(variances[dependentVariable]) == (currentVariableSelection.length - 1))
     {       
@@ -288,6 +286,9 @@ function setHomogeneityOfVariances(dependentVariable, independentVariable, homog
             }
         }
         
+        var selectedMeans = getSelectedMeansForColourBoxPlotData();
+        var selectedMeanLevels = getSelectedMeanLevelsForColourBoxPlotData();
+        
         if(homogeneity)
         {         
             console.log("\n\tHomogeneous requirement satisfied!");
@@ -295,13 +296,71 @@ function setHomogeneityOfVariances(dependentVariable, independentVariable, homog
             d3.select("#homogeneity.ticks").attr("display", "inline"); 
             d3.select("#homogeneity.loading").attr("display", "none"); 
             
-            drawComputingResultsImage();
-            
-            performTwoWayANOVA(variableList["dependent"][0], variableList["independent"][0], variableList["independent"][1]);
+            if(selectedMeans.length > 2)
+            {
+                drawComputingResultsImage();
+                selectAllMeans();
+                
+                setTimeout(function(){
+                performTwoWayANOVA(variableList["dependent"][0], variableList["independent"][0], variableList["independent"][1]);
+                }, 1500);
+            }                
+            else
+            {
+                var levelsOfDistributionA = selectedMeanLevels[0];
+                var levelsOfDistributionB = selectedMeanLevels[1];
+                
+                drawComputingResultsImage();
+                            
+                if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
+                {
+                    if(!pairwiseComparisons)
+                        performTTest(colourBoxPlotData[levelsOfDistributionA[0]][levelsOfDistributionA[1]], colourBoxPlotData[levelsOfDistributionB[0]][levelsOfDistributionB[1]], "FALSE", "TRUE");
+                    else
+                        performPairwiseTTest("FALSE", "TRUE");
+                }
+                else
+                {
+                    if(!pairwiseComparisons)
+                        performTTest(colourBoxPlotData[levelsOfDistributionA[0]][levelsOfDistributionA[1]], colourBoxPlotData[levelsOfDistributionB[0]][levelsOfDistributionB[1]], "FALSE", "FALSE");
+                    else
+                        performPairwiseTTest("FALSE", "FALSE");
+                }
+            } 
         }
         else
         {
-            console.log("Friedman's test");
+            if(selectedMeans.length > 2)
+            {
+                drawComputingResultsImage();
+                selectAllMeans();
+            
+                setTimeout(function(){
+                performTwoWayANOVA(variableList["dependent"][0], variableList["independent"][0], variableList["independent"][1]);
+                }, 1500);
+            }                
+            else
+            {
+                var levelsOfDistributionA = selectedMeanLevels[0];
+                var levelsOfDistributionB = selectedMeanLevels[1];
+                
+                drawComputingResultsImage();
+                            
+                if((experimentalDesign == "between-groups") && sampleSizesAreEqual)
+                {
+                    if(!pairwiseComparisons)
+                        performTTest(colourBoxPlotData[levelsOfDistributionA[0]][levelsOfDistributionA[1]], colourBoxPlotData[levelsOfDistributionB[0]][levelsOfDistributionB[1]], "FALSE", "TRUE");
+                    else
+                        performPairwiseTTest("FALSE", "TRUE");
+                }
+                else
+                {
+                    if(!pairwiseComparisons)
+                        performTTest(colourBoxPlotData[levelsOfDistributionA[0]][levelsOfDistributionA[1]], colourBoxPlotData[levelsOfDistributionB[0]][levelsOfDistributionB[1]], "FALSE", "FALSE");
+                    else
+                        performPairwiseTTest("FALSE", "FALSE");
+                }
+            }                   
         }
     }    
 }
@@ -328,7 +387,8 @@ function displayOneSampleTestResults()
     var cy = [];
 
     removeElementsByClassName("significanceTest");
-    removeElementById("computingResultsImage");
+    if(document.getElementById("computingResultsImage") != null)
+        removeElementById("computingResultsImage");
     
     var means = document.getElementsByClassName("means");
     var medians = document.getElementsByClassName("medians");
@@ -419,7 +479,7 @@ function displayOneSampleTestResults()
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "16px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["method"])
             .attr("class", "significanceTest");
@@ -428,7 +488,7 @@ function displayOneSampleTestResults()
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + 2*significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "22px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["statistic"])
             .attr("class", "significanceTest");
@@ -437,7 +497,7 @@ function displayOneSampleTestResults()
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + 3*significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "16px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["p"])
             .attr("class", "significanceTest");
@@ -461,17 +521,21 @@ function displaySignificanceTestResults()
     var cy = [];
 
     removeElementsByClassName("significanceTest");
-    removeElementById("computingResultsImage");
+    if(document.getElementById("computingResultsImage") != null)
+        removeElementById("computingResultsImage");
     
     var means = document.getElementsByClassName("means");
+    
+    console.log(means.length);
     var meanRefLines = [];
     
     var canvas = d3.select("#plotCanvas");
 
     for(var i=0; i<means.length; i++)
     {
-        if(means[i].getAttribute("fill") == meanColors["click"])
-        {								
+        console.log(means[i].getAttribute("fill"));
+        if((means[i].getAttribute("fill") == meanColors["click"]) || (means[i].getAttribute("fill") == "#008000"))
+        {
             cx.push(means[i].getAttribute("cx"));
             cy.push(means[i].getAttribute("cy"));
         
@@ -523,8 +587,7 @@ function displaySignificanceTestResults()
                   .attr("fill", "red")
                   .attr("class", "significanceTest");
     
-    drawScales(cx, cy); 
-    
+    drawScales(cx, cy);     
     
     var sideBar = d3.select("#sideBarCanvas");
     
@@ -662,13 +725,14 @@ function displayCorrelationResults()
 { 
     var sideBar = d3.select("#sideBarCanvas");
     
-    removeElementById("computingResultsImage");
+    if(document.getElementById("computingResultsImage") != null)
+        removeElementById("computingResultsImage");
     
     sideBar.append("text")
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "22px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["method"])
             .attr("class", "significanceTest");
@@ -677,7 +741,7 @@ function displayCorrelationResults()
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + 2*significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "22px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["statistic"])
             .attr("class", "significanceTest");
@@ -686,7 +750,7 @@ function displayCorrelationResults()
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + 3*significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "16px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["p"])
             .attr("class", "significanceTest");
@@ -709,13 +773,14 @@ function displayBiserialCorrelationResults()
 {   
     var sideBar = d3.select("#sideBarCanvas");
     
-    removeElementById("computingResultsImage");
+    if(document.getElementById("computingResultsImage") != null)
+        removeElementById("computingResultsImage");
     
     sideBar.append("text")
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "22px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["method"])
             .attr("class", "significanceTest");
@@ -728,13 +793,14 @@ function displaySimpleRegressionResults()
 {   
     var sideBar = d3.select("#sideBarCanvas");    
     
-    removeElementById("computingResultsImage");
+    if(document.getElementById("computingResultsImage") != null)
+        removeElementById("computingResultsImage");
     
     sideBar.append("text")
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "22px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["method"])
             .attr("class", "significanceTest");
@@ -747,7 +813,7 @@ function displaySimpleRegressionResults()
             .attr("x", canvasWidth/2)
             .attr("y", canvasHeight + 2*axesOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "32px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["equation"])
             .attr("class", "significanceTest");
@@ -782,13 +848,14 @@ function displayMultipleRegressionResults()
 {   
     var sideBar = d3.select("#sideBarCanvas");    
     
-    removeElementById("computingResultsImage");
+    if(document.getElementById("computingResultsImage") != null)
+        removeElementById("computingResultsImage");
     
     sideBar.append("text")
             .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 + significanceTestResultOffset)
             .attr("text-anchor", "middle")
-            .attr("font-size", "22px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["method"])
             .attr("class", "significanceTest");
@@ -801,7 +868,7 @@ function displayMultipleRegressionResults()
             .attr("x", canvasWidth/2)
             .attr("y", 3*plotHeight/4)
             .attr("text-anchor", "middle")
-            .attr("font-size", "26px")
+            .attr("font-size", fontSizeSignificanceTestResults + "px")
             .attr("fill", "orange")
             .text(testResults["equation"])
             .attr("class", "significanceTest"); 

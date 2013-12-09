@@ -67,8 +67,6 @@ function splitThisLevelBy(independentVariableA, independentVariableB, dependentV
         splitData[indexA][indexB].push(dep[i]);
     }
     
-    console.dir(splitData);
-    
     return splitData;
 }
 
@@ -232,8 +230,8 @@ function toggleFillColorsForVariables(array, element)
 {   
     var variable = d3.select("#" + element + ".variableNameHolderBack");
     var variableText = d3.select("#" + element + ".variableNameHolderText");
-    var dependentVariableText = d3.select("#" + element + ".dependentVariableText");
-    var independentVariableText = d3.select("#" + element + ".independentVariableText");
+    // var dependentVariableText = d3.select("#" + element + ".dependentVariableText");
+//     var independentVariableText = d3.select("#" + element + ".independentVariableText");
     
     if(array.indexOf(element) == -1)
     {
@@ -243,7 +241,7 @@ function toggleFillColorsForVariables(array, element)
         variable.attr("stroke", "none");
         variableText.attr("fill", "white");
         
-        dependentVariableText.attr("fill") == "#627bf4" ? dependentVariableText.attr("fill", "white") : independentVariableText.attr("fill", "white"); 
+//         dependentVariableText.attr("fill") == "#627bf4" ? dependentVariableText.attr("fill", "white") : independentVariableText.attr("fill", "white"); 
     }    
     else
     {     
@@ -253,7 +251,7 @@ function toggleFillColorsForVariables(array, element)
         variable.attr("stroke", "black");
         variableText.attr("fill", "black");
         
-        dependentVariableText.attr("fill") == "white" ? dependentVariableText.attr("fill", "#627bf4") : independentVariableText.attr("fill", "#627bf4"); 
+//         dependentVariableText.attr("fill") == "white" ? dependentVariableText.attr("fill", "#627bf4") : independentVariableText.attr("fill", "#627bf4"); 
     }
 
     return array;
@@ -864,7 +862,7 @@ function allVariablesAreNumeric()
     
     for(var i=0; i<currentVariableSelection.length; i++)
     {
-        if(isNaN(variables[currentVariableSelection[i]]["dataset"][0]))
+        if((isNaN(variables[currentVariableSelection[i]]["dataset"][0])) && (variableDataTypes[currentVariableSelection[i]] == "ordinal"))
         {
             yeah = false;
         }
@@ -987,6 +985,7 @@ function resetMeans()
 {
     var means = d3.selectAll(".means").attr("fill", meanColors["normal"]);
 }
+
     
         
             

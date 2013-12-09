@@ -29,6 +29,10 @@ function makeBoxplot()
     var ids = [];
     var widthOfEachBox;
     
+    //for colour boxplot
+    var levelsForColor;
+    var levelsForXAxis;
+    
     //get data
     if(currentVariableSelection.length > 1)
     {
@@ -36,7 +40,7 @@ function makeBoxplot()
         switch(variableList["independent"].length)
         {
             case 0:
-                    {
+                    {                        
                         for(var i=0; i<variableList["dependent"].length; i++)
                         {
                             data[i] = variables[variableList["dependent"][i]]["dataset"];      
@@ -46,8 +50,7 @@ function makeBoxplot()
                             medians[i] = median(data[i]);
                             iqrs[i] = IQR[variableList["dependent"][i]]["dataset"]; 
                             CIs[i] = CI[variableList["dependent"][i]]["dataset"]; 
-                        }
-                        
+                        }                      
                         break;                    
                     }
             case 1:
@@ -126,7 +129,7 @@ function makeBoxplot()
         labels = currentVariableSelection;
     
     ids = getValidIds(labels);
-
+    
     nGroovesY = numberOfGrooves;
     
     // Draw axes        
@@ -147,7 +150,7 @@ function makeBoxplot()
             .attr("stroke", "black")
             .attr("id", "yAxis")
             .attr("class", "axes");
-
+    
     //axes labels
     if(altBoxPlot)
     {
@@ -165,8 +168,6 @@ function makeBoxplot()
     
     //x-axis grooves           
     nGroovesX = labels.length;  
-    
-    console.log("number of grooves in X-axis = " + nGroovesX);
     widthOfEachBox = plotWidth/(labels.length*2) > boxWidth ? boxWidth : plotWidth/(labels.length*2);
     
     var xStep = plotWidth/nGroovesX;  
@@ -175,11 +176,10 @@ function makeBoxplot()
     {
         if(variableList["independent"].length == 2)
         {
-            var levelsForXAxis = variableList["independent-levels"][0];
+            levelsForXAxis = variableList["independent-levels"][0];
             xStep = plotWidth/levelsForXAxis.length;  
             if(i<levelsForXAxis.length)
             {
-                console.log("i=" + i + ", levels=" + levelsForXAxis.length);
                 canvas.append("line")
                         .attr("x1", LEFT + index*xStep + xStep/2)
                         .attr("y1", BOTTOM  + axesOffset)
@@ -248,7 +248,6 @@ function makeBoxplot()
     
     var widthSlice = plotWidth/(nGroovesX);
     
-    
     for(var i=0; i<nGroovesX; i++)
     {
         if(data[i].length > 0)
@@ -257,7 +256,7 @@ function makeBoxplot()
         
             if(variableList["independent"].length == 2)
             {
-                var levelsForColor = variableList["independent-levels"][1];
+                levelsForColor = variableList["independent-levels"][1];
                 boxColor = colors[i%levelsForColor.length];
             }
         
@@ -373,8 +372,7 @@ function makeBoxplot()
                 dataAttributeForIndependentVariableA = variableList["independent"][0];
                 dataAttributeForIndependentVariableB = variableList["independent"][1];
             }   
-        
-        
+
             meanCircles.push(canvas.append("circle")
                         .attr("cx", canvasWidth/2 + i*widthSlice - plotWidth/2 + xStep/2)
                         .attr("cy", BOTTOM - getFraction(means[i])*plotHeight)
@@ -384,7 +382,9 @@ function makeBoxplot()
                         .attr("id", ids[i])
                         .attr("class", "means")
                         .attr("data-indepenentVariableA", dataAttributeForIndependentVariableA)
-                        .attr("data-indepenentVariableB", dataAttributeForIndependentVariableB));
+                        .attr("data-indepenentVariableB", dataAttributeForIndependentVariableB)
+                        .attr("data-levelA", (ids[i].split("-"))[0])
+                        .attr("data-levelB", (ids[i].split("-"))[1]));
         }        
     }
 }
@@ -761,5 +761,35 @@ function drawBoxPlotLegends(varNames)
                 .attr("id", "legend" + i)
                 .attr("class", "boxplotLegends");
             
+    }
+}
+
+function selectAllMeans()
+{
+    var means = document.getElementsByClassName("means");
+    var means_d3 = d3.selectAll(".means");
+    
+    var plotCanvas = d3.select("#plotCanvas");
+    
+    console.log("hi");
+    
+    for(var i=0; i<means.length; i++)
+    {
+        var mean = d3.select("#" + means[i].getAttribute("id") + ".means");
+        mean.transition().attr("fill", meanColors["click"]);
+        
+        if(i != means.length - 1)
+        {
+            var line = plotCanvas.append("line")
+                        .attr("x1", means[i].getAttribute("cx"))
+                        .attr("y1", means[i].getAttribute("cy"))
+                        .attr("x2", means[i].getAttribute("cx"))
+                        .attr("y2", means[i].getAttribute("cy"))
+                        .attr("stroke", meanColors["click"])
+                        .attr("stroke-dasharray", "5,5")
+                        .attr("class", "completeLines");
+            
+            line.transition().attr("x2", means[i+1].getAttribute("cx")).attr("y2", means[i+1].getAttribute("cy"));            
+        }
     }
 }

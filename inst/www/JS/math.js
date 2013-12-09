@@ -19,14 +19,17 @@ function mean(values)
 
 function median(values) 
 {
-    values.sort( function(a,b) {return a - b;} );
+    temp = values.slice();
+    temp.sort( function(a,b) {return a - b;} );
+    
+    var half = Math.floor(temp.length/2);
 
-    var half = Math.floor(values.length/2);
-
-    if(values.length % 2)
-        return values[half];
+    if(temp.length % 2)
+        return temp[half];
     else
-        return (values[half-1] + values[half]) / 2.0;
+        return (temp[half-1] + temp[half]) / 2.0;
+    
+
 }
 
 function findNumberOfCombinations(n, y)
@@ -46,29 +49,30 @@ function isPrime(num)
 
 function findIQR(values)
 {
-    values.sort( function(a,b) {return a - b;} );
+    var temp = values.slice();
+    temp.sort( function(a,b) {return a - b;} );
     
     var half1 = new Array();
     var half2 = new Array();
-    if(values.length % 2)
+    if(temp.length % 2)
     {
-        var x = Math.floor(values.length/2);
+        var x = Math.floor(temp.length/2);
         
         //odd
-        for(var i=0; i<Math.floor(values.length/2); i++)
-            half1.push(values[i]);
+        for(var i=0; i<Math.floor(temp.length/2); i++)
+            half1.push(temp[i]);
             
-        for(var i=Math.floor(values.length/2) + 1; i<values.length; i++)
-            half2.push(values[i]);
+        for(var i=Math.floor(temp.length/2) + 1; i<temp.length; i++)
+            half2.push(temp[i]);
     }
     else
     {
         //even
-        for(var i=0; i<Math.floor(values.length/2); i++)
-            half1.push(values[i]);
+        for(var i=0; i<Math.floor(temp.length/2); i++)
+            half1.push(temp[i]);
             
-        for(var i=Math.floor(values.length/2); i<values.length; i++)
-            half2.push(values[i]);
+        for(var i=Math.floor(temp.length/2); i<temp.length; i++)
+            half2.push(temp[i]);
     }
     
     var q1, q3;

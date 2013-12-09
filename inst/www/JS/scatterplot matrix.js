@@ -7,6 +7,7 @@ function makeScatterplotMatrix()
 {
     var variableList = sort(currentVariableSelection);
     
+    removeElementsByClassName("regression");
     
     //any number of dependent variables -> should work
     var numberOfVariables = currentVariableSelection.length;
@@ -57,6 +58,8 @@ function makeScatterplotMatrix()
         
         if(allVariablesAreNumeric())
             drawButtonInSideBar("PERFORM MULTIPLE REGRESSION", "regression");
+        else
+            removeElementsByClassName("regression");
     }
 }
 

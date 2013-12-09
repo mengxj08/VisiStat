@@ -21,7 +21,7 @@ function makeScatterplot()
 
     TOP = canvasHeight/2 - plotHeight/2 - topOffset;
     BOTTOM = canvasHeight/2 + plotHeight/2 - topOffset;
-    
+
     var canvas = d3.select("#plotCanvas");
     
     if(currentVariableSelection.length == 3)
@@ -273,8 +273,7 @@ function drawRegressionLine(intercept, slope)
 {
     console.log("drawing regression line..."); 
     var canvas = d3.select("#plotCanvas");
-    canvas.attr("viewBox", "0 0 " + canvasWidth + " " + parseFloat(canvasHeight+scaleForWindowSize(400)));
-    
+    canvas.attr("viewBox", "0 0 " + canvasWidth + " " + parseFloat(canvasHeight+scaleForWindowSize(400)));    
     
     var x1, y1, x2, y2;
     
