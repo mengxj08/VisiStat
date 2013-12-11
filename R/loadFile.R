@@ -13,8 +13,4 @@ loadFile <- function(filePath)
     
     install.packages("lawstat");
     install.packages("coin");
-    
-    library(lawstat);
-    library(coin);
-    
 }
