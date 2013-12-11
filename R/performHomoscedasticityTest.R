@@ -1,6 +1,6 @@
 performHomoscedasticityTest <- function(dependentVariable = "", independentVariable = "", dataset = "", type = "levene")
 {  
-  require('lawstat')
+  library(lawstat)
   
   table <- as.data.frame(dataset) 
     
