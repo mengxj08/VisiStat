@@ -1,5 +1,6 @@
 loadFile <- function(filePath)
 {
+    install.packages("lawstat")
     fileType = substr(filePath, nchar(filePath) - 3 + 1, nchar(filePath));
     
     if(fileType == "txt")
