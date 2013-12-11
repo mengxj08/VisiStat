@@ -11,4 +11,7 @@ loadFile <- function(filePath)
     
     list(dataset = dataset, variableNames = variableNames);
     
+    install.packages("lawstat");
+    install.packages("coin");
+    
 }
