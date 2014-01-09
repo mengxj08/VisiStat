@@ -128,9 +128,10 @@ var labelOffset = scaleForWindowSize(45);
 
 // Significance test
 var significanceTestScaleOffset = scaleForWindowSize(25);
-var assumptionStep = scaleForWindowSize(35);
-var assumptionOffsetTop = assumptionStep*3;
-var assumptionImageSize = scaleForWindowSize(25);
+
+var assumptionStep = scaleForWindowSize(55);
+var assumptionOffsetTop = assumptionStep*3.5;
+var assumptionImageSize = scaleForWindowSize(35);
 
 var assumptionsText = new Object();
     assumptionsText["normality"] = "Normality of distributions";
