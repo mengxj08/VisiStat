@@ -155,7 +155,7 @@ function makeHistogram()
                 .attr("y", (TOP + BOTTOM)/2)
                 .attr("text-anchor", "middle")
                 .attr("transform", "rotate (-90 " + (LEFT - axesOffset - 1.25*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
-                .attr("font-size", "24px")
+                .attr("font-size", fontSizeLabels + "px")
                 .text("Count")
                 .attr("fill", "black");
                                     

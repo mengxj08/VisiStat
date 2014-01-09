@@ -37,12 +37,12 @@ function drawTukeyHSDPlot()
     
     //Y-axis label
     canvas.append("text")
-                .attr("x", LEFT - axesOffset - 2*labelOffset)
+                .attr("x", LEFT - axesOffset - 1.25*labelOffset)
                 .attr("y", (TOP + BOTTOM)/2)
                 .attr("text-anchor", "middle")
                 .attr("font-size", "24px")
                 .text("Mean difference in " + variableList["dependent"][0])
-                .attr("transform", "rotate(-90 " + (LEFT - axesOffset - 2*labelOffset) + " " + ((TOP + BOTTOM)/2 + 6) + ")")
+                .attr("transform", "rotate(-90 " + (LEFT - axesOffset - 1.25*labelOffset) + " " + ((TOP + BOTTOM)/2 + 6) + ")")
                 .attr("fill", "orange");
                 
     //X-axis grooves
