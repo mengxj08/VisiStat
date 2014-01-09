@@ -1,0 +1,2 @@
+performFactorialANOVA <- function(dependentVariable, withinGroupVariable, betweenGroupVariable, participantVariable, dataset){ 
+    table <- as.data.frame(dataset);        result <- eval(parse(text = paste("ezANOVA(table,dv=",dependentVariable,",wid=",participantVariable,",within=",withinGroupVariable,",between=",betweenGroupVariable,")",sep="")));    result <- result$ANOVA;        list(numDF = result$DFn, denomDF = result$DFd, F = result$F, p = result$p, etaSquared = result$ges);    }
