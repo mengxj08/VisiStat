@@ -45,23 +45,15 @@ function OnMouseDown(e)
         {
             toggleButton.attr("xlink:href","images/toggle_down.png");
             
-            // if(variableNameHolderBack.attr("fill") == "url(#buttonFillNormal)")
-                independentVariableText.attr("fill", "#627BF4");
-           //  else
-//                 independentVariableText.attr("fill", "#BEC9FC");
-                
+            independentVariableText.attr("fill", "#627BF4");
             dependentVariableText.attr("fill", "#BEC9FC");
             
         }
         else if(toggleButton.attr("xlink:href") == "images/toggle_down.png")
         {
-            toggleButton.attr("xlink:href","images/toggle_up.png");
+            toggleButton.attr("xlink:href","images/toggle_up.png");  
             
-//             if(variableNameHolderBack.attr("fill") == "url(#buttonFillNormal)")
-                dependentVariableText.attr("fill", "#627BF4");
-//             else
-//                 dependentVariableText.attr("fill", "#BEC9FC");
-                
+            dependentVariableText.attr("fill", "#627BF4");
             independentVariableText.attr("fill", "#BEC9FC");
         }
     }
