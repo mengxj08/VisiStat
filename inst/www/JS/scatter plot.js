@@ -11,8 +11,7 @@ var maxs = new Object();
 
 var uniqueDataX, uniqueDataY;
 var xStep, yStep;
-    
-   
+       
 function makeScatterplot()
 {   
     // graphics
