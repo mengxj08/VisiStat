@@ -6,7 +6,7 @@ Date: 20-11-2013
 Author: Krishna Subramanian
 Maintainer: Krishna <krishna.prasath.subramanian@rwth-aachen.de>
 Description: An application that allows users to statistics without much previous knowledge by showing the statistics in the context of visualizations.
-LazyData: true
+LazyData: false
 Imports:
 	lawstat,
 	ez,
