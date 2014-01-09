@@ -361,7 +361,7 @@ function drawComputingResultsImage()
             .attr("id", "computingResultsImage");
 }
 
-function loadAssumptionCheckList()
+function loadAssumptionCheckList(type)
 {
     var canvas = d3.select("#sideBarCanvas");
     
@@ -378,7 +378,8 @@ function loadAssumptionCheckList()
     title.transition().delay(500).duration(700).attr("opacity", "1.0").attr("y", assumptionOffsetTop - 50);
     
     //timer for 500 ms
-    setTimeout(function(){
+    setTimeout(function()
+    {    
         for(var i=0; i<assumptions[type].length; i++)
         {
             canvas.append("rect")
@@ -446,8 +447,7 @@ function loadAssumptionCheckList()
                     .attr("id", assumptions[type][i])
                     .attr("class", "assumptionsButtonFront");
         }    
-    }, 1300);
-    
+    }, 1300);    
 }
 
     

@@ -3,9 +3,6 @@ function compareMeans()
     var completeLines = d3.selectAll(".completeLines");
     var variableList = getSelectedVariables();  
     
-    console.log("variableList:");
-    console.dir(variableList);
-    
     switch(document.getElementsByClassName("completeLines").length)
     {
 
@@ -13,7 +10,7 @@ function compareMeans()
                 //One sample t-test
                 if(variableList["dependent"].length == 1)
                 {
-                    loadAssumptionCheckList();
+                    loadAssumptionCheckList("one-sample tests");
                     performNormalityTest(variables[variableList["dependent"][0]]["dataset"], variableList["dependent"][0], "dataset");                    
                 }
                 
@@ -24,7 +21,7 @@ function compareMeans()
                     console.log("\t Significance test for 2 variables...\n\n");
 
                     //homoscedasticity
-                    loadAssumptionCheckList();
+                    loadAssumptionCheckList("normal");
                     
                     var sampleSize;
                     sampleSizesAreEqual = true;
@@ -66,7 +63,7 @@ function compareMeans()
                 {
                     console.log("\t Significance test for more than 2 variables...\n\n");
                     
-                    loadAssumptionCheckList();                    
+                    loadAssumptionCheckList(normal);                    
                     performNormalityTests();
         
                     break;
