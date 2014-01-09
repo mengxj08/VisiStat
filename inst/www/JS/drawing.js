@@ -361,4 +361,93 @@ function drawComputingResultsImage()
             .attr("id", "computingResultsImage");
 }
 
+function loadAssumptionCheckList()
+{
+    var canvas = d3.select("#sideBarCanvas");
+    
+    var title = canvas.append("text")
+            .attr("x", sideBarWidth/2)
+            .attr("y", assumptionOffsetTop)
+            .attr("font-size", fontSizeAssumptionsTitle + "px")
+            .attr("text-anchor", "middle")
+            .attr("opacity", "0")
+            .attr("fill", "#627bf4")
+            .text("ASSUMPTIONS")
+            .attr("class", "checkingAssumptions");
+    
+    title.transition().delay(500).duration(700).attr("opacity", "1.0").attr("y", assumptionOffsetTop - 50);
+    
+    //timer for 500 ms
+    setTimeout(function(){
+        for(var i=0; i<assumptions[type].length; i++)
+        {
+            canvas.append("rect")
+                    .attr("x", assumptionImageSize*1.25) 
+                    .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                    .attr("width", sideBarWidth - 2*assumptionImageSize)
+                    .attr("height", assumptionImageSize)
+                    .attr("rx", "5px")
+                    .attr("ry", "5px")
+                    .attr("fill", "url(#buttonFillNormal)")
+                    .attr("filter", "url(#Bevel)")
+                    .attr("stroke", "black")
+                    .attr("id", assumptions[type][i])
+                    .attr("class", "assumptionsButtonBack");
+                    
+            canvas.append("text")
+                .attr("x", assumptionImageSize*1.25 + assumptionImageSize/2)
+                .attr("y", i*assumptionStep + assumptionOffsetTop - 5)
+                .attr("font-size", fontSizeAssumptions + "px")
+                .attr("fill", "black")
+                .text(assumptionsText[assumptions[type][i]])
+                .attr("id", assumptions[type][i])
+                .attr("class", "assumptions");
+                
+            canvas.append("image")
+                .attr("x", 0)
+                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                .attr("text-anchor", "end")
+                .attr("xlink:href", "images/checkingAssumptions.gif")
+                .attr("height", assumptionImageSize)            
+                .attr("width", assumptionImageSize)
+                .attr("id", assumptions[type][i])
+                .attr("class", "loading");
+                
+            canvas.append("image")
+                .attr("x", 0)
+                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                .attr("text-anchor", "end")
+                .attr("xlink:href", "images/tick.png")
+                .attr("height", assumptionImageSize)            
+                .attr("width", assumptionImageSize)
+                .attr("display", "none")
+                .attr("id", assumptions[type][i])
+                .attr("class", "ticks");
+                         
+            canvas.append("image")
+                .attr("x", 0)
+                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 8)
+                .attr("text-anchor", "end")
+                .attr("xlink:href", "images/cross.png")
+                .attr("height", assumptionImageSize)
+                .attr("width", assumptionImageSize)
+                .attr("display", "none")
+                .attr("id", assumptions[type][i])
+                .attr("class", "crosses");
+                
+            canvas.append("rect")
+                    .attr("x", assumptionImageSize*1.25) 
+                    .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                    .attr("width", sideBarWidth - 2*assumptionImageSize)
+                    .attr("height", assumptionImageSize)
+                    .attr("rx", "5px")
+                    .attr("ry", "5px")
+                    .attr("opacity", "0.1")
+                    .attr("id", assumptions[type][i])
+                    .attr("class", "assumptionsButtonFront");
+        }    
+    }, 1300);
+    
+}
+
     
