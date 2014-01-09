@@ -105,7 +105,7 @@ function performTTest(groupA, groupB, varianceEqual, paired) //groupA, groupB, p
     // Get variable names and their data type
     console.log("varianceEqual=" + varianceEqual + ", paired=" + paired);
     console.log("A=" + groupA + ", B=" + groupB);
-    var req = opencpu.r_fun_json("performTTest", {
+    var req = ocpu.rpc("performTTest", {
                     groupA: groupA,
                     groupB: groupB,
                     variance: varianceEqual,
