@@ -63,7 +63,7 @@ function compareMeans()
                 {
                     console.log("\t Significance test for more than 2 variables...\n\n");
                     
-                    loadAssumptionCheckList(normal);                    
+                    loadAssumptionCheckList("normal");                    
                     performNormalityTests();
         
                     break;

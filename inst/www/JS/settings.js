@@ -135,8 +135,12 @@ var assumptionImageSize = scaleForWindowSize(25);
 var assumptionsText = new Object();
     assumptionsText["normality"] = "Normality of distributions";
     assumptionsText["homogeneity"] = "Homogeneity of variances";
-    
-var assumptions = ["normality", "homogeneity"];
+
+var assumptions = new Object();
+assumptions["one-sample tests"] = ["normality"];
+assumptions["normal"] = ["normality", "homogeneity"];
+assumptions["repeated measures"] = ["normality", "homogeneity"];//["normality", "homogeneity", "sphericity"];
+
 var significanceTestResultOffset = scaleForWindowSize(40);
 
 var effectSizeWidth = sideBarWidth*0.8;
