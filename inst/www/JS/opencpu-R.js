@@ -2,7 +2,7 @@
 function loadFile(filePath)
 {
     //loads the file and returns the dataset and variable names
-    var req = opencpu.r_fun_json("loadFile", {
+    var req = ocpu.rpc("loadFile", {
                     filePath: filePath
                   }, function(output) {                   
     dataset = output.dataset;
@@ -44,7 +44,7 @@ function loadFile(filePath)
 function getVariables(dataset)
 {   
     // Get variable names and their data type
-    var req = opencpu.r_fun_json("getVariableNames", {
+    var req = ocpu.rpc("getVariableNames", {
                     dataset: dataset
                   }, function(output) {                   
     renderVariableNames(output.varNames);
@@ -73,7 +73,7 @@ function getVariables(dataset)
 function getData(dataset, variableName, level)
 {
 //     Get variable names and their data type
-        var req = opencpu.r_fun_json("getData", {
+        var req = ocpu.rpc("getData", {
                     dataset: dataset,
                     columnName: variableName
                   }, function(output) {    
@@ -146,7 +146,7 @@ function getCI(dataset, variableName, level)
     if(level == undefined)
         level = "dataset";
         
-    var req = opencpu.r_fun_json("getCI", {
+    var req = ocpu.rpc("getCI", {
                     dataset: dataset,
                     variableName: variableName
                   }, function(output) {                    
@@ -171,7 +171,7 @@ function getCI(dataset, variableName, level)
 // {   
 //     console.log("dataset=" + dataset + ", variableName=" + variableName);
 //     // Get variable names and their data type
-//     var req = opencpu.r_fun_json("subsetDataByLevelsOfVariable", {
+//     var req = ocpu.rpc("subsetDataByLevelsOfVariable", {
 //                     dataset: dataset,
 //                     variable: variableName,
 //                     level: level
@@ -193,7 +193,7 @@ function getCI(dataset, variableName, level)
 function performHomoscedasticityTestNotNormal(dependent, independent)
 {
     // Get variable names and their data type
-    var req = opencpu.r_fun_json("performHomoscedasticityTest", {
+    var req = ocpu.rpc("performHomoscedasticityTest", {
                     dependentVariable: dependent,
                     independentVariable: independent,
                     dataset: dataset                    
@@ -306,7 +306,7 @@ function performHomoscedasticityTestNormal(dependent, independent)
 {
     console.log("dependent = " + dependent + ", independent = " + independent);
     // Get variable names and their data type
-    var req = opencpu.r_fun_json("performHomoscedasticityTest", {
+    var req = ocpu.rpc("performHomoscedasticityTest", {
                     dependentVariable: dependent,
                     independentVariable: independent,
                     dataset: dataset                    
@@ -441,7 +441,7 @@ function performNormalityTest(dist, dependentVariable, level)
     // Get variable names and their data type
     
     
-    var req = opencpu.r_fun_json("performShapiroWilkTest", {
+    var req = ocpu.rpc("performShapiroWilkTest", {
                     distribution: dist                                                           
                   }, function(output) {                                                   
                   
@@ -503,7 +503,7 @@ function performNormalityTest(dist, dependentVariable, level)
 function findTransform(dependentVariable, independentVariable)
 {
     // Get variable names and their data type
-    var req = opencpu.r_fun_json("findTransform", {
+    var req = ocpu.rpc("findTransform", {
                     dependentVariable: dependentVariable,
                     independentVariable: independentVariable,
                     dataset: dataset
@@ -543,7 +543,7 @@ function findTransformForDependentVariables(numericVariables)
 {
     console.log("numeric variables = [" + numericVariables + "]");
     // Get variable names and their data type
-    var req = opencpu.r_fun_json("findTransformForDependentVariables", {                    
+    var req = ocpu.rpc("findTransformForDependentVariables", {                    
                     dataset: dataset,
                     numericVariables: numericVariables
                   }, function(output) {                                                   
@@ -588,7 +588,7 @@ function applyTransform(dependentVariable, level, last)
 {
     // Get variable names and their data type
     
-    var req = opencpu.r_fun_json("applyTransform", {
+    var req = ocpu.rpc("applyTransform", {
                     distribution: variables[dependentVariable][level],
                     type: transformationType
                   }, function(output) {                                                   
