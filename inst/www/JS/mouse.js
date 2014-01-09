@@ -48,7 +48,7 @@ function OnMouseDown(e)
             if(variableNameHolderBack.attr("fill") == "url(#buttonFillNormal)")
                 independentVariableText.attr("fill", "#627BF4");
             else
-                independentVariableText.attr("fill", "BEC9FC");
+                independentVariableText.attr("fill", "#BEC9FC");
                 
             dependentVariableText.attr("fill", "#BEC9FC");
         }
@@ -59,7 +59,7 @@ function OnMouseDown(e)
             if(variableNameHolderBack.attr("fill") == "url(#buttonFillNormal)")
                 dependentVariableText.attr("fill", "#627BF4");
             else
-                dependentVariableText.attr("fill", "BEC9FC");
+                dependentVariableText.attr("fill", "#BEC9FC");
             independentVariableText.attr("fill", "#BEC9FC");
         }
     }
