@@ -63,7 +63,7 @@
     var fontSizeForDisplayDataTableElements = scaleForWindowSize(20);
     var fontSizeLabels = scaleForWindowSize(16);
     var fontSizeTicks = scaleForWindowSize(18);
-    var fontSizeAssumptions = scaleForWindowSize(24);
+    var fontSizeAssumptions = scaleForWindowSize(20);
     var fontSizeAssumptionsTitle = scaleForWindowSize(26);
     var fontSizeVariablePanel = scaleForWindowSize(20);
     var fontSizeVisualizationPanel = scaleForWindowSize(32);

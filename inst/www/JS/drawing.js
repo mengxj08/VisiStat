@@ -352,13 +352,22 @@ function drawComputingResultsImage()
 {
     var sideBar = d3.select("#sideBarCanvas");
     
-    sideBar.append("image")
-            .attr("x", sideBarWidth/2 - computingResultsImageSize/2)
+    var T = sideBar.append("text")
+            .attr("x", sideBarWidth/2)
             .attr("y", canvasHeight/2 - computingResultsImageSize/2)
-            .attr("xlink:href", "images/checkingAssumptions.gif")
-            .attr("height", computingResultsImageSize)
-            .attr("width", computingResultsImageSize)
+            .text("CHOOSING THE APPROPRIATE TEST...")
+            .attr("font-size", scaleForWindowSize(14))
+            .attr("text-anchor", "middle")
             .attr("id", "computingResultsImage");
+    
+    T.transition().duration(750).attr("opacity", "0.2");
+    T.transition().delay(750).duration(750).attr("opacity", "1.0");
+    
+    setInterval(function()
+    {
+        T.transition().duration(750).attr("opacity", "0.2");
+        T.transition().delay(750).duration(750).attr("opacity", "1.0");
+    }, 1500);
 }
 
 function loadAssumptionCheckList(type)
