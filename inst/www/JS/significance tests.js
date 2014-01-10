@@ -1,505 +1,227 @@
-//Significance Tests
-//0 IV, 1 DV
-function performOneSampleTTest(variable, level)
+//unpaired t-test, paired t-test, and welch's t-test
+function performTTest(groupA, groupB, varianceEqual, paired) 
 {
-    expectedMean = sessionStorage.popMean;
+    var variableList = getSelectedVariables();    
     
-    if(level == undefined)
-        level = "dataset"
-    if(expectedMean == undefined)
-        expectedMean = "0";
-    
-    var req = ocpu.rpc("performOneSampleTTest", {
-                    distribution: variables[variable][level],
-                    trueMean: expectedMean
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t " + output.method);
-                  console.log("\t\t\t DF = " + output.df);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t t = " + output.t);
-                  console.log("\t\t\t mean = " + output.estimate);
-                  console.log("\t\t\t d = " + output.d);
-                  
-                  testResults["type"] = "mean";
-                  testResults["df"] = output.df;
-                  
-                  testResults["parameter"] = output.t;
-                  testResults["parameter-type"] = "t";
-                  
-                  testResults["p"] = changePValueNotation(output.p); 
-                  testResults["method"] = output.method;
-                  testResults["estimate"] = output.estimate;
-                  testResults["effect-size"] = output.d;
-                  testResults["effect-size-type"] = "d";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");
-                
-                displayOneSampleTestResults();
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
-function performOneSampleWilcoxonTest(variable, level)
-{
-    expectedMean = sessionStorage.popMedian;
-    
-    if(level == undefined)
-        level = "dataset";
-    if(expectedMean == undefined)
-        expectedMean = "0";
-    
-    var req = ocpu.rpc("performOneSampleWilcoxonTest", {
-                    distribution: variables[variable][level],
-                    trueMean: expectedMean
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t " + output.method);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t V = " + output.V);
-                  console.log("\t\t\t median = " + output.estimate);
-                  console.log("\t\t\t r = " + output.r);
-                  
-                  testResults["type"] = "median";
-                  
-                  testResults["parameter"] = output.V;
-                  testResults["parameter-type"] = "V";
-                  
-                  testResults["p"] = changePValueNotation(output.p); 
-                  testResults["method"] = output.method;
-                  testResults["estimate"] = output.estimate;
-                  testResults["effect-size"] = output.r;
-                  testResults["effect-size-type"] = "r";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");
-                
-                displayOneSampleTestResults();
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}  
-
-function performTTest(groupA, groupB, varianceEqual, paired) //groupA, groupB, paired = "FALSE", alternative = "two.sided", alpha = 0.95, var = "FALSE"
-{
     // Get variable names and their data type
-    console.log("varianceEqual=" + varianceEqual + ", paired=" + paired);
-    var req = ocpu.rpc("performTTest", {
-                    groupA: groupA,
-                    groupB: groupB,
-                    variance: varianceEqual,
-                    paired: paired
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t " + output.method);
-                  console.log("\t\t\t DOF = " + output.DOF);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t t = " + output.t);
-                  console.log("\t\t\t d = " + output.d);
-                  
-                  testResults["df"] = output.DOF;
-                  
-                  testResults["parameter"] = output.t;
-                  testResults["parameter-type"] = "t";
-                  
-                  testResults["p"] = changePValueNotation(output.p); 
-                  testResults["method"] = output.method;
-                  testResults["effect-size"] = output.d;
-                  testResults["effect-size-type"] = "d";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");
-                
-                displaySignificanceTestResults();
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
+    var req = ocpu.rpc("performTTest", 
+    {
+        groupA: groupA,
+        groupB: groupB,
+        variance: varianceEqual,
+        paired: paired
+    }, function(output) 
+    {
+        testResults["df"] = output.DOF;
 
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
+        testResults["parameter"] = output.t;
+        testResults["parameter-type"] = "t";
+
+        testResults["error"] = output.error;
+
+        if(varianceEqual == "FALSE")
+        {
+            testResults["test-type"] = "WT";
+        }
+        else
+        {
+            if(paired == "TRUE")
+                testResults["test-type"] = "pT";
+            else
+                testResults["test-type"] = "upT";
+        }
+
+
+        testResults["p"] = changePValueNotation(output.p); 
+
+        testResults["method"] = output.method;
+
+        testResults["effect-size"] = output.d;
+        testResults["effect-size-type"] = "d";
+        testResults["formula"] = variableList["independent-levels"][0] + "." + variableList["dependent"][0] + " vs " + variableList["independent-levels"][1] + "." + variableList["dependent"][0];
+        //add to log
+        logResult();
+
+        //drawing stuff
+        removeElementsByClassName("completeLines");
+
+        displaySignificanceTestResults();
         
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
     });
 }
 
+//perform mann-whitney test (unpaired t-test's alternative)
 function performMannWhitneyTest(groupA, groupB)
 {
-    // Get variable names and their data type
-    var req = ocpu.rpc("performMannWhitneyTest", {
-                    groupA: groupA,
-                    groupB: groupB
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t Mann-Whitney U test");
-                  console.log("\t\t\t U = " + output.U);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t r = " + output.r);
-                  
-                  testResults["parameter"] = output.U;
-                  testResults["parameter-type"] = "U";
-                  
-                  testResults["p"] = changePValueNotation(output.p);                  
-                  testResults["effect-size"] = output.r;
-                  testResults["method"] = "Mann-Whitney U test";
-                  testResults["effect-size-type"] = "r";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");           
+    var variableList = getSelectedVariables();
+    
+    var req = ocpu.rpc("performMannWhitneyTest", 
+    {
+        groupA: groupA,
+        groupB: groupB
+    }, function(output) 
+    {                                                   
+        testResults["parameter"] = output.U;
+        testResults["parameter-type"] = "U";
 
-                displaySignificanceTestResults();              
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
+        testResults["test-type"] = "mwT";
+        testResults["error"] = output.error;
+        testResults["p"] = changePValueNotation(output.p);                  
+        testResults["effect-size"] = output.r;
+        testResults["method"] = "Mann-Whitney U test";
+        testResults["effect-size-type"] = "r";
+        testResults["formula"] = variableList["independent-levels"][0] + "." + variableList["dependent"][0] + " vs " + variableList["independent-levels"][1] + "." + variableList["dependent"][0];
+
+        logResult();
+
+        //drawing stuff
+        removeElementsByClassName("completeLines");           
+
+        displaySignificanceTestResults();                      
     });
-
+    
     //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
     });
 }
 
 function performWilcoxonTest(groupA, groupB)
 {
+    var variableList = getSelectedVariables();
+   
     // Get variable names and their data type
-    var req = ocpu.rpc("performWilcoxonTest", {
-                    groupA: groupA,
-                    groupB: groupB
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t Wilcoxon Signed-rank Test");
-                  console.log("\t\t\t V = " + output.V);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t r = " + output.r);
-                  
-                  testResults["parameter"] = output.V;
-                  testResults["parameter-type"] = "V";
-                  
-                  testResults["p"] = changePValueNotation(output.p);                  
-                  testResults["effect-size"] = output.r;
-                  testResults["method"] = "Wilcoxon Signed-rank test";
-                  testResults["effect-size-type"] = "r";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");           
-
-                displaySignificanceTestResults();             
+    var req = ocpu.rpc("performWilcoxonTest", 
+    {
+        groupA: groupA,
+        groupB: groupB
+    }, function(output) 
+    {                       
+        testResults["parameter"] = output.V;
+        testResults["parameter-type"] = "V";
+    
+        testResults["test-type"] = "wT";
+        testResults["error"] = output.error;
         
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
+        
+        testResults["p"] = changePValueNotation(output.p);                  
+        testResults["effect-size"] = output.r;
+        testResults["method"] = "Wilcoxon Signed-rank test";
+        testResults["effect-size-type"] = "r";
+        testResults["formula"] = variableList["independent-levels"][0] + "." + variableList["dependent"][0] + " vs " + variableList["independent-levels"][1] + "." + variableList["dependent"][0];
+        
+        logResult();                  
+      
+        //drawing stuff
+        removeElementsByClassName("completeLines");           
 
+        displaySignificanceTestResults();                     
+    });
+    
     //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
     });
 }
 
-function performANOVA(dependentVariable, independentVariable)
+//perform one-way ANOVA
+function performOneWayANOVA(dependentVariable, independentVariable)
 {
+    var variableList = getSelectedVariables();  
+    
     // Get variable names and their data type
-    var req = ocpu.rpc("performANOVA", {
-                    dataset: dataset,
-                    dependentVariable: dependentVariable,
-                    independentVariable: independentVariable                   
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t One-way ANOVA for (" + dependentVariable + " ~ " + independentVariable + ")");
-                  console.log("\t\t\t F = " + output.F);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t method used = One-way ANOVA"); //todo
-                  console.log("\t\t\t DF = " + output.DOF);
-                  console.log("\t\t\t Eta-squared: " + output.etaSquared);
-                  
-                  testResults["df"] = output.DOF;
-                  
-                  testResults["parameter"] = output.F;
-                  testResults["parameter-type"] = "F";
-                  
-                  testResults["p"] = changePValueNotation(output.p);   
-                  testResults["method"] = "ANOVA"; //todo
-                  testResults["effect-size"] = output.etaSquared;
-                  testResults["effect-size-type"] = "eS";
-                           
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");           
+    var req = ocpu.rpc("performOneWayANOVA", 
+    {                    
+        dependentVariable: dependentVariable,
+        independentVariable: independentVariable,
+        participantVariable: participants,
+        dataset: dataset,
+    }, function(output) 
+    {                                                                                        
+        testResults["df"] = output.numDF + ", " + output.denomDF;
 
-                displaySignificanceTestResults();      
-                drawButtonInSideBar("POST-HOC TESTS", "tukey");
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
+        testResults["test-type"] = "owA";
+
+        testResults["parameter"] = output.F;
+        testResults["parameter-type"] = "F";
+        testResults["error"] = output.error;
+    
+        console.log("Error for One-way anova: " + output.error);
+
+        testResults["p"] = changePValueNotation(output.p);   
+        testResults["method"] = "1-way ANOVA"; //todo
+        testResults["effect-size"] = output.etaSquared;
+        testResults["effect-size-type"] = "eS";
+        testResults["formula"] = variableList["dependent"][0] + " ~ " + variableList["independent"][0] + "(" + variableList["independent-levels"] + ")";
+    
+        logResult();                           
+    
+        //drawing stuff
+        removeElementsByClassName("completeLines");           
+
+        displaySignificanceTestResults();      
+        drawButtonInSideBar("PAIRWISE POST-HOC COMPARISONS", "pairwisePostHoc");
+        drawButtonInSideBar("TUKEY'S HSD", "tukeyHSD",1);        
     });
-
+    
     //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
     });
 }
 
-function performTwoWayANOVA(dependentVariable, independentVariableA, independentVariableB)
-{
-    // (dataset, dependentVariable, independentVariableA, independentVariableB)
-    // Get variable names and their data type
-    var req = ocpu.rpc("performTwoWayANOVA", {
-                    dataset: dataset,
-                    dependentVariable: dependentVariable,
-                    independentVariableA: independentVariableA,
-                    independentVariableB: independentVariableB
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t Two-way ANOVA for (" + dependentVariable + " ~ " + independentVariableA + " + " + independentVariableB + " " + independentVariableA + "*" + independentVariableB +")");
-                  console.log("\t\t\t F = " + output.F);
-                  console.log("\t\t\t method used = Two-way ANOVA"); //todo
-                  console.log("\t\t\t DF = " + output.numDF + "/" + output.denomDF);
-                  console.log("\t\t\t Eta-squared: " + output.etaSquared);
-                  console.log("\t\t\t p-values: " + output.p);
-                  
-                  testResults["df"] = output.numDF + "/" + output.denomDF;
-                  
-                  testResults["parameter"] = output.F;
-                  testResults["parameter-type"] = "F";
-                  
-                  testResults["method"] = "Two-way ANOVA"; //todo
-                  testResults["effect-size"] = output.etaSquared;
-                  testResults["effect-size-type"] = "eS";
-                           
-                  findEffect(dependentVariable, [independentVariableA, independentVariableB]);
-                //drawing stuff
-                removeElementsByClassName("completeLines");           
-
-                displaySignificanceTestResults();  
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
-function performOneWayRepeatedMeasuresANOVA(dependentVariable, independentVariable)
-{
-    var req = ocpu.rpc("performOneWayRepeatedMeasuresANOVA", {
-                    dependentVariable: dependentVariable,
-                    independentVariable: independentVariable,
-                    participantVariable: participants,
-                    dataset: dataset
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t Repeated-measures ANOVA for (" + dependentVariable + " ~ " + independentVariable + " + Error(" + participants + "/" + independentVariable + ")");
-                  console.log("\t\t\t F = " + output.F);
-                  console.log("\t\t\t method used = Repeated-measures ANOVA"); //todo
-                  console.log("\t\t\t DF = " + output.numDF + "/" + output.denomDF);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t Eta-squared: " + output.etaSquared);
-                  
-                  testResults["df"] = output.numDF + "/" + output.denomDF;
-                  
-                  testResults["parameter"] = output.F;
-                  testResults["parameter-type"] = "F";
-                  
-                  testResults["method"] = "Repeated Measures ANOVA"; //todo
-                  testResults["effect-size"] = output.etaSquared;
-                  testResults["p"] = changePValueNotation(output.p);
-                  testResults["effect-size-type"] = "eS";
-                           
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");
-                
-                displaySignificanceTestResults();               
-                drawButtonInSideBar("POST-HOC TESTS", "tukey");
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
-function performFriedmanTest(dependentVariable, independentVariable)
-{
-    console.log(dependentVariable);
-    console.log(independentVariable);
-    console.log(participants);
-    var req = ocpu.rpc("performFriedmanTest", {
-                    dependentVariable: dependentVariable,
-                    independentVariable: independentVariable,
-                    participantVariable: participants,
-                    filePath: pathToFile
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t Friedman's Rank-sum Test for (" + dependentVariable + " ~ " + independentVariable + " + Error(" + participants + "/" + independentVariable + ")");
-                  console.log("\t\t\t ChiSquared = " + output.chiSquared);
-                  console.log("\t\t\t method used = " + output.method); //todo
-                  console.log("\t\t\t DF = " + output.df);
-                  console.log("\t\t\t p = " + output.p);
-                  
-                  testResults["df"] = output.df;
-                  
-                  testResults["parameter"] = output.chiSquared;
-                  testResults["parameter-type"] = "cS";
-                  
-                  testResults["method"] = output.method; 
-                  testResults["p"] = changePValueNotation(output.p);
-                  testResults["effect-size"] = 0;
-                  testResults["effect-size-type"] = "eS";
-//                   testResults["effect-size-type"] = "";
-                           
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");           
-
-                displaySignificanceTestResults();   
-                drawButtonInSideBar("POST-HOC TESTS", "tukey");
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
-function findEffect(dependentVariable, independentVariables)
-{
-    var req = ocpu.rpc("findEffect", {
-                    dependentVariable: dependentVariable,
-                    independentVariables: independentVariables,                    
-                    dataset: dataset
-                  }, function(output) {                                                   
-                var variableList = getSelectedVariables();
-                
-                var levelsA = variables[variableList["independent"][0]]["dataset"].unique().slice().sort();
-                var levelsB = variables[variableList["independent"][1]]["dataset"].unique().slice().sort();
-
-                for(var i=0; i<levelsB.length; i++)
-                {
-                    for(var j=0; j<levelsA.length; j++)
-                    {
-                        console.log(levelsA[j] + ":" + levelsB[i] + " = " + output.fit[i*levelsA.length + j]);
-                    }
-                }
-                interactions = output.fit;
-                
-                drawButtonInSideBar("INTERACTION EFFECT", "interactionEffect");
-                drawButtonInSideBar("POST-HOC TESTS", "tukey", 1);
-                //drawing stuff
-//                 removeElementsByClassName("completeLines");           
-// 
-//                 displaySignificanceTestResults();               
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
+//perform Welch's ANOVA(non-parametric alternative for one-way ANOVA)
 function performWelchANOVA(dependentVariable, independentVariable)
 {
     //get data from variable names
     dependentVariableData = variables[dependentVariable]["dataset"];
     independentVariableData = variables[independentVariable]["dataset"];
-    
-    // Get variable names and their data type
-    var req = ocpu.rpc("performWelchANOVA", {
-                    dependentVariable: dependentVariableData,
-                    independentVariable: independentVariableData                   
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t Welch's ANOVA for (" + dependentVariable + " ~ " + independentVariable + ")");
-                  console.log("\t\t\t F = " + output.F);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t method used = Welch's ANOVA");
-                  console.log("\t\t\t DF = (" + output.numeratorDF + ", " + output.denominatorDF +")");
-                  console.log("\t\t\t Eta-squared: " + output.etaSquared);
-                  
-                  testResults["df"] = output.numeratorDF + "/" + output.denominatorDF;
-                  
-                  testResults["parameter"] = output.F;
-                  testResults["parameter-type"] = "F";
-                  
-                  testResults["p"] = changePValueNotation(output.p);
-                  testResults["method"] = "Welch's ANOVA"; 
-                  testResults["effect-size"] = output.etaSquared;
-                  testResults["effect-size-type"] = "eS";
-                           
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines"); 
-                
-                displaySignificanceTestResults();
-//                 drawButtonInSideBar("POST-HOC TESTS", "tukey");
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
 
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
+    // Get variable names and their data type
+    var req = ocpu.rpc("performWelchANOVA", 
+    {
+        dependentVariable: dependentVariableData,
+        independentVariable: independentVariableData                   
+    }, function(output) 
+    {                                                   
+        testResults["df"] = output.numeratorDF + "," + output.denominatorDF;
+    
+        testResults["parameter"] = output.F;
+        testResults["parameter-type"] = "F";
+        testResults["test-type"] = "WA";
+    
+        testResults["p"] = changePValueNotation(output.p);
+        testResults["method"] = "Welch's ANOVA"; 
+        testResults["effect-size"] = output.etaSquared;
+        testResults["effect-size-type"] = "eS";
+        testResults["formula"] = dependentVariable + " ~ " + independentVariable;
         
+        logResult();       
+      
+        //drawing stuff
+        removeElementsByClassName("completeLines"); 
+    
+        displaySignificanceTestResults();
+        drawButtonInSideBar("PAIRWISE POST-HOC COMPARISONS", "pairwisePostHoc");          
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
     });
 }
 
+//perform Kruskal-Wallis test(non-parametric alternative for one-way ANOVA)
 function performKruskalWallisTest(dependentVariable, independentVariable)
 {
     //get data from variable names
@@ -507,273 +229,338 @@ function performKruskalWallisTest(dependentVariable, independentVariable)
     independentVariableData = variables[independentVariable]["dataset"];
     
     // Get variable names and their data type
-    var req = ocpu.rpc("performKruskalWallisTest", {
-                    dependentVariable: dependentVariableData,
-                    independentVariable: independentVariableData                   
-                  }, function(output) {                                                   
-                  
-                  console.log("\t\t Kruskal-Wallis test for (" + dependentVariable + " ~ " + independentVariable + ")");
-                  console.log("\t\t\t Chi-squared = " + output.ChiSquared);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t method used = Kruskal-Wallis Test ANOVA");
-                  console.log("\t\t\t DF = " + output.DF);
-                  console.log("\t\t\t Eta-squared: " + output.etaSquared);
-                  
-                  testResults["df"] = output.DF;
-                  
-                  testResults["parameter"] = output.ChiSquared;
-                  testResults["parameter-type"] = "cS";
-                  
-                  testResults["p"] = changePValueNotation(output.p);                  
-                  testResults["method"] = "Kruskal-Wallis Test"; 
-                  testResults["effect-size"] = output.etaSquared;         
-                  testResults["effect-size-type"] = "eS";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");   
-                
-                displaySignificanceTestResults();
-                drawButtonInSideBar("POST-HOC TESTS", "tukey");
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
+    var req = ocpu.rpc("performKruskalWallisTest", 
+    {
+        dependentVariable: dependentVariableData,
+        independentVariable: independentVariableData                   
+    }, function(output) 
+    {                                                                      
+        testResults["df"] = output.DF; 
 
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
+        testResults["parameter"] = output.ChiSquared;
+        testResults["parameter-type"] = "cS";
+        testResults["test-type"] = "kwT";
+
+        testResults["p"] = changePValueNotation(output.p);                  
+        testResults["method"] = "Kruskal-Wallis test"; 
+        testResults["effect-size"] = output.etaSquared;         
+        testResults["effect-size-type"] = "eS";
+        testResults["formula"] = dependentVariable + " ~ " + independentVariable;
+
+        logResult();
+        //drawing stuff
+        removeElementsByClassName("completeLines");   
+
+        displaySignificanceTestResults();
+        drawButtonInSideBar("PAIRWISE POST-HOC COMPARISONS", "pairwisePostHoc");
+        drawButtonInSideBar("TUKEY'S HSD", "tukeyHSD",1);        
     });
-    req.complete(function(){
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
+    });
+}
+
+//perform two-way ANOVA
+function performTwoWayANOVA(dependentVariable, betweenGroupVariableA, betweenGroupVariableB)
+{
+    var variableList = getSelectedVariables();
+    
+    // Get variable names and their data type
+    var req = ocpu.rpc("performTwoWayANOVA", 
+    {   
+        dataset: dataset, 
+        dependentVariable: dependentVariable,
+        participantVariable: participants,
+        betweenGroupVariableA: betweenGroupVariableA,
+        betweenGroupVariableB: betweenGroupVariableB
+    }, function(output) 
+    {                                                   
+        testResults["df"] = [];
+        testResults["p"] = output.p;   
+  
+        for(var i=0; i<(output.numDF).length; i++)
+        {
+          testResults["df"].push((output.numDF)[i] + ", " + (output.denomDF)[i]);
+          testResults["p"][i] = changePValueNotation(testResults["p"][i]);
+        }
+  
+        testResults["parameter"] = output.F;
+        testResults["parameter-type"] = "F";                 
         
+        testResults["error"] = output.error;
+                 
+        testResults["test-type"] = "twA";
+    
+        testResults["method"] = "2-way ANOVA"; //todo
+        testResults["effect-size"] = output.etaSquared;
+        testResults["effect-size-type"] = "eS";
+        testResults["formula"] = dependentVariable + " ~ " + betweenGroupVariableA + " + " + betweenGroupVariableB + " +  " + betweenGroupVariableA + "*" + betweenGroupVariableB;
+  
+        logResult();
+           
+        drawButtonInSideBar("INTERACTION EFFECT", "interactionEffect");               
+        removeElementsByClassName("completeLines");           
+    
+        displayANOVAResults();  
+        
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
+    });
+}
+
+//perform one-way repeated-measures ANOVA
+function performOneWayRepeatedMeasuresANOVA(dependentVariable, independentVariable)
+{
+    var variableList = getSelectedVariables();
+    
+    var req = ocpu.rpc("performOneWayRepeatedMeasuresANOVA", 
+    {
+        dependentVariable: dependentVariable,
+        independentVariable: independentVariable,
+        participantVariable: participants,
+        dataset: dataset
+    }, function(output) 
+    {                                                   
+        testResults["df"] = output.numDF + ", " + output.denomDF;
+
+        testResults["parameter"] = output.F;
+        testResults["parameter-type"] = "F";
+    
+        testResults["error"] = output.error;
+
+        testResults["test-type"] = "owrA";
+
+        testResults["method"] = "1-way repeated-measures ANOVA"; //todo
+        testResults["effect-size"] = output.etaSquared;
+        testResults["p"] = changePValueNotation(output.p);
+        testResults["effect-size-type"] = "eS";
+        testResults["formula"] = dependentVariable + " ~ " + independentVariable + " + Error(" + participants + "/" + independentVariable;
+    
+        logResult();
+  
+        //drawing stuff
+        removeElementsByClassName("completeLines");
+
+        displaySignificanceTestResults();               
+        drawButtonInSideBar("PAIRWISE POST-HOC COMPARISONS", "pairwisePostHoc");
+        
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
+    });
+}
+
+//perform Friedman's test (non-parametric alternative for one-way repeated-measures ANOVA)
+function performFriedmanTest(dependentVariable, independentVariable)
+{
+    var req = ocpu.rpc("performFriedmanTest", 
+    {
+        dependentVariable: dependentVariable,
+        independentVariable: independentVariable,
+        participantVariable: participants,
+        filePath: pathToFile
+    }, function(output) 
+    {                                                   
+        testResults["df"] = output.df;
+
+        testResults["parameter"] = output.chiSquared;
+        testResults["parameter-type"] = "cS";
+
+        testResults["test-type"] = "fT";
+        testResults["error"] = output.error;
+
+        testResults["method"] = "Friedman's Analysis";
+        testResults["p"] = changePValueNotation(output.p);
+        testResults["effect-size"] = output.etaSquared;
+        testResults["effect-size-type"] = "eS";       
+        testResults["formula"] = dependentVariable + " ~ " + independentVariable + " + Error(" + participants + "/" + independentVariable;
+
+        logResult();
+
+        //drawing stuff
+        removeElementsByClassName("completeLines");           
+
+        displaySignificanceTestResults();   
+        drawButtonInSideBar("PAIRWISE POST-HOC COMPARISONS", "pairwisePostHoc");  
+        
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
+    });
+}
+
+//perform mixed-design ANOVA
+function performMixedDesignANOVA(dependentVariable, withinGroupVariable, betweenGroupVariable)
+{  
+    var req = ocpu.rpc("performMixedDesignANOVA", 
+    {
+        dependentVariable: dependentVariable,
+        withinGroupVariable: withinGroupVariable,
+        betweenGroupVariable: betweenGroupVariable,
+        participantVariable: participants,
+        dataset: dataset
+    }, function(output) 
+    {                                                   
+        testResults["df"] = [];
+        testResults["p"] = output.p;
+        testResults["error"] = output.error;
+
+        for(var i=0; i<(output.numDF).length; i++)
+        {
+        testResults["df"].push((output.numDF)[i] + ", " + (output.denomDF)[i]);
+        testResults["p"][i] = changePValueNotation(testResults["p"][i]);
+        }
+
+        testResults["parameter"] = output.F;
+        testResults["parameter-type"] = "F";
+
+        testResults["test-type"] = "fA";
+
+        testResults["method"] = "Mixed-design ANOVA"; //todo
+        testResults["effect-size"] = output.etaSquared;
+
+        testResults["effect-size-type"] = "eS";
+        testResults["formula"] = dependentVariable + " ~ " + betweenGroupVariable + " + Error(" + participants + "/" + withinGroupVariable;
+
+        logResult();
+
+        drawButtonInSideBar("INTERACTION EFFECT", "interactionEffect");               
+
+        //drawing stuff
+        removeElementsByClassName("completeLines");
+        displayANOVAResults();                 
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
+    });
+}
+
+//find interaction effect (two-way ANOVA, mixed-design ANOVA)
+function findInteractionEffect(dependentVariable, independentVariables)
+{   
+    independentVariables = independentVariables.sort();
+    
+    var req = ocpu.rpc("findInteractionEffect", 
+    {
+        dependentVariable: dependentVariable,
+        independentVariables: independentVariables,                    
+        dataset: dataset
+    }, function(output) 
+    {                                                   
+        var variableList = getSelectedVariables();
+    
+        var levelsA = variables[variableList["independent"][0]]["dataset"].unique().slice().sort();
+        var levelsB = variables[variableList["independent"][1]]["dataset"].unique().slice().sort();
+
+        interactions = output.fit;
+        resetSVGCanvas();
+        drawFullScreenButton();
+
+        drawInteractionEffectPlot();
+        
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
     });
 }
 
 function performTukeyHSDTestOneIndependentVariable(dependentVariable, independentVariable)
 { 
-    var req = ocpu.rpc("performTukeyHSDTestOneIndependentVariable", {
-                    dependentVariable: dependentVariable,
-                    independentVariable: independentVariable,
-                    dataset: dataset
-                  }, function(output) {                                                   
-                  
-
-                    console.log("TukeyHSD test for " + dependentVariable + " ~ " + independentVariable);
-                    sessionStorage.tukeyResultsMin = Array.min(output.lower);
-                    sessionStorage.tukeyResultsMax = Array.max(output.upper);
-                    
-                    //make a data structure to hold all this
-                    
-                    //get levels of the independent variable
-                    var levels = variables[independentVariable]["dataset"].unique().slice();
-                    //sort it
-                    levels = levels.sort();
-                    var index = 0;
-                    
-                    for(i=0; i<levels.length; i++)
-                    {
-                        tukeyResults[levels[i]] = new Object();
-                        for(j=i+1; j<levels.length; j++)
-                        {
-                            if(tukeyResults[levels[j]] == undefined)
-                                tukeyResults[levels[j]] = new Object();
-                            if(i != j)
-                            {
-                                tukeyResults[levels[i]][levels[j]] = new Object();                                
-                                tukeyResults[levels[j]][levels[i]] = new Object();
-                                
-                                tukeyResults[levels[j]][levels[i]]["difference"] = output.difference[index];
-                                tukeyResults[levels[j]][levels[i]]["lower"] = output.lower[index];
-                                tukeyResults[levels[j]][levels[i]]["upper"] = output.upper[index];
-                                tukeyResults[levels[j]][levels[i]]["p"] = output.adjustedP[index];
-                                
-                                tukeyResults[levels[i]][levels[j]]["difference"] = output.difference[index];
-                                tukeyResults[levels[i]][levels[j]]["lower"] = output.lower[index];
-                                tukeyResults[levels[i]][levels[j]]["upper"] = output.upper[index];
-                                tukeyResults[levels[i]][levels[j]]["p"] = output.adjustedP[index++];
-                            }
-                        }
-                    }
-                    
-                    console.dir(tukeyResults);
-                    
-                    resetSVGCanvas();
-                    drawFullScreenButton();
+    var req = ocpu.rpc("performTukeyHSDTestOneIndependentVariable", 
+    {
+        dependentVariable: dependentVariable,
+        independentVariable: independentVariable,
+        dataset: dataset
+    }, function(output) 
+    {                                                   
+        localStorage.setItem((label + "tkMin"), Array.min(output.lower));
+        localStorage.setItem((label + "tkMax"), Array.max(output.upper));
         
-                    drawTukeyHSDPlot();
-                    
-            
-                //drawing stuff
-                removeElementsByClassName("completeLines");   
-                
-                resetSVGCanvas();
-                drawTukeyHSDPlot();
-                
-                displaySignificanceTestResults();
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
-function performTukeyHSDTestTwoIndependentVariables(dependentVariable, independentVariableA, independentVariableB)
-{ 
-    var req = ocpu.rpc("performTukeyHSDTestTwoIndependentVariables", {
-                    dependentVariable: dependentVariable,
-                    independentVariableA: independentVariableA,
-                    independentVariableB: independentVariableB,
-                    dataset: dataset
-                  }, function(output) {                                                   
-                  
-
-                    console.log("TukeyHSD test for " + dependentVariable + " ~ " + independentVariableA + " + " + independentVariableB);
-                    
-                    console.log(output.difference);
-                    console.log(output.lower);
-                    console.log(output.upper);
-                    console.log(output.adjustedP);
-            
-                //drawing stuff
-                removeElementsByClassName("completeLines");   
-                
-                resetSVGCanvas();
-                drawTukeyHSDPlot();
-                
-                displaySignificanceTestResults();
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
-
-//POST-HOC TESTS
-function performPairwiseTTest(varianceEqual, paired) //groupA, groupB, paired = "FALSE", alternative = "two.sided", alpha = 0.95, var = "FALSE"
-{
-    var variableList = getSelectedVariables();
+        //get levels of the independent variable
+        var levels = variables[independentVariable]["dataset"].unique().slice();
+        //sort it
+        levels = levels.sort();
+        var index = 0;
     
-    var req = ocpu.rpc("performPairwiseTTest", {
-                    dependentVariable: variables[variableList["dependent"][0]]["dataset"],
-                    independentVariable: variables[variableList["independent"][0]]["dataset"],                    
-                    dataset: dataset,
-                    varianceEqual: varianceEqual,
-                    paired: paired,
-                    independentVariableName: variableList["independent"][0], 
-                    dependentVariableName: variableList["dependent"][0], 
-                    levelA: variableList["independent-levels"][0],
-                    levelB: variableList["independent-levels"][1]
-                  }, function(output) {                                                   
-                  
-
-                    console.log("\t\t " + output.method);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t t = " + output.t);
-                  console.log("\t\t\t d = " + output.d);
-                  
-                  
-                  testResults["parameter"] = output.t;
-                  testResults["parameter-type"] = "t";
-                  
-                  testResults["p"] = changePValueNotation(output.p); 
-                  testResults["method"] = "Pairwise t-test with Bonferroni correction";
-                  testResults["effect-size"] = output.d;
-                  testResults["effect-size-type"] = "d";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");
+        for(i=0; i<levels.length; i++)
+        {
+            tukeyResults[levels[i]] = new Object();
+            for(j=i+1; j<levels.length; j++)
+            {
+                if(tukeyResults[levels[j]] == undefined)
+                    tukeyResults[levels[j]] = new Object();
+                if(i != j)
+                {
+                    tukeyResults[levels[i]][levels[j]] = new Object();                                
+                    tukeyResults[levels[j]][levels[i]] = new Object();
                 
-                displaySignificanceTestResults();
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
-    });
-
-    //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
-    });
-}
-
-function performPairwiseWilcoxTest(varianceEqual, paired) //groupA, groupB, paired = "FALSE", alternative = "two.sided", alpha = 0.95, var = "FALSE"
-{
-    var variableList = getSelectedVariables();
+                    tukeyResults[levels[j]][levels[i]]["difference"] = output.difference[index];
+                    tukeyResults[levels[j]][levels[i]]["lower"] = output.lower[index];
+                    tukeyResults[levels[j]][levels[i]]["upper"] = output.upper[index];
+                    tukeyResults[levels[j]][levels[i]]["p"] = output.adjustedP[index];
+                
+                    tukeyResults[levels[i]][levels[j]]["difference"] = output.difference[index];
+                    tukeyResults[levels[i]][levels[j]]["lower"] = output.lower[index];
+                    tukeyResults[levels[i]][levels[j]]["upper"] = output.upper[index];
+                    tukeyResults[levels[i]][levels[j]]["p"] = output.adjustedP[index++];
+                }
+            }
+        }
     
-    var req = ocpu.rpc("performPairwiseWilcoxTest", {
-                    dependentVariable: variables[variableList["dependent"][0]]["dataset"],
-                    independentVariable: variables[variableList["independent"][0]]["dataset"],                    
-                    dataset: dataset,
-                    varianceEqual: varianceEqual,
-                    paired: paired,
-                    independentVariableName: variableList["independent"][0], 
-                    dependentVariableName: variableList["dependent"][0], 
-                    levelA: variableList["independent-levels"][0],
-                    levelB: variableList["independent-levels"][1]
-                  }, function(output) {                                                   
-                  
+        resetSVGCanvas();
+        drawFullScreenButton();
 
-                  console.log("\t\t Pairwise wilcox-test");
-                  console.log("\t\t\t U = " + output.U);
-                  console.log("\t\t\t p = " + output.p);
-                  console.log("\t\t\t r = " + output.r);
-                  
-                  testResults["parameter"] = output.U;
-                  testResults["parameter-type"] = paired == "FALSE" ? "U" : "W";
-                  
-                  testResults["p"] = changePValueNotation(output.p);                  
-                  testResults["effect-size"] = output.r;
-                  testResults["method"] = "Pairwise Wilcox-test";
-                  testResults["effect-size-type"] = "r";
-                  
-                //drawing stuff
-                removeElementsByClassName("completeLines");           
-
-                displaySignificanceTestResults(); 
-        
-      }).fail(function(){
-          alert("Failure: " + req.responseText);
+        drawTukeyHSDPlot();        
     });
-
+    
     //if R returns an error, alert the error message
-    req.fail(function(){
-      alert("Server error: " + req.responseText);
-    });
-    req.complete(function(){
-        
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
     });
 }
 
-// Effect sizes
-
-// function getDFromT(n)
-// {
-//     // Get variable names and their data type
-//     var req = ocpu.rpc("getDFromT", {
-//                     t: testResults["t"],                   
-//                     n1: n,
-//                     n2: n
-//                   }, function(output) {                                                   
-//                   
-//                   console.log("Cohen's d: " + output.d);
-//                   
-//                   testResults["effect-size"] = "Cohen's d = " + output.d;
+// function performTukeyHSDTestTwoIndependentVariables(dependentVariable, independentVariableA, independentVariableB)
+// { 
+//     var req = ocpu.rpc("performTukeyHSDTestTwoIndependentVariables", {
+//                     dependentVariable: dependentVariable,
+//                     independentVariableA: independentVariableA,
+//                     independentVariableB: independentVariableB,
+//                     dataset: dataset
+//                   }, function(output) {   
+//                     console.log("TukeyHSD test for " + dependentVariable + " ~ " + independentVariableA + " + " + independentVariableB);
+//                     
+//                     console.log(output.difference);
+//                     console.log(output.lower);
+//                     console.log(output.upper);
+//                     console.log(output.adjustedP);
+//             
+//                 //drawing stuff
+//                 removeElementsByClassName("completeLines");   
+//                 
+//                 resetSVGCanvas();
+// //                 drawTukeyHSDPlot();
+//                 
+// //                 displaySignificanceTestResults();
 //         
 //       }).fail(function(){
 //           alert("Failure: " + req.responseText);
@@ -787,3 +574,93 @@ function performPairwiseWilcoxTest(varianceEqual, paired) //groupA, groupB, pair
 //         
 //     });
 // }
+
+//POST-HOC TESTS
+
+//perform pairwise t-tests
+function performPairwiseTTest(varianceEqual, paired) 
+{    
+    var variableList = getSelectedVariables();
+    
+    var req = ocpu.rpc("performPairwiseTTest", 
+    {
+        dependentVariable: variables[variableList["dependent"][0]]["dataset"],
+        independentVariable: variables[variableList["independent"][0]]["dataset"],                    
+        dataset: dataset,
+        varianceEqual: varianceEqual,
+        paired: paired,
+        independentVariableName: variableList["independent"][0], 
+        dependentVariableName: variableList["dependent"][0], 
+        levelA: variableList["independent-levels"][0],
+        levelB: variableList["independent-levels"][1]
+    }, function(output) 
+    {     
+        testResults["parameter"] = output.t;
+        testResults["parameter-type"] = "t";
+
+        testResults["p"] = changePValueNotation(output.p); 
+        testResults["method"] = "Pairwise t-test (Bonf.)";
+        testResults["effect-size"] = output.d;
+        testResults["effect-size-type"] = "d";
+        testResults["test-type"] = "ptT";
+    
+        testResults["error"] = output.error;
+    
+        logResult();
+        //drawing stuff
+        removeElementsByClassName("completeLines");
+
+        displaySignificanceTestResults();
+        
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
+    });
+}
+
+//perform pairwise wilcox-tests (non-parametric alternative for pairwise t-tests)
+function performPairwiseWilcoxTest(varianceEqual, paired) //groupA, groupB, paired = "FALSE", alternative = "two.sided", alpha = 0.95, var = "FALSE"
+{
+    var variableList = getSelectedVariables();
+    
+    var req = ocpu.rpc("performPairwiseWilcoxTest", 
+    {
+        dependentVariable: variables[variableList["dependent"][0]]["dataset"],
+        independentVariable: variables[variableList["independent"][0]]["dataset"],                    
+        dataset: dataset,
+        varianceEqual: varianceEqual,
+        paired: paired,
+        independentVariableName: variableList["independent"][0], 
+        dependentVariableName: variableList["dependent"][0], 
+        levelA: variableList["independent-levels"][0],
+        levelB: variableList["independent-levels"][1]
+    }, function(output) 
+    {         
+        testResults["parameter"] = output.U;
+        testResults["parameter-type"] = paired == "FALSE" ? "U" : "W";
+
+        testResults["p"] = changePValueNotation(output.p);                  
+        testResults["effect-size"] = output.r;
+        testResults["method"] = "Pairwise Wilcoxon-test (Bonf.)";
+        testResults["test-type"] = "pwT";
+        testResults["effect-size-type"] = "r";                  
+
+        testResults["error"] = output.error;
+        
+        logResult();
+        //drawing stuff
+        removeElementsByClassName("completeLines");           
+
+        displaySignificanceTestResults(); 
+        
+    });
+    
+    //if R returns an error, alert the error message
+    req.fail(function()
+    {
+        alert("Server error: " + req.responseText);
+    });
+}

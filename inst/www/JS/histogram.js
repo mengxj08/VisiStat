@@ -1,5 +1,6 @@
 var LEFT, RIGHT, TOP, BOTTOM, xStep;
 var yDiffForPlots;
+
 function makeHistogram()
 {      
     // TODO: Need to constrain the selection to 3 variables
@@ -151,13 +152,15 @@ function makeHistogram()
     
         // Draw axes    
         canvas.append("text")
-                .attr("x", LEFT - axesOffset - 1.25*labelOffset)
+                .attr("x", LEFT - axesOffset - 1.5*labelOffset)
                 .attr("y", (TOP + BOTTOM)/2)
                 .attr("text-anchor", "middle")
-                .attr("transform", "rotate (-90 " + (LEFT - axesOffset - 1.25*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
-                .attr("font-size", fontSizeLabels + "px")
-                .text("Count")
+                .attr("transform", "rotate (-90 " + (LEFT - axesOffset - 1.5*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
+                .attr("font-size", "24px")
+                .text("Frequency")
                 .attr("fill", "black");
+    
+
                                     
         xStep = plotWidth/numberOfGroovesInXAxis;
         
@@ -260,7 +263,7 @@ function makeHistogram()
     else
     {
         // Should be changeable
-        var numberOfGroovesInXAxis = 10;
+        var numberOfGroovesInXAxis = nBins;
     
         var slice = (max - min)/nBins;    
     
@@ -311,11 +314,11 @@ function makeHistogram()
         var binSlice = Array.max(binMaxs)/(nGroovesY-1);
         
         canvas.append("text")
-                .attr("x", LEFT - axesOffset - 1.5*labelOffset)
+                .attr("x", LEFT - axesOffset - 1.25*labelOffset)
                 .attr("y", (TOP + BOTTOM)/2)
                 .attr("text-anchor", "middle")
-                .attr("transform", "rotate (-90 " + (LEFT - axesOffset - 1.5*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
-                .attr("font-size", "24px")
+                .attr("transform", "rotate (-90 " + (LEFT - axesOffset - 1.25*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
+                .attr("font-size", fontSizeLabels + "px")
                 .text("Frequency")
                 .attr("fill", "black");
         
@@ -344,7 +347,7 @@ function makeHistogram()
             canvas.append("text")
                         .attr("x", LEFT + j*xStep)
                         .attr("y", BOTTOM + tickTextOffsetXAxis + axesOffset)
-                        .text(format(min + j*slice))
+                        .text(dec2(min + j*slice))
                         .attr("text-anchor", "middle")
                         .attr("id", "groove" + j)
                         .attr("class", "xAxisGrooveText");
@@ -428,8 +431,10 @@ function makeHistogramWithDensityCurve(LEFT, TOP, histWidth, histHeight, depende
     var max;
     
     if(variableList["independent"].length == 2)
-    {
-        console.log("level = " + level);
+    {        
+        var levels = level.split("-");
+        
+        data = colourBoxPlotData[levels[0]][levels[1]];
     }
     else
     {   
@@ -451,7 +456,6 @@ function makeHistogramWithDensityCurve(LEFT, TOP, histWidth, histHeight, depende
     
     curveX = [];
     curveY = [];
-            
 
     // Set all bin count to zero
     for(var i=0; i<nBins; i++)
@@ -511,12 +515,17 @@ function makeHistogramWithDensityCurve(LEFT, TOP, histWidth, histHeight, depende
                     .attr("y2", BOTTOM + 10 + shortAxesOffset)
                     .attr("id", "groove" + i)
                     .attr("class", "densityCurve");
-    
+        
+        var textAnchor = "end";
+        if(i == 0)
+            textAnchor = "start";
+        
         canvas.append("text")
                     .attr("x", LEFT + i*xStep)
                     .attr("y", BOTTOM + tickTextOffsetXAxis + shortAxesOffset)                    
-                    .text(format(min + i*(max-min)))
-                    .attr("text-anchor", "middle")
+                    .text(dec2(min + i*(max-min)))
+                    .attr("text-anchor", textAnchor)
+                    .attr("font-size", scaleForWindowSize(12) + "px")
                     .attr("id", "groove" + i)
                     .attr("class", "densityCurve");
     }

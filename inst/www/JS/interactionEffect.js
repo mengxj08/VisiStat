@@ -49,11 +49,11 @@ function drawInteractionEffectPlot()
     
     //Y-axis label
     canvas.append("text")
-                .attr("x", LEFT - axesOffset - 1.25*labelOffset)
+                .attr("x", LEFT - axesOffset - 1.5*labelOffset)
                 .attr("y", (TOP + BOTTOM)/2)
                 .attr("text-anchor", "middle")
                 .attr("font-size", fontSizeLabels + "px")
-                .attr("transform", "rotate(-90 " + (LEFT - axesOffset - 1.25*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
+                .attr("transform", "rotate(-90 " + (LEFT - axesOffset - 1.5*labelOffset) + " " + ((TOP + BOTTOM)/2) + ")")
                 .text(dependentVariable)
                 .attr("fill", "black");
                 
@@ -88,7 +88,7 @@ function drawInteractionEffectPlot()
     
     for(i=0; i<numberOfGroovesInYAxis; i++)
     {
-        var axisText = format(min + i*ySlice);
+        var axisText = dec2(min + i*ySlice);
         var textPosition = BOTTOM - i*yStep;                  
         
         canvas.append("line")

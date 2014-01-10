@@ -1,5 +1,5 @@
 // Data
-    var wd ="http://hci.rwth-aachen.de/~subramanian/datasets/" + sessionStorage.fileName +".csv"; // "/Users/krishnasubramanian/Documents/Media Informatics/Semester 4/Thesis/Implementation/Possible Datasets/Datasets/";
+    var wd = "http://hci.rwth-aachen.de/~subramanian/datasets/" + sessionStorage.fileName + ".csv";
     var pathToFile =  wd;
 
 // Skeleton
@@ -53,8 +53,8 @@
             
             variableTypeTextColors["participant"] = "white";
 
-    // Visualization panel
-        var visualizationImageSize = scaleForWindowSize(200);  
+    // Visualisation panel
+        var visualisationImageSize = scaleForWindowSize(200);  
 
 // Displaying Data
     var displayDataLimit = 20;
@@ -62,12 +62,13 @@
     var fontSizeForDisplayDataTitle = scaleForWindowSize(36);
     var fontSizeForDisplayDataTableElements = scaleForWindowSize(20);
     var fontSizeLabels = scaleForWindowSize(16);
-    var fontSizeTicks = scaleForWindowSize(18);
+    var fontSizeTicks = scaleForWindowSize(12);
     var fontSizeAssumptions = scaleForWindowSize(20);
     var fontSizeAssumptionsTitle = scaleForWindowSize(26);
     var fontSizeVariablePanel = scaleForWindowSize(20);
-    var fontSizeVisualizationPanel = scaleForWindowSize(32);
+    var fontSizeVisualisationPanel = scaleForWindowSize(32);
     var fontSizeSignificanceTestResults = scaleForWindowSize(18);    
+    var fontSizeButtonLabel = scaleForWindowSize(12);
     
 // Plots (general)
     var axesOffset = scaleForWindowSize(25); //distance from plots to axes (for an R-like appearance)
@@ -99,7 +100,7 @@ var meanColors = new Object(); //Colors for mean, and ?
     meanColors["click"] = "#729e38";
 
 // Histogram
-var nBins = 10; 
+var nBins = 6; 
 var binCountFontSize = "16px";
 var histLegendOffsetX = scaleForWindowSize(45);
 var histLegendOffsetY = scaleForWindowSize(45);
@@ -136,19 +137,30 @@ var assumptionImageSize = scaleForWindowSize(35);
 var assumptionsText = new Object();
     assumptionsText["normality"] = "Normality of distributions";
     assumptionsText["homogeneity"] = "Homogeneity of variances";
-
+    assumptionsText["sphericity"] = "Sphericity of distributions";
+    
+var helpButtonHeight = scaleForWindowSize(60);
+    var helpButtonWidth = scaleForWindowSize(60);
+    
+    var helpButtonOffset = assumptionImageSize;
+    
 var assumptions = new Object();
 assumptions["one-sample tests"] = ["normality"];
 assumptions["normal"] = ["normality", "homogeneity"];
 assumptions["repeated measures"] = ["normality", "homogeneity"];//["normality", "homogeneity", "sphericity"];
 
-var significanceTestResultOffset = scaleForWindowSize(40);
+var significanceTestResultStep = scaleForWindowSize(37);
+var significanceTestResultOffsetTop = canvasHeight/2 + scaleForWindowSize(40);
 
 var effectSizeWidth = sideBarWidth*0.8;
 var effectSizeHeight = scaleForWindowSize(30);
-var effectSizeFontSize = scaleForWindowSize(20) + "px";
+var effectSizeFontSize = scaleForWindowSize(16) + "px";
 
 var computingResultsImageSize = scaleForWindowSize(75);
+
+var selectionButtonWidth = scaleForWindowSize(200);
+var selectionButtonHeight = scaleForWindowSize(50);
+var selectionButtonOffset = scaleForWindowSize(15);
 
 //transformation
 var normalityPlotWidth = scaleForWindowSize(125);
@@ -159,7 +171,7 @@ var boxPlotTransformationDuration = 700;
 var sampleSizeCutoff = 20;
 
 //buttons
-var buttonOffset = assumptionOffsetTop + 2*assumptionStep;
+var buttonOffset = scaleForWindowSize(150);//assumptionOffsetTop + 2*assumptionStep;
 var buttonHeight = scaleForWindowSize(50);
 var buttonWidth = sideBarWidth;
 var buttonPadding = assumptionStep;

@@ -11,7 +11,8 @@ var maxs = new Object();
 
 var uniqueDataX, uniqueDataY;
 var xStep, yStep;
-       
+    
+   
 function makeScatterplot()
 {   
     // graphics
@@ -133,8 +134,8 @@ function makeScatterplot()
     
     //grooves
     
-    uniqueDataX = data["X"].unique();
-    uniqueDataY = data["Y"].unique();  
+    uniqueDataX = data["X"].unique().sort();
+    uniqueDataY = data["Y"].unique().sort();  
     
     var numberOfGroovesInXAxis = uniqueDataX.length > numberOfGrooves ? numberOfGrooves : uniqueDataX.length;
     var numberOfGroovesInYAxis = uniqueDataY.length > numberOfGrooves ? numberOfGrooves : uniqueDataY.length;
@@ -150,7 +151,7 @@ function makeScatterplot()
     //grooves
     for(i=0; i<numberOfGroovesInXAxis; i++)
     {
-        axisText = format(mins["X"] + i*xSlice);
+        axisText = dec2(mins["X"] + i*xSlice);
         textPosition = LEFT + i*xStep;
         
         if(uniqueDataX.length <= numberOfGrooves)
@@ -179,7 +180,7 @@ function makeScatterplot()
     
     for(i=0; i<numberOfGroovesInYAxis; i++)
     {
-        axisText = format(mins["Y"] + i*ySlice);
+        axisText = dec2(mins["Y"] + i*ySlice);
         textPosition = BOTTOM - i*yStep;                  
         
         if(uniqueDataY.length <= numberOfGrooves)
@@ -270,9 +271,11 @@ function drawScatterPlotLegends(varNames)
 
 function drawRegressionLine(intercept, slope)
 {
-    console.log("drawing regression line..."); 
     var canvas = d3.select("#plotCanvas");
     canvas.attr("viewBox", "0 0 " + canvasWidth + " " + parseFloat(canvasHeight+scaleForWindowSize(400)));    
+    
+    intercept = parseFloat(intercept);
+    slope = parseFloat(slope);
     
     var x1, y1, x2, y2;
     
@@ -280,46 +283,33 @@ function drawRegressionLine(intercept, slope)
     
     X1 = mins["X"];
     X2 = maxs["X"];
-    Y1 = (slope*X1 + intercept) > maxs["Y"] ? maxs["Y"] : (slope*X1 + intercept);
-    Y1 = (slope*X1 + intercept) < mins["Y"] ? mins["Y"] : (slope*X1 + intercept);
-    Y2 = (slope*X2 + intercept) > maxs["Y"] ? maxs["Y"] : (slope*X2 + intercept);
-    Y2 = (slope*X2 + intercept) < mins["Y"] ? mins["Y"] : (slope*X2 + intercept);
+    
+    Y1 = ((slope*X1) + intercept) > maxs["Y"] ? maxs["Y"] : ((slope*X1) + intercept);
+    Y1 = ((slope*X1) + intercept) < mins["Y"] ? mins["Y"] : ((slope*X1) + intercept);
+    
+    Y2 = ((slope*X2) + intercept) > maxs["Y"] ? maxs["Y"] : ((slope*X2) + intercept);
+    Y2 = ((slope*X2) + intercept) < mins["Y"] ? mins["Y"] : ((slope*X2) + intercept);
     
     if(uniqueDataX.length <= numberOfGrooves)
         x1 = LEFT + uniqueDataX.indexOf(X1)*xStep + xStep/2;    
     else
         x1 = LEFT + getValue1(X1, mins["X"], maxs["X"])*plotWidth;
         
-    if(uniqueDataY.length <= numberOfGrooves)
-        y1 = BOTTOM - uniqueDataY.indexOf(Y1)*yStep - yStep/2;
-    else
-        y1 = BOTTOM - getValue1(Y1, mins["Y"], maxs["Y"])*plotHeight;
+    y1 = BOTTOM - getValue1(Y1, mins["Y"], maxs["Y"])*plotHeight;
     
     if(uniqueDataX.length <= numberOfGrooves)
         x2 = LEFT + uniqueDataX.indexOf(X2)*xStep + xStep/2;    
     else
         x2 = LEFT + getValue1(X2, mins["X"], maxs["X"])*plotWidth;
         
-    if(uniqueDataY.length <= numberOfGrooves)
-        y2 = BOTTOM - uniqueDataY.indexOf(Y2)*yStep - yStep/2;
-    else
-        y2 = BOTTOM - getValue1(Y2, mins["Y"], maxs["Y"])*plotHeight;
-            
-    
-    canvas.append("circle")
-            .attr("cx", LEFT + getValue1(0, mins["X"], maxs["X"])*plotWidth)
-            .attr("cy", BOTTOM - getValue1(intercept, mins["Y"], maxs["Y"])*plotHeight)
-            .attr("r", "10px")
-            .attr("fill", "red")
-            .attr("id", "interceptCircle")
-            .attr("class", "regressionLines");
+    y2 = BOTTOM - getValue1(Y2, mins["Y"], maxs["Y"])*plotHeight; 
     
     canvas.append("line")
             .attr("x1", x1)
             .attr("y1", y1)
             .attr("x2", x2)
             .attr("y2", y2)
-            .attr("stroke", "magenta")
+            .attr("stroke", "#627bf4")
             .attr("stroke-width", "10px")
             .attr("id", "regressionLine");
             
@@ -330,6 +320,5 @@ function drawRegressionLine(intercept, slope)
             .attr("y2", y2)
             .attr("stroke", "transparent")
             .attr("stroke-width", "30px")
-            .attr("id", "regressionLine");
-            
+            .attr("id", "regressionLine");            
 }

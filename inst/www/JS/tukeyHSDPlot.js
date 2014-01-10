@@ -13,8 +13,10 @@ function drawTukeyHSDPlot()
     var variableList = sort(currentVariableSelection);    
     var levels = variables[variableList["independent"][0]]["dataset"].unique().sort();    
     
-    var min = parseFloat(sessionStorage.tukeyResultsMin);
-    var max = parseFloat(sessionStorage.tukeyResultsMax);
+    var label = "tukeyHSD(" + variableList["dependent"][0] + "~" + variableList["independent"][0] + ")";
+    
+    var min = parseFloat(localStorage.getItem((label+"tkMin")));
+    var max = parseFloat(localStorage.getItem((label+"tkMax")));
     
     //Axes
     var xAxis = canvas.append("line")
@@ -37,13 +39,12 @@ function drawTukeyHSDPlot()
     
     //Y-axis label
     canvas.append("text")
-                .attr("x", LEFT - axesOffset - 1.25*labelOffset)
+                .attr("x", LEFT - axesOffset - 1.5*labelOffset)
                 .attr("y", (TOP + BOTTOM)/2)
                 .attr("text-anchor", "middle")
-                .attr("font-size", "24px")
+                .attr("font-size", fontSizeLabels + "px")
                 .text("Mean difference in " + variableList["dependent"][0])
-                .attr("transform", "rotate(-90 " + (LEFT - axesOffset - 1.25*labelOffset) + " " + ((TOP + BOTTOM)/2 + 6) + ")")
-                .attr("fill", "orange");
+                .attr("transform", "rotate(-90 " + (LEFT - axesOffset - 1.5*labelOffset) + " " + ((TOP + BOTTOM)/2 + 6) + ")");
                 
     //X-axis grooves
     var numberOfGroovesInXAxis = findNumberOfCombinations(levels.length,2);    
@@ -69,6 +70,7 @@ function drawTukeyHSDPlot()
                             .attr("y", BOTTOM + tickTextOffsetXAxis + axesOffset)                    
                             .text(levels[i] + "-" + levels[j])
                             .attr("fill", "black")
+                            .attr("font-size", fontSizeTicks + "px")
                             .attr("text-anchor", "middle")
                             .attr("class", "xAxisGrooveText");
             }
@@ -83,7 +85,7 @@ function drawTukeyHSDPlot()
     
     for(i=0; i<numberOfGroovesInYAxis; i++)
     {  
-        var axisText = format3(min + i*ySlice);
+        var axisText = dec2(min + i*ySlice);
         var textPosition = BOTTOM - i*yStep;                  
         
         canvas.append("line")
@@ -99,6 +101,7 @@ function drawTukeyHSDPlot()
                     .attr("y", textPosition + yAxisTickTextOffset)                     
                     .text(axisText)
                     .attr("text-anchor", "end")
+                    .attr("font-size", fontSizeTicks + "px")
                     .attr("id", "groove" + i)
                     .attr("class", "yAxisGrooveText");
     } 
@@ -121,7 +124,8 @@ function drawTukeyHSDPlot()
             {                            
                 var x1, y1, x2, y2;
                 
-                x1 = x2 = LEFT + (index)*xStep;
+                x1 = LEFT + (index)*xStep;
+                x2 = LEFT + (index)*xStep;
                 y1 = BOTTOM - getValue1(tukeyResults[levels[i]][levels[j]]["lower"], min, max)*plotHeight;        
                 y2 = BOTTOM - getValue1(tukeyResults[levels[i]][levels[j]]["upper"], min, max)*plotHeight;        
                 

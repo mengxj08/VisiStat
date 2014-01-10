@@ -149,12 +149,12 @@ function makeScatterPlotAt(x,y,shortWidth, shortHeight, variableX, variableY, no
     var canvas = d3.select("#plotCanvas");
     
     y = y + shortHeight;
-
+    
     var dataX = variables[variableX]["dataset"];
     var dataY = variables[variableY]["dataset"];
     
-    var uniqueDataX = dataX.unique();
-    var uniqueDataY = dataY.unique();  
+    var uniqueDataX = dataX.unique().sort();
+    var uniqueDataY = dataY.unique().sort();  
 
     var minX=0, minY=0, maxX=0, maxY=0;
     
@@ -203,39 +203,45 @@ function makeScatterPlotAt(x,y,shortWidth, shortHeight, variableX, variableY, no
     
         X1 = minX;
         X2 = maxX;
-        Y1 = (slope*X1 + intercept) > maxY ? maxY : (slope*X1 + intercept);
-        Y1 = (slope*X1 + intercept) < minY ? minY : (slope*X1 + intercept);
-        Y2 = (slope*X2 + intercept) > maxY ? maxY : (slope*X2 + intercept);
-        Y2 = (slope*X2 + intercept) < minY ? minY : (slope*X2 + intercept);
+        Y1 = (slope*X1 + intercept) > maxY ? maxY : (parseFloat(slope*X1) + parseFloat(intercept));
+        Y1 = (slope*X1 + intercept) < minY ? minY : (parseFloat(slope*X1) + parseFloat(intercept));
+        Y2 = (slope*X2 + intercept) > maxY ? maxY : (parseFloat(slope*X2) + parseFloat(intercept));
+        Y2 = (slope*X2 + intercept) < minY ? minY : (parseFloat(slope*X2) + parseFloat(intercept));
         
-        if(uniqueDataX.length <= shortNumberOfGrooves)
-            x1 = LEFT + uniqueDataX.indexOf(X1)*xStep + xStep/2;    
-        else
-            x1 = x + getValue(X1, minX, maxX)*shortWidth;
+//         if(uniqueDataX.length <= shortNumberOfGrooves)
+//             x1 = LEFT + uniqueDataX.indexOf(X1)*xStep + xStep/2;    
+//         else
+//             x1 = x + convertToRange(X1, minX, maxX)*shortWidth;
+//         
+//         if(uniqueDataY.length <= shortNumberOfGrooves)
+//             y1 = y - uniqueDataY.indexOf(Y1)*yStep - yStep/2;
+//         else
+//             y1 = y - convertToRange(Y1, minY, maxY)*shortHeight;
+//     
+//         if(uniqueDataX.length <= shortNumberOfGrooves)
+//             x2 = x + uniqueDataX.indexOf(X1)*xStep + xStep/2;    
+//         else
+//             x2 = x + convertToRange(X2, minX, maxX)*shortWidth;
+//         
+//         if(uniqueDataY.length <= shortNumberOfGrooves)
+//             y2 = y - uniqueDataY.indexOf(Y2)*yStep - yStep/2;
+//         else
+//             y2 = y - convertToRange(Y2, minY, maxY)*shortHeight;
+
         
-        if(uniqueDataY.length <= shortNumberOfGrooves)
-            y1 = y - uniqueDataY.indexOf(Y1)*yStep - yStep/2;
-        else
-            y1 = y - getValue(Y1, minY, maxY)*shortHeight;
+        x1 = x + convertToRange(X1, minX, maxX)*shortWidth;
+        y1 = y - convertToRange(Y1, minY, maxY)*shortHeight;
     
-        if(uniqueDataX.length <= shortNumberOfGrooves)
-            x2 = x + uniqueDataX.indexOf(X1)*xStep + xStep/2;    
-        else
-            x2 = x + getValue(X2, minX, maxX)*shortWidth;
-        
-        if(uniqueDataY.length <= shortNumberOfGrooves)
-            y2 = y - uniqueDataY.indexOf(Y2)*yStep - yStep/2;
-        else
-            y2 = y - getValue(Y2, minY, maxY)*shortHeight;
-            
+        x2 = x + convertToRange(X2, minX, maxX)*shortWidth;
+        y2 = y - convertToRange(Y2, minY, maxY)*shortHeight;    
     
         canvas.append("line")
                 .attr("x1", x1)
                 .attr("y1", y1)
                 .attr("x2", x2)
                 .attr("y2", y2)
-                .attr("stroke", "magenta")
-                .attr("stroke-width", "5px")
+                .attr("stroke", "#627bf4")
+                .attr("stroke-width", "10px")
                 .attr("id", "regressionLine");
     }
     
@@ -267,7 +273,7 @@ function makeScatterPlotAt(x,y,shortWidth, shortHeight, variableX, variableY, no
     //x-axis ticks
     for(i=0; i<numberOfGroovesInXAxis; i++)
     {
-        axisText = format(minX + i*xSlice);
+        axisText = dec2(minX + i*xSlice);
         textPosition = x + i*xStep;
         
         var textAnchor = "middle";
@@ -309,7 +315,7 @@ function makeScatterPlotAt(x,y,shortWidth, shortHeight, variableX, variableY, no
     
     for(i=0; i<numberOfGroovesInYAxis; i++)
     {
-        axisText = format(minY + i*ySlice);
+        axisText = dec2(minY + i*ySlice);
         textPosition = y - i*yStep;                  
         var offset = 0;
         
@@ -359,12 +365,12 @@ function makeScatterPlotAt(x,y,shortWidth, shortHeight, variableX, variableY, no
         if(isNaN(dataX[0]))
             X = x + uniqueDataX.indexOf(dataX[i])*xStep + xStep/2;    
         else
-            X = x + getValue(dataX[i], minX, maxX)*shortWidth;
+            X = x + convertToRange(dataX[i], minX, maxX)*shortWidth;
             
         if(isNaN(dataY[0]))
             Y = y - uniqueDataY.indexOf(dataY[i])*yStep - yStep/2;
         else
-            Y = y - getValue(dataY[i], minY, maxY)*shortHeight;
+            Y = y - convertToRange(dataY[i], minY, maxY)*shortHeight;
             
         var color = "black";
         
@@ -377,7 +383,7 @@ function makeScatterPlotAt(x,y,shortWidth, shortHeight, variableX, variableY, no
     }
 }
 
-function getValue(number, min, max)
+function convertToRange(number, min, max)
 {
     return (number - min)/(max - min);
 }

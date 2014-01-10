@@ -6,7 +6,6 @@ export(getBiserialCorrelationCoefficient)
 export(getRSquared)
 export(getLinearModelCoefficients)
 export(getCI)
-export(getQQPlotCoordinates)
 export(getStandardError)
 
 export(subsetDataByLevelsOfVariable)
@@ -45,19 +44,11 @@ export(pairwise.table.with.statistic)
 
 export(applyTransform)
 
-export(drawQQPlot)
-
-export(getESFromF)
-export(getESFromT)
-export(getDFromT)
-export(getESFromChiSquared)
-export(getESFromP)
-export(getESFromRawMeanScores)
-
 export(findTransformForDependentVariables)
 export(findTransformForNormality)
 export(findTransformForHomogeneity)
 export(findEffect)
+export(findError)
 
 export(runThisRCode)
 
