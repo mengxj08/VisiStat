@@ -57,6 +57,7 @@ export(loadFile)
 export(writeToFile)
 
 import(lawstat)
+import(ez)
 import(effects)
 import(ltm)
 import(MAd)
