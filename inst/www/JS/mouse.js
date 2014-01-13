@@ -31,6 +31,8 @@ function OnMouseDown(e)
             if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "variableNameHolderFront"))
             {
                 setup(e, target);        
+
+                removeElementsByClassName("toolTips")
         
                 //add to list of variables selected
                 currentVariableSelection = setColorsForVariables(currentVariableSelection, target.id);
@@ -50,17 +52,6 @@ function OnMouseDown(e)
                 rButton.attr("fill", "grey")
                         .attr("filter", "none")
                         .attr("stroke", "none");
-                
-                states = [];
-//                 
-//                 var subState = null;
-//                 
-//                 if(currentVisualisationSelection == "Boxplot")
-//                     subState = "base";
-//                 
-//                 states.push({visualisation: currentVisualisationSelection, variables: currentVariableSelection.slice(), substate: subState});
-//                 
-//                 console.dir(states);
             }
     
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "visualisationHolderFront"))
@@ -75,20 +66,12 @@ function OnMouseDown(e)
                 rButton.attr("fill", "grey")
                         .attr("filter", "none")
                         .attr("stroke", "none");
-
-                
-                states = [];
-//                 
-//                 states.push({visualisation: currentVisualisationSelection, variables: currentVariableSelection.slice()});               
-//                 
-//                 console.dir(states);
             }
     
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "variableTypeToggleButton"))
             {
                 setup(e, target);
-                
-                // 
+
 //                 var variableNameHolderBack = d3.select("#" + target.id + ".variableNameHolderBack");
 //                 var toggleButton = d3.select("#" + target.id + ".variableTypeToggleButton");
 //                 var dependentVariableText = d3.select("#" + target.id + ".dependentVariableText");
@@ -345,7 +328,9 @@ function OnMouseDown(e)
         
                 if(selectedMeans.length == 2 || selectedMeans.length == means.length)
                 {
-                    compareMeans();
+                
+                    compareMeans();                    
+                    
                     removeElementsByClassName("boxplotLegends");
                     removeElementsByClassName("compareNow");
                 }
@@ -1030,7 +1015,7 @@ function OnMouseDown(e)
                                     
                                             var dependentVariable = variableList["dependent"][0];
                                             
-                                            var homogeneity = d3.select("#homogeneity.ticks").attr("display") == "inline" ? true : false;
+                                            var homogeneity = d3.select("#homogeneityticks").attr("display") == "inline" ? true : false;
         
                                             for(var i=0; i<variableList["independent"].length; i++)
                                             {                   

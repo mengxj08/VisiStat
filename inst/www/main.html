@@ -14,7 +14,7 @@
         <script type="text/javascript" src="JS/keyboard.js"></script>
         <script type="text/javascript" src="JS/drawing.js"></script>
         
-        <!-- Plots -->
+         <!-- Plots -->
         <script type="text/javascript" src="JS/histogram.js"></script>
         <script type="text/javascript" src="JS/boxplot.js"></script>
         <script type="text/javascript" src="JS/scatterplot.js"></script>
@@ -26,10 +26,10 @@
         <script type="text/javascript" src="JS/statistical-tests.js"></script>
         <script type="text/javascript" src="JS/statistics-helper.js"></script>
         
-        <script type="text/javascript" src="JS/opencpu-R.js"></script>
+        <script type="text/javascript" src="JS/opencpu-R.js"></script>        
         <script type="text/javascript" src="JS/significance tests.js"></script>        
-        <script type="text/javascript" src="JS/correlation and regression.js"></script>   
-
+        <script type="text/javascript" src="JS/correlation and regression.js"></script>        
+        
         <script type="text/javascript" src="JS/helper.js"></script>
         <script type="text/javascript" src="JS/math.js"></script>
         <script type="text/javascript" src="JS/settings.js"></script>
@@ -38,6 +38,7 @@
         <script type="text/javascript" src="JS/datasets.js"></script>
         <script type="text/javascript" src="JS/effectsize.js"></script>
         <script type="text/javascript" src="JS/significance-tests-parameters.js"></script>        
+        
         
     </head>
     <body>   
@@ -102,8 +103,6 @@
             window.onload = function()
             {    
                 initMouseEventHandlers();
-
-                console.log("Filename: " + sessionStorage.fileName);
                 
                 // Set the width and height of panels
                 d3.select("#variable.panel").attr("style", "width: " + (width - canvasWidth - sideBarWidth) + "px; height: " + height + "px; position: absolute; left: 0px; top: 0px;");

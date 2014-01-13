@@ -378,8 +378,8 @@ function drawDialogBoxToGetPopulationMean()
     
     var divElement = d3.select("body").append("div").attr("style", "position: absolute; left: " + LEFT + "px; top: " + TOP + "px; height: " + dialogBoxHeight + "px; width: " + dialogBoxWidth + "px; text-align: center;").attr("class", "dialogBox");
 
-    var normality = d3.select("#normality.crosses");
-    var inText = d3.select("#normality.crosses").attr("display") == "inline" ? "POPULATION MEDIAN = " : "POPULATION MEAN = ";
+    var normality = d3.select("#normalitycrosses");
+    var inText = d3.select("#normalitycrosses").attr("display") == "inline" ? "POPULATION MEDIAN = " : "POPULATION MEAN = ";
     
     divElement.append("label")
                 .attr("align", "center")
@@ -740,45 +740,45 @@ function loadAssumptionCheckList(type)
                     .attr("class", "assumptionsButtonBack");
                     
             canvas.append("text")
-                .attr("x", assumptionImageSize*1.25 + assumptionImageSize/2)
-                .attr("y", i*assumptionStep + assumptionOffsetTop - 5)
-                .attr("font-size", fontSizeAssumptions + "px")
-                .attr("fill", "black")
-                .text(assumptionsText[assumptions[type][i]])
-                .attr("id", assumptions[type][i])
-                .attr("class", "assumptions");
+                    .attr("x", assumptionImageSize*1.25 + assumptionImageSize/2)
+                    .attr("y", i*assumptionStep + assumptionOffsetTop - 5)
+                    .attr("font-size", fontSizeAssumptions + "px")
+                    .attr("fill", "black")
+                    .text(assumptionsText[assumptions[type][i]])
+                    .attr("id", assumptions[type][i])
+                    .attr("class", "assumptions");
                 
             canvas.append("image")
-                .attr("x", 0)
-                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
-                .attr("text-anchor", "end")
-                .attr("xlink:href", "images/checkingAssumptions.gif")
-                .attr("height", assumptionImageSize)            
-                .attr("width", assumptionImageSize)
-                .attr("id", assumptions[type][i])
-                .attr("class", "loading");
+                    .attr("x", 0)
+                    .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                    .attr("text-anchor", "end")
+                    .attr("xlink:href", "images/checkingAssumptions.gif")
+                    .attr("height", assumptionImageSize)            
+                    .attr("width", assumptionImageSize)
+                    .attr("id", assumptions[type][i])
+                    .attr("class", "loading");
                 
             canvas.append("image")
-                .attr("x", 0)
-                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
-                .attr("text-anchor", "end")
-                .attr("xlink:href", "images/tick.png")
-                .attr("height", assumptionImageSize)            
-                .attr("width", assumptionImageSize)
-                .attr("display", "none")
-                .attr("id", assumptions[type][i])
-                .attr("class", "ticks");
+                    .attr("x", 0)
+                    .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
+                    .attr("text-anchor", "end")
+                    .attr("xlink:href", "images/tick.png")
+                    .attr("height", assumptionImageSize)            
+                    .attr("width", assumptionImageSize)
+                    .attr("display", "none")
+                    .attr("id", assumptions[type][i])
+                    .attr("class", "ticks");
                          
             canvas.append("image")
-                .attr("x", 0)
-                .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 8)
-                .attr("text-anchor", "end")
-                .attr("xlink:href", "images/cross.png")
-                .attr("height", assumptionImageSize)
-                .attr("width", assumptionImageSize)
-                .attr("display", "none")
-                .attr("id", assumptions[type][i])
-                .attr("class", "crosses");
+                    .attr("x", 0)
+                    .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 8)
+                    .attr("text-anchor", "end")
+                    .attr("xlink:href", "images/cross.png")
+                    .attr("height", assumptionImageSize)
+                    .attr("width", assumptionImageSize)
+                    .attr("display", "none")
+                    .attr("id", assumptions[type][i])
+                    .attr("class", "crosses");
                 
             canvas.append("rect")
                     .attr("x", assumptionImageSize*1.25) 
@@ -791,7 +791,7 @@ function loadAssumptionCheckList(type)
                     .attr("id", assumptions[type][i])
                     .attr("class", "assumptionsButtonFront");
         }    
-    }, 1300);
+    }, 1200);
     
     
 }
@@ -1624,6 +1624,28 @@ function drawNavigator(STATES)
                 .attr("id", STATES[i])
                 .attr("class", "stateForNavigationText");
     }
+}
+
+function displayToolTips()
+{
+    var canvas = d3.select("#variablePanelSVG");
+
+    var variablePanel = d3.select("#variable.panel");                
+    var variablePanelWidth = removeAlphabetsFromString(variablePanel.style("width"));
+    var variableNameHolderWidth = variablePanelWidth - 2*variableNameHolderPadding;                                        
+
+    console.log((variableNameHolderHeight - variableTypeSelectionButtonWidth + variableNameHolderPadding));
+    var variablePanelBorder = canvas.append("rect")
+                                    .attr("x", variableNameHolderPadding/2)
+                                    .attr("y", variableNameHolderPadding/2)
+                                    .attr("width", variableNameHolderWidth - variableTypeSelectionButtonWidth + variableNameHolderPadding)
+                                    .attr("height", variableNames.length * (variableNameHolderHeight + variableNameHolderPadding))
+                                    .attr("rx", "5px")
+                                    .attr("ry", "5px")
+                                    .attr("fill","none")
+                                    .attr("stroke", "#3957F1")
+                                    .attr("stroke-dasharray","3,3")
+                                    .attr("class","toolTips");
 }
 
     

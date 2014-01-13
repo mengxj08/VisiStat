@@ -6,8 +6,8 @@ Date: 20-11-2013
 Author: Krishna Subramanian
 Maintainer: Krishna <krishna.prasath.subramanian@rwth-aachen.de>
 Description: An application that allows users to statistics without much previous knowledge by showing the statistics in the context of visualizations.
+LazyData: yes
 Imports:
-	lawstat,
 	ez,
 	effects,
 	ltm,
@@ -16,3 +16,5 @@ Imports:
 	coin,
 	powerAnalysis,
 	MBESS
+Suggests: opencpu (>= 1.2)
+

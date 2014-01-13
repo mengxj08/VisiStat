@@ -1,17 +1,10 @@
 export(getData)
-export(getMeanAndMedian)
-export(getIQR)
 export(getCorrelationCoefficient)
 export(getBiserialCorrelationCoefficient)
-export(getRSquared)
 export(getLinearModelCoefficients)
-export(getCI)
 export(getStandardError)
 
 export(subsetDataByLevelsOfVariable)
-
-export(performOneSampleTTest)
-export(performOneSampleWilcoxonTest)
 
 export(performTTest)
 export(performOneWayANOVA)
@@ -27,12 +20,10 @@ export(performMannWhitneyTest)
 export(performHomoscedasticityTest)
 export(performShapiroWilkTest)
 export(performShapiroWilkTestForMultipleDistributions)
-export(performSphericityTest)
 
 export(performMultipleRegression)
 
 export(performTukeyHSDTestOneIndependentVariable)
-export(performTukeyHSDTestTwoIndependentVariables)
 
 export(performPairwiseTTest)
 export(pairwise.t.test.with.t)
@@ -50,18 +41,8 @@ export(findTransformForHomogeneity)
 export(findEffect)
 export(findError)
 
-export(runThisRCode)
-
 export(getVariableNames)
 export(loadFile)
-export(writeToFile)
 
-import(lawstat)
-import(ez)
-import(effects)
-import(ltm)
-import(MAd)
-import(compute.es)
-import(coin)
-import(powerAnalysis)
-import(MBESS)
+export(levene.test)
+export(smd)
