@@ -352,7 +352,7 @@ function OnMouseDown(e)
                 var canvas = d3.select("#plotCanvas");
                 var variableList = getSelectedVariables();
         
-                var inText = "COMPARE SELECTED MEANS";
+                var inText = "COMPARE SELECTED DISTRIBUTIONS";
     
                 drawButtonInSideBar(inText, "compareNow");
             
@@ -522,6 +522,7 @@ function OnMouseDown(e)
                 setup(e, target);
                 
                 removeElementsByClassName("transformToNormal");
+                removeElementsByClassName("dontTransformToNormal");
             
                 var variableList = sort(currentVariableSelection);
         
@@ -532,6 +533,78 @@ function OnMouseDown(e)
         
                 applyNormalityTransform(variableList["dependent"][0], "dataset", true);               
             }
+
+            else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "dontTransformToNormal")
+            {
+                setup(e, target);
+
+                removeElementsByClassName("transformToNormal");
+                removeElementsByClassName("dontTransformToNormal");
+
+                var variableList = getSelectedVariables();
+
+                console.log("not transforming...");
+                d3.select("#plotCanvas").transition().delay(3000).duration(1000).attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight);
+            
+                if(variableList["independent"].length == 1)
+                {
+                    if((experimentalDesign == "within-groups") && (variableList["independent"][0] == getWithinGroupVariable(variableList)))
+                    {
+                        //within-group design
+                        if(variableList["independent-levels"].length == 2)
+                        {
+                            //wilcoxon signed-rank
+                            if(pairwiseComparisons)
+                                performPairwiseWilcoxTest("TRUE", "TRUE");
+                            else
+                                performWilcoxonTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                        }
+                        else
+                        {   
+                            //Friedman's test
+                            performFriedmanTest(dependentVariable, independentVariable);
+                        }
+                    }                       
+                    else if(d3.select("#homogeneity.ticks").attr("display") == "inline")
+                    {
+                        //between-groups design
+                        if(variableList["independent-levels"].length == 2)
+                        {                    
+                            //Mann-Whitney U test
+                            if(pairwiseComparisons)
+                                performPairwiseWilcoxTest("TRUE", "FALSE");
+                            else
+                                performMannWhitneyTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]]);
+                        }
+                        else
+                        {   
+                            //Kruskal-Wallis test
+                            performKruskalWallisTest(dependentVariable, independentVariable);
+                        }
+                    }
+                }      
+                else if(variableList["independent"].length == 2)
+                {
+                    if((experimentalDesign == "within-groups") && (variableList["independent"][0] == getWithinGroupVariable(variableList)))
+                    {
+                        //within-group design
+                    
+                    }                       
+                    else if(d3.select("#homogeneity.ticks").attr("display") == "inline")
+                    {
+                        //between-groups design
+                        if(variableList["independent-levels"].length == 2)
+                        {
+                            var groups = getGroupsForColourBoxPlotData();
+                            //Mann-Whitney U test
+                            if(pairwiseComparisons)
+                                performPairwiseWilcoxTest("TRUE", "FALSE");
+                            else
+                                performMannWhitneyTest(groups[0], groups[1]);
+                        }                            
+                    }
+                }
+            }
         
             else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "transformToHomogeneity")
             {
@@ -541,11 +614,63 @@ function OnMouseDown(e)
                 var buttonText = d3.select("#text." + target.className.baseVal);        
         
                 removeElementsByClassName("transformToHomogeneity");
+                removeElementsByClassName("dontTransformToHomogeneity");
             
                 var variableList = sort(currentVariableSelection);
             
                 applyHomogeneityTransform(variableList["dependent"][0], variableList["independent"][0]);               
             }
+
+            else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "dontTransformToHomogeneity")
+            {
+                setup(e, target);
+
+                removeElementsByClassName("transformToHomogeneity");
+                removeElementsByClassName("dontTransformToHomogeneity");
+
+                d3.select("#plotCanvas").transition().delay(3000).duration(1000).attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight);
+
+                var variableList = getSelectedVariables();
+                            
+                if(variableList["independent"].length == 1)
+                {
+                    if(experimentalDesign == "between-groups")
+                    {
+                        performNormalityTests();
+                
+                        //between-groups design
+                        if(variableList["independent-levels"].length == 2)
+                        {
+                            //2 variables
+                            if(pairwiseComparisons)
+                                performPairwiseTTest("FALSE", "FALSE");
+                            else
+                                performTTest(variables[variableList["dependent"][0]][variableList["independent-levels"][0]], variables[variableList["dependent"][0]][variableList["independent-levels"][1]], "FALSE", "FALSE");
+                        }
+                        else
+                        {
+                            //> 2 variables
+                            performWelchANOVA(variableList["dependent"][0], variableList["independent"][0]);
+                        }                
+                    }
+                }
+                else
+                {
+                    if(experimentalDesign == "between-groups" && variableList["independent-levels"].length == 2)
+                    {
+                        performNormalityTests();
+                        
+                        //2 variables
+                        var groups = getGroupsForColourBoxPlotData();
+                    
+                        if(pairwiseComparisons)
+                            performPairwiseTTest("FALSE", "FALSE");
+                        else
+                            performTTest(groups[0], groups[1], "FALSE", "FALSE");
+                    }
+                }
+            }
+
     
             else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "fullscreen")
             {
@@ -627,6 +752,7 @@ function OnMouseDown(e)
                                     .attr("fill", "white")
                                     .attr("stroke", "#627bf4")
                                     .attr("opacity", "0.01")
+                                    .attr("zIndex", "-1")
                                     .attr("class", "plotHelp");  
                     }
                     
@@ -734,10 +860,10 @@ function OnMouseDown(e)
                     var canvas = d3.select("#plotCanvas");
                     var variableList = getSelectedVariables();
         
-                    var inText = "COMPARE SELECTED MEANS";
+                    var inText = "COMPARE SELECTED DISTRIBUTIONS";
     
                     if(pairwiseComparisons)
-                        drawButtonInSideBar("DO PAIRWISE TEST", "doPairwiseTest");
+                        drawButtonInSideBar(inText, "doPairwiseTest");
                     else
                         drawButtonInSideBar(inText, "compareNow");
             
@@ -919,7 +1045,7 @@ function OnMouseDown(e)
                 removeElementsByClassName("differenceInMeansMain");
                 removeElementsByClassName("densityCurve");
                 removeElementsByClassName("CIMean");
-                
+                removeElementsByClassName("tukeyHSD");                
                 removeElementById("border");
         
                 pairwiseComparisons = true;
@@ -932,7 +1058,7 @@ function OnMouseDown(e)
                 
                 resetMeans();
     
-                drawButtonInSideBar("COMPARE MEANS", "doPairwiseTest");
+                drawButtonInSideBar("COMPARE SELECTED DISTRIBUTIONS", "doPairwiseTest");
         
                 d3.selectAll(".IQRs, .medians, .TOPFringes, .BOTTOMFringes, .TOPFringeConnectors, .BOTTOMFringeConnectors, .outliers, .CIs, .CITopFringes, .CIBottomFringes").transition().duration(500).style("opacity", "0.2");
                 d3.selectAll(".means").transition().duration(500).attr("r", engorgedMeanRadius);
@@ -1155,7 +1281,7 @@ function OnMouseDown(e)
                                                                             var canvas = d3.select("#plotCanvas");
                                                                             var variableList = getSelectedVariables();
         
-                                                                            var inText = "COMPARE NOW";
+                                                                            var inText = "COMPARE SELECTED DISTRIBUTIONS";
     
                                                                             drawButtonInSideBar(inText, "compareNow");
             
@@ -1512,7 +1638,7 @@ function OnMouseOver(e)
                 helpText.text(desc["interactionEffect"]);   
             }
             
-            if(target.className.baseVal == "variableNameHolderFront")
+            if((target.className.baseVal == "variableNameHolderFront"))
             {
                 setup(e, target);
                 var varName = target.id;
@@ -1521,6 +1647,18 @@ function OnMouseOver(e)
                 
                 d3.select("#" + varName + ".variableNameHolderBack").attr("stroke-width","2px");
                 d3.select("#" + varName + ".variableNameHolderFront").attr("cursor", "help");
+                
+                helpText.text(desc["variables"][varName]);                
+            }
+
+            if((target.className.baseVal == "disabled"))
+            {
+                setup(e, target);
+                var varName = target.id;
+                
+                var helpText = d3.select("#descriptionLabel");
+                
+                d3.select("#" + varName + ".disabled").attr("cursor", "help");
                 
                 helpText.text(desc["variables"][varName]);                
             }
@@ -1783,11 +1921,23 @@ function OnMouseOver(e)
                 setup(e, target);
                 d3.selectAll(".transformToNormal").attr("cursor", "pointer");
             }
+
+            else if(target.className.baseVal == "dontTransformToNormal")
+            {
+                setup(e, target);
+                d3.selectAll(".dontTransformToNormal").attr("cursor", "pointer");
+            }
         
             else if(target.className.baseVal == "transformToHomogeneity")
             {
                 setup(e, target);
                 d3.selectAll(".transformToHomogeneity").attr("cursor", "pointer");
+            }
+
+            else if(target.className.baseVal == "dontTransformToHomogeneity")
+            {
+                setup(e, target);
+                d3.selectAll(".dontTransformToHomogeneity").attr("cursor", "pointer");
             }
     
             else if(target.className.baseVal == "fullscreen")

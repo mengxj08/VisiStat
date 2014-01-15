@@ -867,16 +867,36 @@ function drawScales(cx, cy)
                 .attr("class", "differenceInMeansMain")
                 .text(dec2(means[means.length-1] - means[0]));
     
-    var error = parseFloat(testResults["error"]);        
+    var error = parseFloat(testResults["error"]);   
+
+    console.log("error = " + error);     
     testResults["CI"] = calculateCI(means[means.length -1] - means[0], error);
+
+    var meanValue = getActualValue(cyMin);
+    var dependentVariable = variables[variableList["dependent"][0]]["dataset"];
+    var dependentVariableMin = Array.min(dependentVariable);
+    var dependentVariableMax = Array.max(dependentVariable);
+
+    var lowerCI = meanValue - error;
+    var upperCI = meanValue + error;
+
+    if(lowerCI < dependentVariableMin)
+    {
+        lowerCI = dependentVariableMin;
+    }
+
+    if(upperCI > dependentVariableMax)
+    {
+        upperCI = dependentVariableMax;
+    }
     
     var BOTTOM = canvasHeight/2 + plotHeight/2;
     //CI for mean
     canvas.append("line")
             .attr("x1", canvasWidth/2 + plotWidth/2 + 15)
-            .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
+            .attr("y1", BOTTOM - getFraction(lowerCI)*plotHeight)
             .attr("x2", canvasWidth/2 + plotWidth/2 + 15)
-            .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
+            .attr("y2", BOTTOM - getFraction(upperCI)*plotHeight)
             .attr("stroke", "rosybrown")
             .attr("stroke-width", "4")
             .attr("id", "center")
@@ -884,9 +904,9 @@ function drawScales(cx, cy)
         
     canvas.append("line")
             .attr("x1", canvasWidth/2 + plotWidth/2 + 10)
-            .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
+            .attr("y1", BOTTOM - getFraction(lowerCI)*plotHeight)
             .attr("x2", canvasWidth/2 + plotWidth/2 + 20)
-            .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
+            .attr("y2", BOTTOM - getFraction(lowerCI)*plotHeight)
             .attr("stroke", "rosybrown")
             .attr("stroke-width", "4")
             .attr("id", "bottom")
@@ -894,9 +914,9 @@ function drawScales(cx, cy)
         
     canvas.append("line")
             .attr("x1", canvasWidth/2 + plotWidth/2 + 10)
-            .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
+            .attr("y1", BOTTOM - getFraction(upperCI)*plotHeight)
             .attr("x2", canvasWidth/2 + plotWidth/2 + 20)
-            .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
+            .attr("y2", BOTTOM - getFraction(upperCI)*plotHeight)
             .attr("stroke", "rosybrown")
             .attr("stroke-width", "4")
             .attr("id", "top")
@@ -979,7 +999,7 @@ function displayOneSampleTestResults()
             .attr("y2", BOTTOM - getFraction(testResults["estimate"])*plotHeight)
             .attr("stroke", "green")
             .attr("id", "estimateLine")
-            .attr("class", "significanceTest");
+            .attr("class", "differenceInMeans");
         
         canvas.append("line")
             .attr("x1", RIGHT)
@@ -988,7 +1008,7 @@ function displayOneSampleTestResults()
             .attr("y2", BOTTOM - getFraction(sessionStorage.popMean)*plotHeight)
             .attr("stroke", "red")
             .attr("id", "populationLine")
-            .attr("class", "significanceTest");
+            .attr("class", "differenceInMeans");
             
         cy.push(BOTTOM - getFraction(testResults["estimate"])*plotHeight);
         cy.push(BOTTOM - getFraction(sessionStorage.popMean)*plotHeight);
@@ -1002,7 +1022,7 @@ function displayOneSampleTestResults()
                 .attr("y2", BOTTOM - getFraction(testResults["estimate"])*plotHeight)
                 .attr("stroke", "green")
                 .attr("id", "estimateLine")
-                .attr("class", "significanceTest");
+                .attr("class", "differenceInMeans");
         
         canvas.append("line")
                 .attr("x1", RIGHT)
@@ -1011,7 +1031,7 @@ function displayOneSampleTestResults()
                 .attr("y2", BOTTOM - getFraction(sessionStorage.popMedian)*plotHeight)
                 .attr("stroke", "red")
                 .attr("id", "populationLine")
-                .attr("class", "significanceTest");
+                .attr("class", "differenceInMeans");
                 
         cy.push(BOTTOM - getFraction(testResults["estimate"])*plotHeight);
         cy.push(BOTTOM - getFraction(sessionStorage.popMedian)*plotHeight);
@@ -1029,7 +1049,7 @@ function displayOneSampleTestResults()
                             .attr("y2", cyMax)
                             .attr("stroke", "red")
                             .attr("stroke-width", "2px")
-                            .attr("class", "significanceTest");
+                            .attr("class", "differenceInMeans");
 
 
     var x = canvasWidth/2 + plotWidth/2;
@@ -1038,7 +1058,7 @@ function displayOneSampleTestResults()
                   .attr("d", "M " + x + " " + y + " L " + (x-5)+ " " + (y+5) + " L " + (x+5) + " " + (y+5) + " z")
                   .attr("stroke", "red")
                   .attr("fill", "red")
-                  .attr("class", "significanceTest");
+                  .attr("class", "differenceInMeans");
 
     sideBar = d3.select("#sideBarCanvas");
     
@@ -1112,7 +1132,7 @@ function displaySignificanceTestResults()
                                  .attr("stroke", "black")
                                  .attr("stroke-dasharray","5,5")
                                  .attr("id", "meanrefLine")
-                                 .attr("class", "significanceTest");
+                                 .attr("class", "differenceInMeans");
                                  
                             canvas.append("line")
                                  .attr("x1", means[i].getAttribute("cx"))
@@ -1123,7 +1143,7 @@ function displaySignificanceTestResults()
                                  .attr("opacity", "0.25")
                                  .attr("stroke-dasharray","5,5")
                                  .attr("id", "meanrefLine")
-                                 .attr("class", "significanceTest");
+                                 .attr("class", "differenceInMeans");
         }
         else
         {									
@@ -1142,7 +1162,7 @@ function displaySignificanceTestResults()
                             .attr("y2", cyMax)
                             .attr("stroke", "red")
                             .attr("stroke-width", "2px")
-                            .attr("class", "significanceTest");
+                            .attr("class", "differenceInMeans");
 
 
     var x = canvasWidth/2 + plotWidth/2;
@@ -1151,7 +1171,7 @@ function displaySignificanceTestResults()
                   .attr("d", "M " + x + " " + y + " L " + (x-5)+ " " + (y+5) + " L " + (x+5) + " " + (y+5) + " z")
                   .attr("stroke", "red")
                   .attr("fill", "red")
-                  .attr("class", "significanceTest");
+                  .attr("class", "differenceInMeans");
     
     drawScales(cx, cy);     
     
@@ -1224,7 +1244,7 @@ function displayANOVAResults()
                                  .attr("stroke", "black")
                                  .attr("stroke-dasharray","5,5")
                                  .attr("id", "meanrefLine")
-                                 .attr("class", "significanceTest");
+                                 .attr("class", "differenceInMeans");
                                  
                             canvas.append("line")
                                  .attr("x1", means[i].getAttribute("cx"))
@@ -1235,7 +1255,7 @@ function displayANOVAResults()
                                  .attr("opacity", "0.25")
                                  .attr("stroke-dasharray","5,5")
                                  .attr("id", "meanrefLine")
-                                 .attr("class", "significanceTest");
+                                 .attr("class", "differenceInMeans");
         }
         else
         {									
@@ -1254,7 +1274,7 @@ function displayANOVAResults()
                             .attr("y2", cyMax)
                             .attr("stroke", "red")
                             .attr("stroke-width", "2px")
-                            .attr("class", "significanceTest");
+                            .attr("class", "differenceInMeans");
 
     var x = canvasWidth/2 + plotWidth/2;
     var y = cyMin;			 
@@ -1262,7 +1282,7 @@ function displayANOVAResults()
                   .attr("d", "M " + x + " " + y + " L " + (x-5)+ " " + (y+5) + " L " + (x+5) + " " + (y+5) + " z")
                   .attr("stroke", "red")
                   .attr("fill", "red")
-                  .attr("class", "significanceTest");
+                  .attr("class", "differenceInMeans");
     
     drawScales(cx, cy);     
     

@@ -29,7 +29,7 @@ function findCorrelationCoefficient(variableA, variableB)
             }
             else
             {   
-//                 drawButtonInSideBar("CONSTRUCT MODEL", "regression");
+//                 drawButtonInSideBar("FIT MODEL FOR PREDICTION", "regression");
                 console.log("\t\t\tDoing nothing");
                 return null;
             }
@@ -46,7 +46,7 @@ function findCorrelationCoefficient(variableA, variableB)
             }
             else
             {
-//                 drawButtonInSideBar("CONSTRUCT MODEL", "regression");
+//                 drawButtonInSideBar("FIT MODEL FOR PREDICTION", "regression");
                 return null;
             }            
         }
@@ -66,7 +66,7 @@ function findCorrelationCoefficient(variableA, variableB)
         else if((variableTypes[variableA] == "nominal") || (variableTypes[variableB] == "nominal"))
         {
             //do nothing
-//             drawButtonInSideBar("CONSTRUCT MODEL", "regression");
+//             drawButtonInSideBar("FIT MODEL FOR PREDICTION", "regression");
             console.log("\t\t\tDoing nothing");
             return null;
         }
@@ -536,5 +536,28 @@ function setSelectButtons()
 
 function calculateCI(mean, error)
 {
-    return([mean - error, mean + error]);
+    var CI = [mean - error, mean + error];
+    // var variableList = getSelectedVariables();
+    // var dependentVariable = variables[variableList["dependent"][0]]["dataset"];
+    // console.log("variableList[\"dependent\"][0] = " + variableList["dependent"][0]);
+    // console.log("dependentVariable = [" + dependentVariable + "]");
+
+    // var min = Array.min(dependentVariable);
+    // var max = Array.max(dependentVariable);
+
+    // console.log("min = " + min + ", max = " + max);
+
+    // if(CI[0] < min)
+    // {
+    //     CI[0] = min;
+    // }
+
+    // if(CI[1] > max)
+    // {
+    //     CI[1] = max;
+    // }
+
+    // console.log("CI = [" + CI + "]");
+
+    return CI;
 }

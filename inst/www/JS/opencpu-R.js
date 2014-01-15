@@ -64,6 +64,9 @@ function getData(dataset, variableName, level)
         experimentalDesign = findExperimentalDesign();            
         console.log("\n\tExperimental-design of the dataset is \"" + experimentalDesign + "\"");
 
+        var visualisations = ["Histogram", "Boxplot", "Scatterplot", "Scatterplot-matrix"];
+        invalidate(visualisations);
+
         displayToolTips();
     }
 }
@@ -360,6 +363,7 @@ function findTransformForNormality(dependentVariable, independentVariable)
         
             //offer choice
             drawButtonInSideBar("TRANSFORM TO NORMAL DISTRIBUTIONS", "transformToNormal");
+            drawButtonInSideBar("DON'T TRANSFORM", "dontTransformToNormal", 1);
         }                  
     })
       
@@ -434,6 +438,7 @@ function findTransformForHomogeneity(dependentVariable, independentVariable)
         
             //offer choice
             drawButtonInSideBar("TRANSFORM TO HOMOGENEOUS DISTRIBUTIONS", "transformToHomogeneity");
+            drawButtonInSideBar("DON'T TRANSFORM", "dontTransformToHomogeneity", 1);
         }                  
     });
     
