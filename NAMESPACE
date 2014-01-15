@@ -1,5 +1,3 @@
-import(ez)
-
 export(getData)
 export(getCorrelationCoefficient)
 export(getBiserialCorrelationCoefficient)
