@@ -48,7 +48,7 @@ function compareMeans()
                                         
                                     }
                                     else
-                                    {
+                                    {                                    
                                         //between-groups design
                                         setTimeout(function(){                    
                                             performHomoscedasticityTest(variableList["dependent"][0], variableList["independent"][0]);

@@ -75,7 +75,7 @@ function getData(dataset, variableName, level)
 function performHomoscedasticityTest(dependent, independent)
 {   
     var variableList = getSelectedVariables(); 
-                
+    
     //get variable names and their data type
     var req = ocpu.rpc("performHomoscedasticityTest", 
     {
