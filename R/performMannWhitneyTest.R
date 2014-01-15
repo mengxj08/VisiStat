@@ -11,14 +11,14 @@ performMannWhitneyTest <- function(groupA, groupB)
     U = result$statistic[["W"]];
     p = result$p.value;
     CI = result$conf.int;
- 
-    
-    g <- factor(c(rep("groupA", length(groupA)), rep("groupB", length(groupB))));
+
+    g <- factor(c(rep("GroupA", length(groupA)), rep("GroupB", length(groupB))))
     v <- c(groupA, groupB);
+ 
+    result <- coin::wilcox_test(v ~ g, distribution="exact")
+    name <- names(result@statistic@teststatistic);
     
-    result <- wilcox_test(v~g, distribution = "exact");
-    
-    Z = result@statistic@teststatistic[["groupA"]];
+    Z = result@statistic@teststatistic[[name[1]]];
     
     r = Z/length(groupA);
     

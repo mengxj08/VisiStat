@@ -10,10 +10,10 @@
         panelColors.normal = "#F5F5F5";
         panelColors.active = "#3957F1";
 
-    var canvasHeight = height*(3/4);
-    var canvasWidth = width*0.60; 
+    var canvasHeight = height*0.75;
+    var canvasWidth = width*0.6; 
     
-    var sideBarWidth = width*0.20;
+    var sideBarWidth = width*0.19;
     var bottomDivHeight = height/7;
     
     var loadingImageSize = scaleForWindowSize(100);
@@ -29,7 +29,7 @@
         
         var variablePanelColors = new Object();
             variablePanelColors["active"] = "lightgrey";
-            variablePanelColors["disabled"] = "darkgrey";
+            variablePanelColors["disabled"] = "#8F6B3F";
         
         var variableTypeButtonColors = new Object();
             variableTypeButtonColors["dependent"] = new Object();
@@ -63,7 +63,7 @@
     var fontSizeForDisplayDataTableElements = scaleForWindowSize(20);
     var fontSizeLabels = scaleForWindowSize(16);
     var fontSizeTicks = scaleForWindowSize(12);
-    var fontSizeAssumptions = scaleForWindowSize(20);
+    var fontSizeAssumptions = scaleForWindowSize(18);
     var fontSizeAssumptionsTitle = scaleForWindowSize(26);
     var fontSizeVariablePanel = scaleForWindowSize(20);
     var fontSizeVisualisationPanel = scaleForWindowSize(32);
@@ -79,7 +79,7 @@
     var tickLength = scaleForWindowSize(10);
     var border = scaleForWindowSize(20);
 
-    var plotHeight = canvasHeight - 2*(axesOffset + tickTextOffsetXAxis + border);
+    var plotHeight = canvasHeight - 2.35*(axesOffset + tickTextOffsetXAxis + border);
     var plotWidth = 4*plotHeight/3;
     
     var displayOffsetTop = scaleForWindowSize(10);

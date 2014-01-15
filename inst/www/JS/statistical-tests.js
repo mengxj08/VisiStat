@@ -87,13 +87,19 @@ function compareMeans()
                                     {
                                         loadAssumptionCheckList("repeated measures");
                                         //within-groups design
-                                        performNormalityTests();
+
+                                        setTimeout(function(){                    
+                                            performNormalityTests();
+                                        }, 1200);                                
                                     }
                                     else
                                     {
                                         loadAssumptionCheckList("normal");
                                         //between-groups design
-                                        performHomoscedasticityTest(variableList["dependent"][0], variableList["independent"][0]);
+                                        setTimeout(function(){                    
+                                            performHomoscedasticityTest(variableList["dependent"][0], variableList["independent"][0]);
+                                        }, 1200);
+                                        
                                     }            
                                     break;    
                                 }
@@ -105,47 +111,33 @@ function compareMeans()
                                     var variableList = getSelectedVariables();                    
                                     var totalNumberOfLevels = variables[variableList["independent"][0]]["dataset"].unique().length * variables[variableList["independent"][1]]["dataset"].unique().length;
                 
-                                    if(selectedMeans.length < totalNumberOfLevels && selectedMeans.length != 2)
+                                    if(isFactorialANOVA(variableList))
                                     {
-                                        var unSelectedMeans = getUnselectedMeansForColourBoxPlotData();
-                                        selectAllMeans();
-                                        setTimeout(function()
-                                        {
-                                            performNormalityTests();
-                                            performHomoscedasticityTests();
-                                            
-                                            if(isFactorialANOVA(variableList))
-                                            {
-                                                loadAssumptionCheckList("repeated measures");
-                                                
-                                                performMixedDesignANOVA(variableList["dependent"][0], getWithinGroupVariable(variableList), getBetweenGroupVariable(variableList));
-                                            }
-                                            else
-                                            {
-                                                loadAssumptionCheckList("normal");                    
-                                                
-                                                performTwoWayANOVA(variableList["dependent"][0], variableList["independent"][0], variableList["independent"][1]);
-                                            }
-                                        }, (unSelectedMeans.length+1)*1000);
+                                        loadAssumptionCheckList("repeated measures");
+                                        
+                                        setTimeout(function(){                    
+                                                performNormalityTests();
+                                                performHomoscedasticityTests();
+                                                setTimeout(function(){
+                                                    performMixedDesignANOVA(variableList["dependent"][0], getWithinGroupVariable(variableList), getBetweenGroupVariable(variableList));
+                                                }, 2000);                                                    
+                                            }, 1200);
+                                        
                                     }
                                     else
                                     {
-                                        performNormalityTests();
-                                        performHomoscedasticityTests();
-                                        
-                                        if(isFactorialANOVA(variableList))
-                                        {
-                                            loadAssumptionCheckList("repeated measures");
-                                            
-                                            performMixedDesignANOVA(variableList["dependent"][0], getWithinGroupVariable(variableList), getBetweenGroupVariable(variableList));
-                                        }
-                                        else
-                                        {
-                                            loadAssumptionCheckList("normal");                    
-                                            
-                                            performTwoWayANOVA(variableList["dependent"][0], variableList["independent"][0], variableList["independent"][1]);
-                                        }
+                                        loadAssumptionCheckList("normal");                             
+
+                                        setTimeout(function(){
+                      
+                                            performNormalityTests();
+                                        }, 1200);                          
+
+                                        // setTimeout(function(){
+                                        //     
+                                        // }, 3200);                                             
                                     }
+                                    
                                 }
                     }
                         
@@ -262,7 +254,7 @@ function performNormalityTests()
                 allDistributions.push(groups[i][j]);
             }
         }
-        
+
         performNormalityTestForMultipleDistributions(allDistributions, numberOfElements);       
     }
     else
@@ -289,7 +281,6 @@ function performNormalityTests()
 
 function performHomoscedasticityTests()
 {  
-    console.log(new Date().getTime());
     var variableList = getSelectedVariables();    
     
     //initialise distributions
@@ -317,7 +308,7 @@ function setDistribution(dependentVariable, level, normal)
             if(distributions[dependentVariable][variableList["independent-levels"][i]] == false)
             {
                 d3.select("#normality.crosses").attr("display", "inline"); 
-                d3.select("#loadingnormality").attr("display", "none"); 
+                d3.select("#normality.loading").attr("display", "none"); 
                 
                 normal = false;
                 
@@ -327,20 +318,14 @@ function setDistribution(dependentVariable, level, normal)
                 drawBoxPlotInRed(variableList["independent-levels"][i]);
                 drawNormalityPlot(dependentVariable, variableList["independent-levels"][i], "notnormal");
             }
-            else
-            {
-                drawNormalityPlot(dependentVariable, variableList["independent-levels"][i], "normal");
-            }
         }
         
         if(normal)
         {   
             // d3.select("#plotCanvas").transition().delay(2500).duration(1000).attr("viewBox", "0 0 " + canvasWidth + " " + canvasHeight);
-            
-            console.log("\n\tAll distributions are normal!");
-            
+                        
             d3.select("#normality.ticks").attr("display", "inline");  
-            d3.select("#loadingnormality").attr("display", "none"); 
+            d3.select("#normality.loading").attr("display", "none"); 
             
             if(variableList["independent"].length == 1)
             {
@@ -387,7 +372,7 @@ function setDistribution(dependentVariable, level, normal)
                     }
                 }
             }   
-            else if(variableList["independent"].length == 2)
+            else if(variableList["independent"].length == 2 && getSelectedMeansForColourBoxPlotData().length == 2) 
             {
                 if((experimentalDesign == "within-groups") && (variableList["independent"][0] == getWithinGroupVariable(variableList)))
                 {
@@ -415,7 +400,6 @@ function setDistribution(dependentVariable, level, normal)
                 
                 if(variableList["independent"].length == 2 && getNumberOfSelectedMeans() == 2)
                 {
-                    console.log("hi");
                     if(d3.select("#homogeneity.ticks").attr("display") == "inline")
                     {
                         //2 variables
@@ -455,6 +439,25 @@ function setDistribution(dependentVariable, level, normal)
             
             findTransformForNormality(variableList["dependent"][0], variableList["independent"][0]);
         }
+
+        if(variableList["independent"].length == 2)
+        {
+            //Factorial/2-way ANOVA
+            var selectedMeans = getSelectedMeansForColourBoxPlotData();
+
+            if(selectedMeans.length > 2)
+            {
+                if(isFactorialANOVA(variableList))
+                {
+                                           
+                }
+                else
+                {
+                    //2-way ANOVA
+                    performHomoscedasticityTests();
+                }    
+            }            
+        }
     }    
 }
 
@@ -474,7 +477,7 @@ function setHomogeneity(dependentVariable, independentVariable, homogeneous)
         {   
             if(variances[dependentVariable][variableList["independent"][i]] == false)
             {
-                d3.select("#homogeneity.ticks").attr("display", "inline");
+                d3.select("#homogeneity.crosses").attr("display", "inline");
                 d3.select("#homogeneity.loading").attr("display", "none"); 
                 homogeneity = false;
             
@@ -492,19 +495,13 @@ function setHomogeneity(dependentVariable, independentVariable, homogeneous)
             d3.select("#homogeneity.ticks").attr("display", "inline"); 
             d3.select("#homogeneity.loading").attr("display", "none"); 
             
-            if(experimentalDesign == "between-groups" || getWithinGroupVariable(variableList) != variableList["independent"][0])
+            if((experimentalDesign == "between-groups" || getWithinGroupVariable(variableList) != variableList["independent"][0]) && variableList["independent"].length != 2)
             {
                 //between-groups design
                 if(pairwiseComparisons)
-                {
                     performNormalityTests();                    
-                }
                 else
                     performNormalityTests();                
-            }
-            else if(variableList["independent"].length == 2 && getNumberOfSelectedMeans() == 2)
-            {
-                performNormalityTests();
             }
         }
         else
@@ -513,6 +510,24 @@ function setHomogeneity(dependentVariable, independentVariable, homogeneous)
             console.log("\n\tChecking if transformation is possible...");
             //check if transformation is possible
             findTransformForHomogeneity(variableList["dependent"][0], variableList["independent"][0]);                
+        }
+
+        if(variableList["independent"].length == 2)
+        {
+            var selectedMeans = getSelectedMeansForColourBoxPlotData();
+
+            if(selectedMeans.length > 2)
+            {
+                if(isFactorialANOVA(variableList))
+                {
+
+                }
+                else
+                {
+                    performTwoWayANOVA(variableList["dependent"][0], variableList["independent"][0], variableList["independent"][1]);                
+                }
+            }            
+                                       
         }
     }    
 }

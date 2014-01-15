@@ -112,13 +112,6 @@ function resetSVGCanvas()
               .attr("height", canvasHeight)
               .attr("width", sideBarWidth)
               .attr("viewBox", "0 0 " + sideBarWidth + " " + canvasHeight);
-              
-//     sideBarCanvas.append("image")
-//                     .attr("x", sideBarWidth - 3*(helpButtonWidth + helpButtonOffset))
-//                     .attr("y", helpButtonOffset/4)
-//                     .attr("width", sideBarWidth)
-//                     .attr("height", helpButtonHeight)
-//                     .attr("xlink:href", "images/leather.png");
     
     drawHelpButton();
     drawResetButton();
@@ -126,16 +119,7 @@ function resetSVGCanvas()
 
 function drawFullScreenButton()
 {
-//     var canvas = d3.select("#sideBarCanvas");
-//     
-//     canvas.append("image")
-//                 .attr("x", canvas.attr("width") - (fullScreenButtonSize + fullScreenButtonOffset))
-//                 .attr("y", 0)
-//                 .attr("xlink:href", "images/fullscreennormal.png")
-//                 .attr("height", fullScreenButtonSize)
-//                 .attr("width", fullScreenButtonSize)
-//                 .attr("style", "opacity: 1.0;")
-//                 .attr("class", "fullscreen");
+    //TODO
 }
 
 function drawHelpButton()
@@ -378,8 +362,8 @@ function drawDialogBoxToGetPopulationMean()
     
     var divElement = d3.select("body").append("div").attr("style", "position: absolute; left: " + LEFT + "px; top: " + TOP + "px; height: " + dialogBoxHeight + "px; width: " + dialogBoxWidth + "px; text-align: center;").attr("class", "dialogBox");
 
-    var normality = d3.select("#normalitycrosses");
-    var inText = d3.select("#normalitycrosses").attr("display") == "inline" ? "POPULATION MEDIAN = " : "POPULATION MEAN = ";
+    var normality = d3.select("#normality.crosses");
+    var inText = d3.select("#normality.crosses").attr("display") == "inline" ? "POPULATION MEDIAN = " : "POPULATION MEAN = ";
     
     divElement.append("label")
                 .attr("align", "center")
@@ -405,16 +389,16 @@ function drawDialogBoxToGetPopulationMean()
 
 function drawEffectSize(value)
 {
-    var sideBar = d3.select("#sideBarCanvas");
-    
+    var sideBar = d3.select("#sideBarCanvas");    
     var type = testResults["effect-size-type"];
+
+    value = parseFloat(value);
     
     if(type == "d")
-        value = value > 3.0 ? 3.0 : value;
+        value = value > 5.0 ? 5.0 : value;
     
     var min = parseFloat(effectSizeMins[type]);
     var max = parseFloat(effectSizeMaxs[type]);
-    value = parseFloat(value);
     
     var color = getColour(type, value);
     
@@ -422,19 +406,19 @@ function drawEffectSize(value)
     var T = significanceTestResultOffsetTop - significanceTestResultStep - effectSizeHeight/2;
     
     var bar = sideBar.append("rect")
-            .attr("x", L)
-            .attr("y", T)
-            .attr("width", effectSizeWidth)
-            .attr("height", effectSizeHeight)
-            .attr("stroke", "MediumSlateBlue")
-            .attr("fill", "none")
-            .attr("class", "effectSize");
+                        .attr("x", L)
+                        .attr("y", T)
+                        .attr("width", effectSizeWidth)
+                        .attr("height", effectSizeHeight)
+                        .attr("stroke", "MediumSlateBlue")
+                        .attr("fill", "none")
+                        .attr("class", "effectSize");
             
     var scale = d3.scale.linear()
                             .domain([min, max])
                             .range([0, effectSizeWidth]);
     
-    if(scale(min + (value - 0)) > 0)
+    if(scale(min + value) > 0)
     {
         var effectSize = sideBar.append("rect")
                                     .attr("x", L + scale(0))
@@ -455,9 +439,27 @@ function drawEffectSize(value)
                                     .attr("class", "effectSize");
     }
     
-    if(Math.abs(scale(min + (value - 0))) > effectSizeWidth/4)
-    {    
-        sideBar.append("text")
+    console.log("Math.abs(scale(min + value)) = " + Math.abs(scale(min + value)) + "\effectSizeWidth/4 = " + effectSizeWidth/4);
+
+    if(Math.abs(scale(min + value)) > effectSizeWidth/4)
+    {   
+        console.log("greater!");
+
+        if(value < 0)
+        {
+            sideBar.append("text")
+                .attr("x", L + scale(0) + scale(min + (value - 0)) + yAxisTickTextOffset)
+                .attr("y", significanceTestResultOffsetTop - significanceTestResultStep + effectSizeHeight/2 - yAxisTickTextOffset)
+                .attr("text-anchor", "start")
+                .attr("font-size", effectSizeFontSize)
+                .attr("fill", "white")
+                .text(value)
+                .attr("id", "effectSizeValue")
+                .attr("class", "effectSize");    
+        }
+        else
+        {
+            sideBar.append("text")
                 .attr("x", L + scale(0) + scale(min + (value - 0)) - yAxisTickTextOffset)
                 .attr("y", significanceTestResultOffsetTop - significanceTestResultStep + effectSizeHeight/2 - yAxisTickTextOffset)
                 .attr("text-anchor", "end")
@@ -466,10 +468,26 @@ function drawEffectSize(value)
                 .text(value)
                 .attr("id", "effectSizeValue")
                 .attr("class", "effectSize");
+        }
     }
     else
     {
-        sideBar.append("text")
+        console.log("lesser!");
+        if(value < 0)
+        {
+            sideBar.append("text")
+                .attr("x", L + scale(0) + scale(min + (value - 0)) - yAxisTickTextOffset)
+                .attr("y", significanceTestResultOffsetTop - significanceTestResultStep + effectSizeHeight/2 - yAxisTickTextOffset)
+                .attr("text-anchor", "end")
+                .attr("font-size", effectSizeFontSize)
+                .attr("fill", "black")
+                .text(value)
+                .attr("id", "effectSizeValue")
+                .attr("class", "effectSize");    
+        }
+        else
+        {
+            sideBar.append("text")
                 .attr("x", L + scale(0) + scale(min + (value - 0)) + yAxisTickTextOffset)
                 .attr("y", significanceTestResultOffsetTop - significanceTestResultStep + effectSizeHeight/2 - yAxisTickTextOffset)
                 .attr("text-anchor", "start")
@@ -477,7 +495,9 @@ function drawEffectSize(value)
                 .attr("fill", "black")
                 .text(value)
                 .attr("id", "effectSizeValue")
-                .attr("class", "effectSize");
+                .attr("class", "effectSize");    
+        }
+        
     }
     
     sideBar.append("text")
@@ -608,10 +628,10 @@ function drawEffectSize(value)
     } 
     
     sideBar.append("rect")
-            .attr("x", 0)
-            .attr("y", T - effectSizeHeight/2)
-            .attr("width", sideBarWidth)
-            .attr("height", effectSizeHeight*2)
+            .attr("x", L)
+            .attr("y", T)
+            .attr("width", effectSizeWidth)
+            .attr("height", effectSizeHeight)
             .attr("stroke", "black")
             .attr("opacity", "0.001")
             .attr("id", "effectSizeFront");        
@@ -729,7 +749,7 @@ function loadAssumptionCheckList(type)
             canvas.append("rect")
                     .attr("x", assumptionImageSize*1.25) 
                     .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
-                    .attr("width", sideBarWidth - 2*assumptionImageSize)
+                    .attr("width", sideBarWidth - 1.5*assumptionImageSize)
                     .attr("height", assumptionImageSize)
                     .attr("rx", "5px")
                     .attr("ry", "5px")
@@ -783,7 +803,7 @@ function loadAssumptionCheckList(type)
             canvas.append("rect")
                     .attr("x", assumptionImageSize*1.25) 
                     .attr("y", i*assumptionStep + assumptionOffsetTop - assumptionImageSize/2 - 10)
-                    .attr("width", sideBarWidth - 2*assumptionImageSize)
+                    .attr("width", sideBarWidth - 1.5*assumptionImageSize)
                     .attr("height", assumptionImageSize)
                     .attr("rx", "5px")
                     .attr("ry", "5px")
@@ -820,7 +840,7 @@ function drawScales(cx, cy)
     var yMax = Array.max(cy);
     
     var canvas = d3.select("#plotCanvas");    
-    var x = canvasWidth/2 + plotWidth/2 + significanceTestScaleOffset;
+    var x = canvasWidth/2 + plotWidth/2 + significanceTestScaleOffset + scaleForWindowSize(5);
     
     var variableList = getSelectedVariables();
     var means = [];
@@ -847,42 +867,41 @@ function drawScales(cx, cy)
                 .attr("class", "differenceInMeansMain")
                 .text(dec2(means[means.length-1] - means[0]));
     
-    if(1)
-    {    
-        var error = parseFloat(testResults["error"]);        
-        testResults["CI"] = calculateCI(means[means.length -1] - means[0], error);
+    var error = parseFloat(testResults["error"]);        
+    testResults["CI"] = calculateCI(means[means.length -1] - means[0], error);
+    
+    var BOTTOM = canvasHeight/2 + plotHeight/2;
+    //CI for mean
+    canvas.append("line")
+            .attr("x1", canvasWidth/2 + plotWidth/2 + 15)
+            .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
+            .attr("x2", canvasWidth/2 + plotWidth/2 + 15)
+            .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
+            .attr("stroke", "rosybrown")
+            .attr("stroke-width", "4")
+            .attr("id", "center")
+            .attr("class", "CIMean");
         
-        console.log(testResults["CI"]);
+    canvas.append("line")
+            .attr("x1", canvasWidth/2 + plotWidth/2 + 10)
+            .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
+            .attr("x2", canvasWidth/2 + plotWidth/2 + 20)
+            .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
+            .attr("stroke", "rosybrown")
+            .attr("stroke-width", "4")
+            .attr("id", "bottom")
+            .attr("class", "CIMean");
         
-        var BOTTOM = canvasHeight/2 + plotHeight/2;
-        //CI for mean
-        canvas.append("line")
-                .attr("x1", canvasWidth/2 + plotWidth/2 + 10)
-                .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
-                .attr("x2", canvasWidth/2 + plotWidth/2 + 10)
-                .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
-                .attr("stroke", "rosybrown")
-                .attr("stroke-width", "4")
-                .attr("class", "CI_mean");
-            
-        canvas.append("line")
-                .attr("x1", canvasWidth/2 + plotWidth/2 + 5)
-                .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
-                .attr("x2", canvasWidth/2 + plotWidth/2 + 15)
-                .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) - error)*plotHeight)
-                .attr("stroke", "rosybrown")
-                .attr("stroke-width", "4")
-                .attr("class", "CI_bottom");
-            
-        canvas.append("line")
-                .attr("x1", canvasWidth/2 + plotWidth/2 + 5)
-                .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
-                .attr("x2", canvasWidth/2 + plotWidth/2 + 15)
-                .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
-                .attr("stroke", "rosybrown")
-                .attr("stroke-width", "4")
-                .attr("class", "CI_top");
-    }
+    canvas.append("line")
+            .attr("x1", canvasWidth/2 + plotWidth/2 + 10)
+            .attr("y1", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
+            .attr("x2", canvasWidth/2 + plotWidth/2 + 20)
+            .attr("y2", BOTTOM - getFraction(getActualValue(cyMin) + error)*plotHeight)
+            .attr("stroke", "rosybrown")
+            .attr("stroke-width", "4")
+            .attr("id", "top")
+            .attr("class", "CIMean");
+    
     if(cy.length >= 2)
     {
         for(var i=0; i<cy.length-1; i++)
@@ -893,6 +912,7 @@ function drawScales(cx, cy)
                     .attr("x", x + scaleForWindowSize(5))
                     .attr("y", (parseFloat(cy[i]) + parseFloat(cy[i+1]))/2 + yAxisTickTextOffset)
                     .attr("fill", "black")
+                    .attr("font-size", fontSizeTicks)
                     .attr("id", "DIM" + i)
                     .attr("class", "differenceInMeansText")
                     .attr("display", "none")
@@ -1027,7 +1047,7 @@ function displayOneSampleTestResults()
             .attr("y", canvasHeight/2 + significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["method"])
             .attr("class", "significanceTest");
     
@@ -1036,7 +1056,7 @@ function displayOneSampleTestResults()
             .attr("y", canvasHeight/2 + 2*significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["statistic"])
             .attr("class", "significanceTest");
     
@@ -1045,7 +1065,7 @@ function displayOneSampleTestResults()
             .attr("y", canvasHeight/2 + 3*significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["p"])
             .attr("class", "significanceTest");
     
@@ -1057,7 +1077,7 @@ function displayOneSampleTestResults()
 //             .attr("y", canvasHeight/2 - significanceTestResultStep)
 //             .attr("text-anchor", "middle")
 //             .attr("font-size", "24px")
-//             .attr("fill", "orange")
+//             .attr("fill", "#627bf4")
 //             .text(testResults["effect-size"])
 //             .attr("class", "significanceTest");
 }
@@ -1360,7 +1380,7 @@ function displayCorrelationResults()
             .attr("y", significanceTestResultOffsetTop + significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["method"])
             .attr("class", "significanceTest");
     
@@ -1369,7 +1389,7 @@ function displayCorrelationResults()
             .attr("y", significanceTestResultOffsetTop + 2*significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["statistic"])
             .attr("class", "significanceTest");
     
@@ -1378,7 +1398,7 @@ function displayCorrelationResults()
             .attr("y", significanceTestResultOffsetTop + 3*significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["p"])
             .attr("class", "significanceTest");
     
@@ -1390,7 +1410,7 @@ function displayCorrelationResults()
 //             .attr("y", canvasHeight/2 - significanceTestResultStep)
 //             .attr("text-anchor", "middle")
 //             .attr("font-size", "24px")
-//             .attr("fill", "orange")
+//             .attr("fill", "#627bf4")
 //             .text(testResults["effect-size"])
 //             .attr("class", "significanceTest");
  
@@ -1408,7 +1428,7 @@ function displayBiserialCorrelationResults()
             .attr("y", significanceTestResultOffsetTop + significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["method"])
             .attr("class", "significanceTest");
     
@@ -1428,7 +1448,7 @@ function displaySimpleRegressionResults()
             .attr("y", significanceTestResultOffsetTop + significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["method"])
             .attr("class", "significanceTest");
     //Effect sizes
@@ -1441,7 +1461,7 @@ function displaySimpleRegressionResults()
             .attr("y", canvasHeight + 2*axesOffset)
             .attr("text-anchor", "middle")
             .attr("font-size", scaleForWindowSize(24) + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["equation"])
             .attr("id", "equation")
             .attr("class", "significanceTest");
@@ -1484,7 +1504,7 @@ function displayMultipleRegressionResults()
             .attr("y", significanceTestResultOffsetTop + significanceTestResultStep)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["method"])
             .attr("class", "significanceTest");
     //Effect sizes
@@ -1497,7 +1517,7 @@ function displayMultipleRegressionResults()
             .attr("y", 3*plotHeight/4)
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizeSignificanceTestResults + "px")
-            .attr("fill", "orange")
+            .attr("fill", "#627bf4")
             .text(testResults["equation"])
             .attr("id", "equation")
             .attr("class", "significanceTest"); 
@@ -1628,24 +1648,73 @@ function drawNavigator(STATES)
 
 function displayToolTips()
 {
-    var canvas = d3.select("#variablePanelSVG");
+    var variablePanelCanvas = d3.select("#variablePanelSVG");
 
     var variablePanel = d3.select("#variable.panel");                
     var variablePanelWidth = removeAlphabetsFromString(variablePanel.style("width"));
-    var variableNameHolderWidth = variablePanelWidth - 2*variableNameHolderPadding;                                        
+    var variableNameHolderWidth = variablePanelWidth - 2*variableNameHolderPadding;  
 
-    console.log((variableNameHolderHeight - variableTypeSelectionButtonWidth + variableNameHolderPadding));
-    var variablePanelBorder = canvas.append("rect")
+    var radiusForRoundedRect = scaleForWindowSize(10) + "px";                                      
+
+    var variablePanelBorder = variablePanelCanvas.append("rect")
                                     .attr("x", variableNameHolderPadding/2)
                                     .attr("y", variableNameHolderPadding/2)
                                     .attr("width", variableNameHolderWidth - variableTypeSelectionButtonWidth + variableNameHolderPadding)
                                     .attr("height", variableNames.length * (variableNameHolderHeight + variableNameHolderPadding))
-                                    .attr("rx", "5px")
-                                    .attr("ry", "5px")
+                                    .attr("rx", radiusForRoundedRect)
+                                    .attr("ry", radiusForRoundedRect)
                                     .attr("fill","none")
                                     .attr("stroke", "#3957F1")
                                     .attr("stroke-dasharray","3,3")
                                     .attr("class","toolTips");
+
+    // variablePanelCanvas.append("rect")
+    //                     .attr("x", variableNameHolderPadding/2)
+    //                     .attr("y", variableNames.length * (variableNameHolderHeight + variableNameHolderPadding) + 3*variableNameHolderPadding)
+    //                     .attr("height", variableNameHolderHeight*2)
+    //                     .attr("width", variableNameHolderWidth - variableNameHolderPadding)
+    //                     .attr("rx", radiusForRoundedRect)
+    //                     .attr("ry", radiusForRoundedRect)
+    //                     .attr("fill", "#3957F1")
+    //                     .attr("stroke", "none")
+    //                     .attr("class", "toolTips");
+
+    // d3.select("body").append("label")
+    //                     .text("test")
+    //                     .attr("id", "variablePanel")
+    //                     .attr("class", "toolTips")
+    //                     .attr("style", "position: absolute; left: " + variableNameHolderPadding/2 + "px; top: " + (variableNames.length * (variableNameHolderHeight + variableNameHolderPadding) + 3*variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth - variableNameHolderPadding) + "px; ");
+
+
+    var variableTypeSelectionBorder = variablePanelCanvas.append("rect")
+                                            .attr("x", variableNameHolderWidth - variableTypeSelectionButtonWidth + 2*variableNameHolderPadding - variableNameHolderPadding/3)
+                                            .attr("y", variableNameHolderPadding/2)
+                                            .attr("height", variableNames.length * (variableNameHolderHeight + variableNameHolderPadding))
+                                            .attr("width", variableTypeSelectionButtonWidth/1.5 + variableNameHolderPadding)
+                                            .attr("rx", radiusForRoundedRect)
+                                            .attr("ry", radiusForRoundedRect)
+                                            .attr("fill","none")
+                                            .attr("stroke", "#3957F1")
+                                            .attr("stroke-dasharray","3,3")
+                                            .attr("class","toolTips");
+
+    var visualizationPanelCanvas = d3.select("#visualisationPanelSVG");
+
+    var visualisationPanelHeight = visualisationPanel.style("height");
+    var visualisationPanelWidth = visualisationPanel.style("width");
+
+    var visualizationPanelBorder = visualizationPanelCanvas.append("rect")
+                                                            .attr("x", variableNameHolderPadding/2)
+                                                            .attr("y", variableNameHolderPadding/2)
+                                                            .attr("width", parseFloat(visualisationPanelWidth) - variableNameHolderPadding)
+                                                            .attr("height", parseFloat(visualisationPanelHeight) - variableNameHolderPadding)
+                                                            .attr("rx", radiusForRoundedRect)
+                                                            .attr("ry", radiusForRoundedRect)
+                                                            .attr("fill","none")
+                                                            .attr("stroke", "#3957F1")
+                                                            .attr("stroke-dasharray","3,3")
+                                                            .attr("class","toolTips");
+
 }
 
     

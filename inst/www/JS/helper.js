@@ -471,20 +471,9 @@ function setVariableRow()
             var variablePanel = d3.select("#variable.panel");                
             var variablePanelWidth = removeAlphabetsFromString(variablePanel.style("width"));
             var variableNameHolderWidth = variablePanelWidth - 2*variableNameHolderPadding;                                     
-            
-//             variablePanelSVG.append("rect")
-//                             .attr("x", variableNameHolderWidth + 2*variableNameHolderPadding - variableTypeSelectionButtonWidth)
-//                             .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + scaleForWindowSize(2))                                                   
-//                             .attr("height", variableNameHolderHeight - 2*scaleForWindowSize(2))
-//                             .attr("width", variableTypeSelectionButtonWidth)
-//                             .attr("rx", "5px")
-//                             .attr("ry", "5px")
-//                             .attr("fill", variableTypeButtonColors["participant"])
-//                             .attr("id", variableNames[i])
-//                             .attr("class", "participantVariableButtonBack");
                                     
             variablePanelSVG.append("text")
-                            .attr("x", variableNameHolderWidth + 2*variableNameHolderPadding - variableTypeSelectionButtonWidth/2)
+                            .attr("x", variableNameHolderWidth + variableNameHolderPadding - variableTypeSelectionButtonWidth/2)
                             .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + (variableNameHolderHeight)/2 + yAxisTickTextOffset/2)                                                   
                             .attr("text-anchor", "middle")
                             .attr("fill", "#627bf4")
@@ -554,7 +543,7 @@ function findExperimentalDesign()
 function setThisVariableEvil(variable)
 {    
     d3.select("#" + variable + ".variableNameHolderFront").attr("class", "disabled");
-    d3.select("#" + variable + ".variableNameHolderBack").attr("fill", variablePanelColors["disabled"]);
+    d3.select("#" + variable + ".variableNameHolderBack").attr("fill", variablePanelColors["disabled"]).attr("filter", "none");
 }
 
 function getNumericVariables()

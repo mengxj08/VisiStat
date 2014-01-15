@@ -484,6 +484,8 @@ function OnMouseDown(e)
     
             else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "doPairwiseTest")
             {
+                removeElementsByClassName("CIMean");
+                
                 var rButton = d3.select(".backButtonBack");
                 
                 rButton.attr("fill", "url(#buttonFillNormal)")
@@ -623,7 +625,7 @@ function OnMouseDown(e)
                                     .attr("rx", "10px")
                                     .attr("ry", "10px")
                                     .attr("fill", "white")
-                                    .attr("stroke", "orange")
+                                    .attr("stroke", "#627bf4")
                                     .attr("opacity", "0.01")
                                     .attr("class", "plotHelp");  
                     }
@@ -693,7 +695,7 @@ function OnMouseDown(e)
                                     .attr("rx", "5px")
                                     .attr("ry", "5px")
                                     .attr("fill", "white")
-                                    .attr("stroke", "orange")
+                                    .attr("stroke", "#627bf4")
                                     .attr("opacity", "0.01")
                                     .attr("class", "variancePlotHelp");
                     }
@@ -708,7 +710,7 @@ function OnMouseDown(e)
                                     .attr("rx", "5px")
                                     .attr("ry", "5px")
                                     .attr("fill", "white")
-                                    .attr("stroke", "orange")
+                                    .attr("stroke", "#627bf4")
                                     .attr("opacity", "0.01")
                                     .attr("class", "normalityPlotHelp");
                     }                   
@@ -821,6 +823,7 @@ function OnMouseDown(e)
         
                 if(currentVisualisationSelection == "Scatterplot")
                 {
+                    var timeOut = 0;
                     if(choice != currentVariableSelection[1])
                     {   
                         var temp = currentVariableSelection[1];
@@ -828,23 +831,28 @@ function OnMouseDown(e)
                         currentVariableSelection[0] = temp;
                 
                         plotVisualisation();  
+
+                        timeOut = 1000;
                     }
+                    
+                    setTimeout(
+                        function()
+                        {
+                            var variableList = sort(currentVariableSelection);
         
-                    var variableList = sort(currentVariableSelection);
-        
-                        console.log("\n\t\tFinding the regression model to predict the outcome variable (" + currentVariableSelection[1] + ") from the explanatory variable (" + currentVariableSelection[0] + ")");
-        
-                        //some interaction to get the variables :)
-        
-                        removeElementsByClassName("outcomeVariable");
-                        removeElementsByClassName("dialogBox");
-        
-                    setTimeout(function(){            
-                        removeElementsByClassName("regression");
-                        removeElementsByClassName("significanceTest");
-                        removeElementsByClassName("effectSize");
-                        getLinearModelCoefficients(currentVariableSelection[1], currentVariableSelection[0]);
-                    }, 300);  
+                            console.log("\n\t\tFinding the regression model to predict the outcome variable (" + currentVariableSelection[1] + ") from the explanatory variable (" + currentVariableSelection[0] + ")");
+                
+                            removeElementsByClassName("outcomeVariable");
+                            removeElementsByClassName("dialogBox");
+                
+                            setTimeout(function(){            
+                                removeElementsByClassName("regression");
+                                removeElementsByClassName("significanceTest");
+                                removeElementsByClassName("effectSize");
+                                removeElementsByClassName("effectSizeInterpretationIndicators");
+                                getLinearModelCoefficients(currentVariableSelection[1], currentVariableSelection[0]);
+                            }, 300);   
+                        }, timeOut);                      
                 }
                 else if(currentVisualisationSelection == "Scatterplot-matrix")
                 {
@@ -884,7 +892,7 @@ function OnMouseDown(e)
                 states.push({variables: currentVariableSelection, substate: "other"});
                 console.dir(states);
                 
-                findEffect(variableList["dependent"][0], variableList["independent"]);
+                findInteractionEffect(variableList["dependent"][0], variableList["independent"]);
             }
     
             else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "pairwisePostHoc")
@@ -910,6 +918,7 @@ function OnMouseDown(e)
                 removeElementsByClassName("differenceInMeansText");
                 removeElementsByClassName("differenceInMeansMain");
                 removeElementsByClassName("densityCurve");
+                removeElementsByClassName("CIMean");
                 
                 removeElementById("border");
         
@@ -1015,7 +1024,7 @@ function OnMouseDown(e)
                                     
                                             var dependentVariable = variableList["dependent"][0];
                                             
-                                            var homogeneity = d3.select("#homogeneityticks").attr("display") == "inline" ? true : false;
+                                            var homogeneity = d3.select("#homogeneity.ticks").attr("display") == "inline" ? true : false;
         
                                             for(var i=0; i<variableList["independent"].length; i++)
                                             {                   
@@ -1485,7 +1494,7 @@ function OnMouseOver(e)
                 
                 var helpText = d3.select("#descriptionLabel");
                 
-                d3.selectAll("#equation").attr("fill", "lightorange").attr("cursor", "help");
+                d3.selectAll("#equation").attr("fill", "light#627bf4").attr("cursor", "help");
                 
                 helpText.text(desc["equation"]);
             }
@@ -1948,12 +1957,12 @@ function OnMouseOver(e)
                         .attr("class", "hover");
             }
             
-            else if((target.className.baseVal == "CI_mean") || (target.className.baseVal == "CI_top") || (target.className.baseVal == "CI_bottom"))
+            else if(target.className.baseVal == "CIMean")
             {
                 var canvas = d3.select("#plotCanvas");
         
-                var topFringe = d3.select(".CI_top");
-                var bottomFringe = d3.select(".CI_bottom");
+                var topFringe = d3.select("#top.CIMean");
+                var bottomFringe = d3.select("#bottom.CIMean");
     
                 var variableList = sort(currentVariableSelection);       
                 
@@ -2241,7 +2250,7 @@ function OnMouseOut(e)
         
         if(target.id == "equation")
         {
-            d3.selectAll("#equation").attr("fill", "orange").attr("cursor", "default");
+            d3.selectAll("#equation").attr("fill", "#627bf4").attr("cursor", "default");
         }
         
     }
@@ -2327,7 +2336,7 @@ function OnMouseOut(e)
             removeElementsByClassName("hover");
         }
         
-        else if((target.className.baseVal == "CI_mean") || (target.className.baseVal == "CI_top") || (target.className.baseVal == "CI_bottom"))
+        else if(target.className.baseVal == "CIMean")
         {
             removeElementsByClassName("hover");
         }

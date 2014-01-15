@@ -50,7 +50,6 @@ function performTTest(groupA, groupB, varianceEqual, paired)
                 method = "Welch's T-test";
             }
         }
-        console.log("\n Method = \"" + method + "\"");
 
         testResults["method"] = method;
 
@@ -507,8 +506,8 @@ function performTukeyHSDTestOneIndependentVariable(dependentVariable, independen
         dataset: dataset
     }, function(output) 
     {                                                   
-        localStorage.setItem((label + "tkMin"), Array.min(output.lower));
-        localStorage.setItem((label + "tkMax"), Array.max(output.upper));
+        localStorage.setItem("tkMin", Array.min(output.lower));
+        localStorage.setItem("tkMax", Array.max(output.upper));
         
         //get levels of the independent variable
         var levels = variables[independentVariable]["dataset"].unique().slice();
