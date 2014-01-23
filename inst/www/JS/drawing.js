@@ -19,20 +19,23 @@ function getWidth()
 
 function getHeight()
 {
-      var y = 0;
-      if (self.innerHeight)
-      {
-              y = self.innerHeight;
-      }
-      else if (document.documentElement && document.documentElement.clientHeight)
-      {
-              y = document.documentElement.clientHeight;
-      }
-      else if (document.body)
-      {
-              y = document.body.clientHeight;
-      }
-      return y;
+      // var y = 0;
+      // if (self.innerHeight)
+      // {
+      //         y = self.innerHeight;
+      // }
+      // else if (document.documentElement && document.documentElement.clientHeight)
+      // {
+      //         y = document.documentElement.clientHeight;
+      // }
+      // else if (document.body)
+      // {
+      //         y = document.body.clientHeight;
+      // }
+      // return y;
+
+      var w = getWidth();
+      return w/1.745;
 }
 
 function plotVisualisation()
@@ -121,121 +124,85 @@ function resetSVGCanvas()
 }
 
 function drawFullScreenButton()
-{
-    //TODO
+{    
+    //TODO 
 }
 
 function drawHelpButton()
 {
     var sideBar = d3.select("#sideBarCanvas");
-    helpButtonOffset = assumptionImageSize*2;
+
+    var helpButtonOffset = assumptionImageSize*2;
+    var size = variableNameHolderHeight;
+
     sideBar.append("rect")
-            .attr("x", sideBarWidth - helpButtonWidth - helpButtonOffset)
-            .attr("y", scaleForWindowSize(5))//canvasHeight - helpButtonHeight - helpButtonOffset)
-            .attr("rx", "15px")
-            .attr("ry", "15px")
-            .attr("height", helpButtonHeight)
-            .attr("width", helpButtonWidth)
+            .attr("x", 6*sideBarWidth/8 - size/2)
+            .attr("y", variableNameHolderPadding)
+            .attr("rx", visualizationHolderRadius)
+            .attr("ry", visualizationHolderRadius)
+            .attr("height", size)
+            .attr("width", size)
             .attr("fill", "url(#buttonFillNormal)")
             .attr("filter", "url(#Bevel)")
             .attr("stroke", "black")
             .attr("class", "helpButtonBack");
     
     sideBar.append("text")
-            .attr("x", sideBarWidth - helpButtonWidth/2 - helpButtonOffset)
-            .attr("y", scaleForWindowSize(12) + 2*helpButtonHeight/3)//canvasHeight - helpButtonHeight/3 - helpButtonOffset)
-            .attr("font-size", scaleForWindowSize(55))
+            .attr("x", 6*sideBarWidth/8)
+            .attr("y", variableNameHolderPadding + size/2 + 2*yAxisTickTextOffset)
+            .attr("font-size", scaleForWindowSize(35))
             .attr("text-anchor", "middle")
             .attr("fill", "black")
             .text("?")
             .attr("class", "helpButtonText");
     
     sideBar.append("rect")
-            .attr("x", sideBarWidth - helpButtonWidth - helpButtonOffset)
-            .attr("y", scaleForWindowSize(5))//canvasHeight - helpButtonHeight - helpButtonOffset)
-            .attr("rx", "15px")
-            .attr("ry", "15px")
-            .attr("height", helpButtonHeight)
-            .attr("width", helpButtonWidth)
+            .attr("x", 6*sideBarWidth/8 - size/2)
+            .attr("y", variableNameHolderPadding)
+            .attr("rx", visualizationHolderRadius)
+            .attr("ry", visualizationHolderRadius)
+            .attr("height", size)
+            .attr("width", size)
             .attr("opacity", "0.1")
             .attr("class", "helpButtonFront");
 }
 
-function drawBackButton()
-{
-    var sideBar = d3.select("#sideBarCanvas");
-    var helpButtonOffset = assumptionImageSize;
-    
-    var offset = 2;
-    
-    sideBar.append("rect")
-            .attr("x", sideBarWidth - offset*(helpButtonWidth + helpButtonOffset))
-            .attr("y", helpButtonOffset/2)//canvasHeight - helpButtonHeight - helpButtonOffset)
-            .attr("rx", "15px")
-            .attr("ry", "15px")
-            .attr("height", helpButtonHeight)
-            .attr("width", helpButtonWidth)
-            .attr("fill", "url(#bannerFillNormal)")
-            .attr("filter", "url(#Bevel)")
-            .attr("stroke", "black")
-            .attr("class", "backButtonBack");
-    
-    sideBar.append("text")
-            .attr("x", sideBarWidth - offset*(helpButtonWidth + helpButtonOffset) + helpButtonWidth/2)
-            .attr("y", helpButtonOffset/2 + 2*helpButtonHeight/3)//canvasHeight - helpButtonHeight/3 - helpButtonOffset)
-            .attr("font-size", scaleForWindowSize(32))
-            .attr("text-anchor", "middle")
-            .attr("fill", "white")
-            .text("<")
-            .attr("class", "backButtonText");
-    
-    sideBar.append("rect")
-            .attr("x", sideBarWidth - offset*(helpButtonWidth + helpButtonOffset))
-            .attr("y", helpButtonOffset/2)//canvasHeight - helpButtonHeight - helpButtonOffset)
-            .attr("rx", "15px")
-            .attr("ry", "15px")
-            .attr("height", helpButtonHeight)
-            .attr("width", helpButtonWidth)
-            .attr("opacity", "0.1")
-            .attr("class", "backButtonFront");
-}
-
 function drawResetButton()
 {
-    var sideBar = d3.select("#sideBarCanvas");    
+    var sideBar = d3.select("#sideBarCanvas");        
+
     var helpButtonOffset = assumptionImageSize*2;
-    
-    var offset = 2;
+    var size = variableNameHolderHeight;
     
     sideBar.append("rect")
-            .attr("x", sideBarWidth - offset*(helpButtonWidth + helpButtonOffset))
-            .attr("y", scaleForWindowSize(5))//canvasHeight - helpButtonHeight - helpButtonOffset)
-            .attr("rx", "15px")
-            .attr("ry", "15px")
-            .attr("height", helpButtonHeight)
-            .attr("width", helpButtonWidth)
-            .attr("fill", "grey")
-            .attr("filter", "none")
+            .attr("x", sideBarWidth/4 - size/2)
+            .attr("y", variableNameHolderPadding)
+            .attr("rx", visualizationHolderRadius)
+            .attr("ry", visualizationHolderRadius)
+            .attr("height", size)
+            .attr("width", size)
+            .attr("fill", "url(#buttonFillNormal)")
+            .attr("filter", "url(#Bevel)")
             .attr("stroke", "black")
-            .attr("class", "backButtonBack");
+            .attr("class", "resetButtonBack");
     
     sideBar.append("image")
-            .attr("x", sideBarWidth - offset*(helpButtonWidth + helpButtonOffset) + (helpButtonWidth/1.5)/4)
-            .attr("y", scaleForWindowSize(5) + (helpButtonHeight/1.5)/4)
-            .attr("height", helpButtonHeight/1.5)
-            .attr("width", helpButtonWidth/1.5)
-            .attr("xlink:href", "images/reset.png")
-            .attr("class", "backButtonText");
+            .attr("x", sideBarWidth/4 - size/4)
+            .attr("y", variableNameHolderPadding + size/4)
+            .attr("height", size/2)
+            .attr("width", size/2)
+            .attr("xlink:href", "images/reset-faded.png")
+            .attr("class", "resetButtonImage");
     
     sideBar.append("rect")
-            .attr("x", sideBarWidth - offset*(helpButtonWidth + helpButtonOffset))
-            .attr("y", scaleForWindowSize(5))//canvasHeight - helpButtonHeight - helpButtonOffset)
-            .attr("rx", "15px")
-            .attr("ry", "15px")
-            .attr("height", helpButtonHeight)
-            .attr("width", helpButtonWidth)
+            .attr("x", sideBarWidth/4 - size/2)
+            .attr("y", variableNameHolderPadding)
+            .attr("rx", visualizationHolderRadius)
+            .attr("ry", visualizationHolderRadius)
+            .attr("height", size)
+            .attr("width", size)
             .attr("opacity", "0.1")
-            .attr("class", "backButtonFront");
+            .attr("class", "resetButtonFront");
 }
 
 function drawButtonInSideBar(buttonText, className, offset)
@@ -441,13 +408,9 @@ function drawEffectSize(value)
                                     .attr("fill", color)
                                     .attr("class", "effectSize");
     }
-    
-    console.log("Math.abs(scale(min + value)) = " + Math.abs(scale(min + value)) + "\effectSizeWidth/4 = " + effectSizeWidth/4);
 
     if(Math.abs(scale(min + value)) > effectSizeWidth/4)
     {   
-        console.log("greater!");
-
         if(value < 0)
         {
             sideBar.append("text")
@@ -475,7 +438,6 @@ function drawEffectSize(value)
     }
     else
     {
-        console.log("lesser!");
         if(value < 0)
         {
             sideBar.append("text")
@@ -870,9 +832,7 @@ function drawScales(cx, cy)
                 .attr("class", "differenceInMeansMain")
                 .text(dec2(means[means.length-1] - means[0]));
     
-    var error = parseFloat(testResults["error"]);   
-
-    console.log("error = " + error);     
+    var error = parseFloat(testResults["error"]);     
     testResults["CI"] = calculateCI(means[means.length -1] - means[0], error);
 
     var meanValue = getActualValue(cyMin);
@@ -1673,7 +1633,7 @@ function displayToolTips()
 {
     var variablePanelCanvas = d3.select("#variablePanelSVG");
 
-    var fontSizeTooTips = scaleForWindowSize(16) + "px";
+    var fontSizeToolTips = scaleForWindowSize(16) + "px";
 
     var variablePanel = d3.select("#variable.panel");                
     var variablePanelWidth = removeAlphabetsFromString(variablePanel.style("width"));
@@ -1709,7 +1669,7 @@ function displayToolTips()
                         .text("List of variables in the dataset. Click on a variable to select/unselect them. ")
                         .attr("id", "variablePanel")
                         .attr("class", "toolTips")
-                        .attr("style", "position: absolute; left: " + variableNameHolderPadding + "px; top: " + (variableNames.length * (variableNameHolderHeight + variableNameHolderPadding) + 4*variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth - 3*variableNameHolderPadding/2) + "px; color: white; text-align: center; font-size: " + fontSizeTooTips + ";");
+                        .attr("style", "position: absolute; left: " + variableNameHolderPadding + "px; top: " + (variableNames.length * (variableNameHolderHeight + variableNameHolderPadding) + 4*variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth - 3*variableNameHolderPadding/2) + "px; color: white; text-align: center; font-size: " + fontSizeToolTips + ";");
 
     variablePanelCanvas.append("line")
                         .attr("x1", variableNameHolderWidth/2)
@@ -1750,7 +1710,7 @@ function displayToolTips()
                         .text("Displays the type of the variable. Use the switch to toggle the type as dependent or independent. VisiStat selects the visualization based on this information.")
                         .attr("id", "variablePanel")
                         .attr("class", "toolTips")
-                        .attr("style", "position: absolute; left: " + (parseFloat(variablePanelWidth) + 4*variableNameHolderPadding) + "px; top: " + (variableNames.length * (variableNameHolderHeight + variableNameHolderPadding)/2 - variableNameHolderHeight*1.75/2 + variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth - variableNameHolderPadding/2) + "px; color: white; text-align: center; font-size: " + fontSizeTooTips + ";");
+                        .attr("style", "position: absolute; left: " + (parseFloat(variablePanelWidth) + 4*variableNameHolderPadding) + "px; top: " + (variableNames.length * (variableNameHolderHeight + variableNameHolderPadding)/2 - variableNameHolderHeight*1.75/2 + variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth - variableNameHolderPadding/2) + "px; color: white; text-align: center; font-size: " + fontSizeToolTips + ";");
 
     variablePanelCanvas.append("line")
                     .attr("x1", variableTypeSelectionButtonWidth/1.5 + variableNameHolderPadding + variableNameHolderWidth - variableTypeSelectionButtonWidth + 2*variableNameHolderPadding - variableNameHolderPadding/3)
@@ -1802,7 +1762,7 @@ function displayToolTips()
                         .text("Visualizations available in VisiStat")
                         .attr("id", "variablePanel")
                         .attr("class", "toolTips")
-                        .attr("style", "position: absolute; left: " + (canvasWidth/2 + parseFloat(variablePanelWidth) - 3*variableNameHolderPadding + variableNameHolderPadding) + "px; top: " + (canvasHeight - variableNameHolderPadding*3 - variableNameHolderHeight*1 + variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth - variableNameHolderPadding/2) + "px; color: white; text-align: center; font-size: " + fontSizeTooTips + ";");
+                        .attr("style", "position: absolute; left: " + (canvasWidth/2 + parseFloat(variablePanelWidth) - 3*variableNameHolderPadding + variableNameHolderPadding) + "px; top: " + (canvasHeight - variableNameHolderPadding*3 - variableNameHolderHeight*1 + variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth - variableNameHolderPadding/2) + "px; color: white; text-align: center; font-size: " + fontSizeToolTips + ";");
 
     plotCanvas.append("line")
                 .attr("x1", (canvasWidth + sideBarWidth)/2)
@@ -1821,6 +1781,64 @@ function displayToolTips()
                             .attr("stroke", "#3957F1")
                             .attr("stroke-dasharray", "3,3")
                             .attr("class", "toolTips");
+
+    var sideBar = d3.select("#sideBarCanvas");
+
+    // sideBar.append("rect")
+    //         .attr("x", sideBarWidth/4 - variableNameHolderHeight/2 - variableNameHolderPadding/2)
+    //         .attr("y", variableNameHolderPadding/2)
+    //         .attr("width", variableNameHolderHeight + variableNameHolderPadding)
+    //         .attr("height", variableNameHolderHeight + variableNameHolderPadding)
+    //         .attr("rx", radiusForRoundedRect)
+    //         .attr("ry", radiusForRoundedRect)
+    //         .attr("fill","none")
+    //         .attr("stroke", "#3957F1")                                                
+    //         .attr("stroke-dasharray","3,3")
+    //         .attr("class","toolTips");
+
+    sideBar.append("rect")
+            .attr("x", 3*sideBarWidth/4 - variableNameHolderHeight/2 - variableNameHolderPadding/2)
+            .attr("y", variableNameHolderPadding/2)
+            .attr("width", variableNameHolderHeight + variableNameHolderPadding)
+            .attr("height", variableNameHolderHeight + variableNameHolderPadding)
+            .attr("rx", radiusForRoundedRect)
+            .attr("ry", radiusForRoundedRect)
+            .attr("fill","none")
+            .attr("stroke", "#3957F1")                                                
+            .attr("stroke-dasharray","3,3")
+            .attr("class","toolTips");
+
+    sideBar.append("line")
+            .attr("x1", 3*sideBarWidth/4)
+            .attr("y1", variableNameHolderPadding + variableNameHolderHeight + variableNameHolderPadding/2)
+            .attr("x2", 3*sideBarWidth/4)
+            .attr("y2", variableNameHolderPadding + variableNameHolderHeight + 5*variableNameHolderPadding)
+            .attr("stroke", "#3957F1")
+            .attr("stroke-dasharray", "3,3")
+            .attr("class", "toolTips");
+
+    sideBar.append("rect")
+            .attr("x", 3*sideBarWidth/4 - variableNameHolderWidth/4)
+            .attr("y", variableNameHolderPadding + variableNameHolderHeight + 5*variableNameHolderPadding)
+            .attr("width", variableNameHolderWidth/2)
+            .attr("height", variableNameHolderHeight)
+            .attr("rx", radiusForRoundedRect)
+            .attr("ry", radiusForRoundedRect)
+            .attr("fill", "#3957F1")
+            .attr("filter", "url(#Bevel)")
+            .attr("stroke", "none")
+            .attr("class", "toolTips");
+
+    d3.select("body").append("label")
+                    .text("Help")
+                    .attr("class", "toolTips")
+                    .attr("style", "position: absolute; left: " + (canvasWidth + parseFloat(variablePanelWidth) + 3*sideBarWidth/4 - variableNameHolderWidth/4 + variableNameHolderPadding) + "px; top: " + (variableNameHolderPadding + variableNameHolderHeight + 5*variableNameHolderPadding + variableNameHolderPadding) + "px; width: " + (variableNameHolderWidth/2 - variableNameHolderPadding) + "px; color: white; text-align: center; font-size: " + fontSizeToolTips + ";");
+
+    d3.select("body").append("label")
+                    .text("SELECT A VARIABLE TO GET STARTED")
+                    .attr("class", "toolTips")
+                    .attr("style", "position: absolute; left: " + (parseFloat(variablePanelWidth) + variableNameHolderPadding) + "px; top: " + (canvasHeight/2 + variableNameHolderPadding) + "px; width: " + (canvasWidth - variableNameHolderPadding) + "px; color: #3957F1; text-align: center; font: normal " + scaleForWindowSize(32) + "px verdana !important;");
+
 
 }
 

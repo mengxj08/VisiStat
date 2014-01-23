@@ -54,11 +54,8 @@ function OnMouseDown(e)
                 plotVisualisation(); //checks which plot is selected and draws that plot
                 setColorsForVisualisations(); //manages the fill colors of vizualizations (only one at a time)
                 
-                var rButton = d3.select(".backButtonBack");
-                
-                rButton.attr("fill", "grey")
-                        .attr("filter", "none")
-                        .attr("stroke", "none");
+                var resetButtonImage = d3.select(".resetButtonImage");
+                resetButtonImage.attr("xlink:href", "images/reset-faded.png");
             }
     
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "visualisationHolderFront"))
@@ -68,11 +65,8 @@ function OnMouseDown(e)
                 setColorsForVisualisations();        
                 plotVisualisation();
                 
-                var rButton = d3.select(".backButtonBack");
-                
-                rButton.attr("fill", "grey")
-                        .attr("filter", "none")
-                        .attr("stroke", "none");
+                var resetButtonImage = d3.select(".resetButtonImage");
+                resetButtonImage.attr("xlink:href", "images/reset-faded.png");
             }
     
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "variableTypeToggleButton"))
@@ -314,11 +308,8 @@ function OnMouseDown(e)
             {
                 d3.selectAll(".compareNow").attr("cursor", "pointer");
                 
-                var rButton = d3.select(".backButtonBack");
-                
-                rButton.attr("fill", "url(#buttonFillNormal)")
-                        .attr("filter", "url(#Bevel)")
-                        .attr("stroke", "black");
+                var resetButtonImage = d3.select(".resetButtonImage");                
+                resetButtonImage.attr("xlink:href", "images/reset.png");
                     
                 states.push({visualisation: currentVisualisationSelection, substate: "significanceTest"});
                 
@@ -493,11 +484,8 @@ function OnMouseDown(e)
             {
                 removeElementsByClassName("CIMean");
                 
-                var rButton = d3.select(".backButtonBack");
-                
-                rButton.attr("fill", "url(#buttonFillNormal)")
-                        .attr("filter", "url(#Bevel)")
-                        .attr("stroke", "black");
+                var resetButtonImage = d3.select(".resetButtonImage");
+                resetButtonImage.attr("xlink:href", "images/reset.png");
                     
                 d3.selectAll(".doPairwiseTest").attr("cursor", "pointer");
         
@@ -850,19 +838,17 @@ function OnMouseDown(e)
                 }                
             }
             
-            else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "backButtonFront")
+            else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "resetButtonFront")
             {
                 setup(e, target);
                 
-                var rButton = d3.select(".backButtonBack");
+                var resetButtonImage = d3.select(".resetButtonImage")
                 
-                if(currentVisualisationSelection == "Boxplot" && rButton.attr("stroke") == "black")
+                if(currentVisualisationSelection == "Boxplot" && resetButtonImage.attr("xlink:href") == "images/reset.png")
                 {
                     plotVisualisation();
                 
-                    d3.select(".backButtonBack").attr("fill", "grey")
-                                                .attr("filter", "none")
-                                                .attr("stroke", "none");
+                    resetButtonImage.attr("xlink:href", "images/reset-faded.png");
 
                     var canvas = d3.select("#plotCanvas");
                     var variableList = getSelectedVariables();
@@ -1983,23 +1969,17 @@ function OnMouseOver(e)
                 helpButtonText.attr("cursor", "pointer");
             } 
             
-            else if(target.className.baseVal == "backButtonFront")
+            else if(target.className.baseVal == "resetButtonFront")
             {
                 setup(e, target);
             
-                var backButton = d3.select(".backButtonFront");
-                var backButtonText = d3.select(".backButtonText");
+                var resetButtonImage = d3.select(".resetButtonImage");
+                var resetButton = d3.select(".resetButtonFront");
             
-                if(d3.select(".backButtonBack").attr("stroke") == "black")
-                {
-                    backButton.attr("cursor", "pointer");
-                    backButtonText.attr("cursor", "pointer");
-                }
+                if(resetButtonImage.attr("xlink:href") == "images/reset.png")            
+                    resetButton.attr("cursor", "pointer");
                 else
-                {
-                    backButton.attr("cursor", "default");
-                    backButtonText.attr("cursor", "default");
-                }
+                    resetButton.attr("cursor", "default");
             } 
     
             else if(target.className.baseVal == "outliers")

@@ -476,6 +476,7 @@ function setVariableRow()
                             .attr("x", variableNameHolderWidth + variableNameHolderPadding - variableTypeSelectionButtonWidth/2)
                             .attr("y", variableNameHolderPadding + i*(variableNameHolderHeight + variableNameHolderPadding) + (variableNameHolderHeight)/2 + yAxisTickTextOffset/2)                                                   
                             .attr("text-anchor", "middle")
+                            .attr("font-size", scaleForWindowSize(20))
                             .attr("fill", "#627bf4")
                             .text("SUBJECT")
                             .attr("id", variableNames[i])
@@ -712,7 +713,7 @@ function sort(list)
 }
 
 function scaleForWindowSize(value)
-{
+{  
     return value*(height/1004);
 }
 
