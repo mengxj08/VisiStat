@@ -36,7 +36,7 @@ text
 
 #datasetDescription
 {
-    width: 40em;
+    width: 35em;
     font-size: 20px;
     display: inline-block;
 }
@@ -67,7 +67,7 @@ th
 #left
 {
     text-align: right;
-    width: 45%;
+    width: 48%;
     padding-right: 25px;
     padding-top: 25px;
     padding-bottom: 25px;
@@ -76,7 +76,7 @@ th
 #right
 {
     text-align: left;
-    width: 55%;
+    width: 52%;
     padding-left: 35px;
     padding-top: 25px;
     padding-bottom: 25px;
