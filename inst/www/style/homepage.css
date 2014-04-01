@@ -50,8 +50,8 @@ text
 .variableList
 {
     border-collapse: collapse; 
-    padding: 25px;
-    border-spacing: 10px;
+    padding: 45px;
+    border-spacing: 25px;
     background-color: #f8f9f7;
     color: black;
     table-layout: fixed;
