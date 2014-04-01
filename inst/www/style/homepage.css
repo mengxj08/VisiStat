@@ -41,9 +41,10 @@ text
     display: inline-block;
 }
 
-#variables
+#variablesDiv
 {
     text-align: center;
+    font-size: 14px;
 }
 
 .variableList
