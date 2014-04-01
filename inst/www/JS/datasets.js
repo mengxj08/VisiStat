@@ -20,17 +20,17 @@ var roles = ["participant", "dependent", "independent"];
 var variableRolesInDataset = new Object();
 
 variableRolesInDataset["keyboard"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
-variableRolesInDataset"food"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
+variableRolesInDataset["food"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
 variableRolesInDataset["weightLoss"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
 variableRolesInDataset["phoneOS"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
 
 var dataTypes = ["nominal", "ordinal", "interval", "ratio"];
 
-var variablesInDatasetType = new Object();
+var variableTypesInDataset = new Object();
 
 variableTypesInDataset["keyboard"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
-variablesInDatasetType["food"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
-variablesInDatasetType["weightLoss"] = [dataTypes[0], dataTypes[0], dataTypes[1], dataTypes[3], dataTypes[2], dataTypes[1]];
-variablesInDatasetType["phoneOS"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
+variableTypesInDataset["food"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
+variableTypesInDataset["weightLoss"] = [dataTypes[0], dataTypes[0], dataTypes[1], dataTypes[3], dataTypes[2], dataTypes[1]];
+variableTypesInDataset["phoneOS"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
     
 // function initVariablesInDatasetTypes()
