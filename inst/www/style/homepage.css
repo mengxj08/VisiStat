@@ -51,6 +51,7 @@ text
 {
     border-collapse: collapse; 
     padding: 25px;
+    border-spacing: 10px;
     background-color: #f8f9f7;
     color: black;
     table-layout: fixed;
