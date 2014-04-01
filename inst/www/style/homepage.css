@@ -16,10 +16,9 @@ text
 
 #datasetList
 {
-    font-size: 30px;
+    font-size: 20px;
     margin: 0 auto;    
     height: 5em;
-    font: 1.2em;
     color:#08233e;
     padding:5px;
     width: 17em;
@@ -37,7 +36,8 @@ text
 
 #datasetDescription
 {
-    width: 35em;
+    width: 40em;
+    font-size: 20px;
     display: inline-block;
 }
 
@@ -53,13 +53,11 @@ text
     background-color: #f8f9f7;
     color: black;
     table-layout: fixed;
-    font:1.0em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 th
 {
     background-color: #627bf4;
-    font:1.1em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
     padding: 15px;
     color: white;
 }
