@@ -9,7 +9,7 @@ h2
     font-size: 40px;
 }
 
-#datasetDropDownList
+#datasetList
 {
     font-size: 30px;
     margin: 0 auto;    
@@ -31,13 +31,13 @@ h2
     font:1.2em "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
-#datasetInformation
+#datasetDescription
 {
     width: 35em;
     display: inline-block;
 }
 
-#variablesDiv
+#variables
 {
     text-align: center;
 }
