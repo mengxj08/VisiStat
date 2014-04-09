@@ -492,7 +492,7 @@ function setVariableTypes()
         if(variables[variableNames[i]]["dataset"].unique().length == 2)
             variableTypes[variableNames[i]] = "binary";
         else
-            variableTypes[variableNames[i]] = variablesInDatasetType[sessionStorage.fileName][i];
+            variableTypes[variableNames[i]] = variableTypesInDataset[sessionStorage.fileName][i];
     }
     
     for(var i=0; i<variableNames.length; i++)
