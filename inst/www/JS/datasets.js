@@ -1,5 +1,3 @@
-// - - - - - - - - - - - - - INFORMATION ABOUT THE DATASETS IN VISISTAT - - - - - - - - - - - - - //
-
 // A short description of the experiment (dependent variable, independent variables, and experimental design)
 var datasetDescription = new Object();
 
@@ -12,28 +10,28 @@ datasetDescription["phoneOS"] = "In this experiment, we compare three different 
 // List of variables in the dataset
 var variablesInDataset = new Object();
 
-variablesInDataset["keyboard"] = ["participantID", "keyboardLayout", "gender", "speed", "errors", "userRating"];
-variablesInDataset["food"] = ["participantID","foodEaten","gender","verbalScore","mathScore","userRating"];
+variablesInDataset["keyboard"] = ["participantID", "keyboardLayout", "gender", "speed"];
+variablesInDataset["food"] = ["participantID","foodEaten","gender","verbalScore","mathScore"];
 variablesInDataset["weightLoss"] = ["participantID","condition","exercise","weightLost","BMI","userRating"];
-variablesInDataset["phoneOS"] = ["participantID","phoneOS","gender", "stressScore","happScore","userRating"];
+variablesInDataset["phoneOS"] = ["participantID","phoneOS","gender", "stressScore"];
  
 
 // The roles of the variable (dependent, independent, or participant/subject)
 var roles = ["participant", "dependent", "independent"];
 var variableRolesInDataset = new Object();
 
-variableRolesInDataset["keyboard"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
-variableRolesInDataset["food"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
+variableRolesInDataset["keyboard"] = [roles[0], roles[2], roles[2], roles[1]];
+variableRolesInDataset["food"] = [roles[0], roles[2], roles[2], roles[1], roles[1]];
 variableRolesInDataset["weightLoss"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
-variableRolesInDataset["phoneOS"] = [roles[0], roles[2], roles[2], roles[1], roles[1], roles[1]];
+variableRolesInDataset["phoneOS"] = [roles[0], roles[2], roles[2], roles[1]];
 
 
 // The data types of the variable (nominal, ordinal, interval, or ratio)
 var dataTypes = ["nominal", "ordinal", "interval", "ratio"];
 var variableTypesInDataset = new Object();
 
-variableTypesInDataset["keyboard"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
-variableTypesInDataset["food"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
+variableTypesInDataset["keyboard"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3]];
+variableTypesInDataset["food"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3]];
 variableTypesInDataset["weightLoss"] = [dataTypes[0], dataTypes[0], dataTypes[1], dataTypes[3], dataTypes[2], dataTypes[1]];
-variableTypesInDataset["phoneOS"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3], dataTypes[3], dataTypes[1]];
-    
+variableTypesInDataset["phoneOS"] = [dataTypes[0], dataTypes[0], dataTypes[0], dataTypes[3]];
+
