@@ -1,0 +1,159 @@
+text
+{
+    font-family: sans-serif; 
+    font-weight: lighter; 
+}
+
+.labels
+{
+    font-size: 16px;
+    color: #627bf4;
+}
+
+/*h2
+{
+    font-size: 40px;
+}*/
+
+#datasetList
+{
+    font-size: 12px;
+    margin: 0 auto;       
+    color: #08233e;
+    padding:0px;
+    width: 25em;
+    height: 2.1em;
+    background-color:rgba(253,252,253,0.85);
+}
+
+#datasetTable
+{
+    width: 100%;
+    height: 80%;
+    border-collapse:collapse;
+    background-color: #fff;
+}
+
+#datasetDescription
+{
+    width:45em;
+    font-size: 14px;
+    display: inline-block;
+}
+
+#variablesDiv
+{
+    text-align: left;
+    font-size: 14px;
+}
+
+.variableList
+{
+    border-collapse: collapse; 
+    padding: 0px;
+    border-spacing: 0px;
+    background-color: #f8f9f7;
+    color: black;
+    table-layout: fixed;
+}
+th
+{
+    background-color: #627bf4;
+    padding: 5px;
+    color: white;
+    font-weight: 100;
+    font-size: 12px;
+    font-variant: small-caps;
+    letter-spacing:1px;
+}
+
+td
+{
+    padding: 5px;   
+}
+
+#left
+{
+    text-align: right;
+    width: 45%;
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#right
+{
+    text-align: left;
+    width: 55%;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    overflow: hidden;
+}
+
+#submitButton
+{
+    width: 15em;
+    height: 2.5em;
+    color: black;
+    font-size: 16px;
+    padding:5px;
+    font-family: sans-serif;
+    background-color:#f8f9f7;
+    -moz-border-radius:25px;
+    -webkit-border-radius:25px;
+    border-radius:25px;
+    border-right: 1.5px solid #9f9f9f;
+    border-bottom:1px solid #9f9f9f;
+    -moz-box-shadow:inset 0 1px 0 black;
+    -webkit-box-shadow:inset 0 1px 0 black;
+    box-shadow:inset 0 1px 0 #f8f9f7;
+    cursor: pointer;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    -webkit-box-shadow: 0px 5px 0px lightgrey, 0px 5px 10px rgba(0,0,0,.7);
+    -moz-box-shadow: 0px 5px 0px lightgrey, 0px 5px 10px rgba(0,0,0,.7);
+    box-shadow: 0px 5px 0px lightgrey, 0px 5px 10px rgba(0,0,0,.7);
+}
+
+#fileInput
+{
+    font-size: 12px;
+    text-align: center;    
+}
+
+#buttonWrapper
+{
+    width: 100%;
+    text-align: center;
+}
+
+body
+{
+    /*background-color: white;*/
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+img.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.roleSelect{
+    font-size: 12px;
+}
+
+
+#submitWarning
+{
+    text-align: center;
+}
+
+#testedBrowser
+{
+    margin-top: 40px;
+    text-align: center;
+}

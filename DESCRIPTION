@@ -6,10 +6,18 @@ Author: John Doe
 Maintainer: John Doe <visistat2014@gmail.com>
 Description: An application that allows users to statistics without much previous knowledge by showing the statistics in the context of visualizations.
 Imports: 
+	lmerTest,
 	ez,
 	car,
 	effects,
 	coin,
 	MBESS,
-	ltm
+	ltm,
+	ggplot2,
+	assertthat,
+	sqldf,
+	combinat,
+	DTK,
+	doMC,
+	lsr
 Lazyload: yes

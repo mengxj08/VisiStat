@@ -2,70 +2,105 @@
 <html lang="en">
     <head>
         <!-- Link external stylesheets -->
-        <link rel="stylesheet" type="text/css" href="style/skeleton.css">
-        <link rel="stylesheet" type="text/css" href="style/visualisations.css">
-        <link rel="stylesheet" type="text/css" href="style/homepage.css">
+        <link rel="stylesheet" type="text/css" href="style/datasetSelectionPage.css">
+
+        <!-- Set encoding -->
         <meta charset="utf-8">
         
-        <title>VisiStat</title>
+        <!-- Set title -->
+        <title>VisiStat: Analyse your dataset!</title>
 
-        <!-- Link external javascript files -->
-        <script src="opencpu/jquery-1.10.2.js"></script>
-        
-        <script src="opencpu/opencpu.js"></script>
+       <!-- Jquery, OpenCPU, and D3 -->
+        <script type = "text/javascript" src = "dependencies/jquery-1.10.2.js"></script>
+        <script type = "text/javascript" src = "dependencies/opencpu.js"></script>        
+        <script type = "text/javascript" src = "dependencies/d3.v3.js"></script> 
 
-        <script type="text/javascript" src="d3/d3.v3.js"></script>
+        <!-- ToDo: remove unnecessary dependencies -->
         
-        <script type="text/javascript" src="JS/mouse.js"></script>
-        <script type="text/javascript" src="JS/drawing.js"></script>
+        <!-- OpenCPU: dataset & io (incl. log file o/p), significance tests, correlation & regression, and assumptions & transformations -->
+        <script type = "text/javascript" src = "javascript/ocpu.dataset.io.js"></script>        
+        <script type = "text/javascript" src = "javascript/ocpu.significance.tests.js"></script>        
+        <script type = "text/javascript" src = "javascript/ocpu.assumptions.transformations.js"></script>        
+        <script type = "text/javascript" src = "javascript/ocpu.correlation.regression.js"></script>        
         
-        <!-- visualizations -->
-        <script type="text/javascript" src="JS/histogram.js"></script>
-        <script type="text/javascript" src="JS/boxplot.js"></script>
-        <script type="text/javascript" src="JS/scatterplot.js"></script>
-        <script type="text/javascript" src="JS/scatterplot matrix.js"></script>
-        <script type="text/javascript" src="JS/interactionEffect.js"></script>
-        <script type="text/javascript" src="JS/tukeyHSDPlot.js"></script>
-        
-        <script type="text/javascript" src="JS/display-data.js"></script>
-        <script type="text/javascript" src="JS/statistical-tests.js"></script>
-        <script type="text/javascript" src="JS/statistics-helper.js"></script>
-        
-        <script type="text/javascript" src="JS/opencpu-R.js"></script>        
-        <script type="text/javascript" src="JS/significance tests.js"></script>        
-        <script type="text/javascript" src="JS/correlation and regression.js"></script>        
-        
-        <script type="text/javascript" src="JS/helper.js"></script>
-        <script type="text/javascript" src="JS/math.js"></script>
-        <script type="text/javascript" src="JS/settings.js"></script>
-        <script type="text/javascript" src="JS/global variables.js"></script>
-        <script type="text/javascript" src="JS/miscellaneous.js"></script>
-        <script type="text/javascript" src="JS/datasets.js"></script>
-        <script type="text/javascript" src="JS/effectsize.js"></script>
-        <script type="text/javascript" src="JS/significance-tests-parameters.js"></script>        
+        <!-- Utility functions are contained here -->
+        <script type = "text/javascript" src = "javascript/utils.helper.js"></script>
+        <script type = "text/javascript" src = "javascript/utils.math.js"></script>
+        <script type = "text/javascript" src = "javascript/draw.js"></script>
+
+        <!-- Config files -->
+        <script type = "text/javascript" src = "javascript/config.general.js"></script>
+        <script type = "text/javascript" src = "javascript/config.global.variables.js"></script>
+        <script type = "text/javascript" src = "javascript/config.dataset.js"></script>
+        <script type = "text/javascript" src = "javascript/config.effectsize.js"></script>
+        <script type = "text/javascript" src = "javascript/config.help.js"></script>           
+
+        <script type = "text/javascript" src = "javascript/events.mouse.js"></script>        
+        <script type = "text/javascript" src = "javascript/statistical-tests.js"></script>
+        <script type = "text/javascript" src = "javascript/statistics-helper.js"></script>
+        <script type = "text/javascript" src = "javascript/report.js"></script>  
+        <script type = "text/javascript" src = "javascript/quickFill.js"></script>  
+
     </head>
     <body>        
         <script type="text/javascript">            
             var height = document.height;
             var width = document.width;
-        
+            sessionStorage.fileName = undefined;
+
             window.onload = function()
             {  
-               d3.select("body").style("font-size", scaleForWindowSize(100)+"%");
-               
-               // initVariablesInDatasetTypes();
-               // load details of default dataset
+               d3.select("body").style("font-size", scaleForWindowSize(100)+"%" );
+
+               localStorage.setItem("index", 0);              
+          
+               // load details of default dataset (text entry study)
                changeDataset();
             }
+
+            function handleFile(files)
+            {                
+                var file = files[0];
+                if (file) 
+                {
+                    var reader = new FileReader();
+                    reader.readAsText(file, "UTF-8");
+
+                    reader.onload = function (evt) 
+                    {
+                        sessionStorage.fileContent = evt.target.result;
+                        parseStringToDataFrame();
+
+                        $("#datasetDescription").text("-");
+                        sessionStorage.isUploadedFile = "yes";
+
+                        removeElementsByClassName("variableList");
+                    }
+                    reader.onerror = function (evt) 
+                    {
+                        alert("Error reading file!");
+                    }
+                }
+            }
             
+            // cheks role of variables to determine whether going to the next page is allowed
+            function checkRole (event) 
+            {
+                var selectedRoles = $(".roleSelect").map(function() { return this.value;}).get();
+                var isSubmitAllowed = ($.inArray("DV", selectedRoles) != -1); 
+                console.log(selectedRoles, isSubmitAllowed)
+                $("#submitButton").prop("disabled", !isSubmitAllowed)
+                    .css("display", isSubmitAllowed ? "inline-block" : "none");
+                $("#submitWarning").css("display", isSubmitAllowed ? "none" : "block");
+            };
+
             // loads dataset properties when dataset is changed
             function changeDataset()
             {
                 fileName = $("#datasetList").val();                
                 sessionStorage.fileName = fileName;
-
-                console.log("datasetDescription[" + fileName + "] = " + datasetDescription[fileName]);
-                
+                sessionStorage.isUploadedFile = "no";
+                                
                 $("#datasetDescription").text(datasetDescription[fileName]);
                 
                 var variables = variablesInDataset[fileName];
@@ -84,76 +119,140 @@
                                             
                 var tr = variablesTable.append("tr");
                             
-                        tr.append("th").text("Name");
-                        tr.append("th").text("Role");
-                        tr.append("th").text("Data type");
+                        tr.append("th").text("NAME");
+                        tr.append("th").text("VARIABLE ROLE");
+                        tr.append("th").text("DATA TYPE");
                 
                 for(var i=0; i<variables.length; i++)
                 {
                     var tr = variablesTable.append("tr");                                        
                              tr.append("td").text(variables[i]);
                                 
-                    var select = tr.append("td").append("select").attr("name", "role").attr("id", variables[i]);                    
+                    var select = tr.append("td").append("select").attr("name", "role").attr("id", variables[i]).attr("class", "roleSelect");                    
+                    $(select[0]).change(checkRole);
                     
-                    var participant = select.append("option").attr("value", "participant").text("Participant or Subject Variable");
-                    var dependent = select.append("option").attr("value", "dependent").text("Dependent Variable");
-                    var independent = select.append("option").attr("value", "independent").text("Independent Variable");
+                    var unspecified = select.append("option").attr("value", "undefined").text("?");
+                    var participant = select.append("option").attr("value", "ID").text("Participant or Subject Variable");
+                    var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
+                    var independent = select.append("option").attr("value", "IV").text("Independent Variable");
                     
                     switch(roles[i])
                     {
-                        case "participant":
+                        case "ID":
                                             participant.attr("selected", "yes");
                                             break;
                         
-                        case "dependent":
+                        case "DV":
                                             dependent.attr("selected", "yes");
                                             break;
                         
-                        case "independent":
+                        case "IV":
                                             independent.attr("selected", "yes");
                                             break;
                     }
                     
                     tr.append("td").text(dataTypes[i]);
                 }
+
+                // check role after each data set is loaded
+                checkRole();
             }
             
             // called when user clicks on 'explore dataset'
             function exploreDataset()
             {
-                for(var i=0; i<variablesInDataset[fileName].length; i++)
+                if(sessionStorage.isUploadedFile === "yes")
                 {
-                    var option = document.getElementById(variablesInDataset[fileName][i]).value;
-                    variableRolesInDataset[fileName][i] = option;                 
-                }   
-                
-                for(var i=0; i<variableRolesInDataset[fileName].length; i++)
+                    variablesInDataset["uploadedFile"] = variableNames;
+                    variableRolesInDataset["uploadedFile"] = new Array();
+                    variableTypesInDataset["uploadedFile"] = new Array();
+
+                    for(var i=0; i<variableNames.length; i++)
+                    {
+                        variableRolesInDataset["uploadedFile"][i] = null;
+                        variableTypesInDataset["uploadedFile"][i] = null;
+                    }
+
+                    for(var i=0; i<variablesInDataset["uploadedFile"].length; i++)
+                    {
+                        var option = document.getElementById(variablesInDataset["uploadedFile"][i] + ".role").value;
+                        variableRolesInDataset["uploadedFile"][i] = option;
+
+                        option = document.getElementById(variablesInDataset["uploadedFile"][i] + ".datatype").value;
+                        variableTypesInDataset["uploadedFile"][i] = option;
+
+                    }
+
+                    for(var i=0; i<variableRolesInDataset["uploadedFile"].length; i++)
+                    {
+                        sessionStorage.setItem(variablesInDataset["uploadedFile"][i], variableRolesInDataset["uploadedFile"][i]);
+                    }
+                }
+                else
                 {
-                    sessionStorage.setItem(variablesInDataset[fileName][i], variableRolesInDataset[fileName][i]);
+                    for(var i=0; i<variablesInDataset[fileName].length; i++)
+                    {
+                        var option = document.getElementById(variablesInDataset[fileName][i]).value;
+                        variableRolesInDataset[fileName][i] = option;                 
+                    }   
+                    
+                    for(var i=0; i<variableRolesInDataset[fileName].length; i++)
+                    {
+                        sessionStorage.setItem(variablesInDataset[fileName][i], variableRolesInDataset[fileName][i]);
+                    }
                 }
                 
+                sessionStorage.logFileName = new Date().getTime();
                 window.location = "main.html";
             }
 
-        </script>
-
+        </script>            
         <!-- HTML body code starts here-->
-        <a href="http://www.hci.rwth-aachen.de/visistat"> 
-            <img src="images/visistat.png" alt="VisiStat" class="center" height="150"/> 
-        </a>
+
+        <h1 align="center"> VisiStat </h1>
 
         <table align="center" id="datasetTable">
             <tr>
+                <td colspan="2">
+                    <br/>
+                </td>
+            </tr>
+
+            <tr>
                 <td id="left">
-                    <label class="labels">Choose a Dataset to Explore: </label>
+                    <label class="labels">Upload your own dataset (as CSV): </label>
+                </td>
+                <td id="right">
+                    <input type="file" id="fileInput" name="dataset" accept="text/csv" onchange=handleFile(this.files)>                                        
+                </td>
+            </tr>
+
+            <tr>
+                <td align="right" colspan="1">
+                    <label class = "labels"> (or) </label>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td id="left">
+                    <label class="labels">Explore one of our datasets: </label>
                 </td>
                 <td id="right">
                     <select name="dataset" autofocus onchange="changeDataset()" id="datasetList" align="center">                    
-                        <option value="keyboard">Keyboard Layouts Comparison</option>
-                        <option value="food">Effect of Food on Test Scores</option>
-                        <option value="weightLoss">Weight Loss</option>
-                        <option value="phoneOS">Effect of OS on stress</option>
+                        <option value="keyboard">Comparison of keyboard layouts </option>
+                        <option value="food">Effect of food types on exam performance </option>
+                        <option value="weightLoss">Weight loss study </option>
+                        <option value="phoneOS">Comparison of mobile OS on stress </option>
+                        <option value="test">Three-way interaction</option>
                     </select>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td colspan="2">
+                    <br/>
                 </td>
             </tr>
             
@@ -166,19 +265,35 @@
                 </td>
             </tr>
             
-            </br>
+            <tr>
+                <td colspan="2">
+                    <br/>
+                </td>
+            </tr>
             
             <tr>
                 <td id="center" colspan="2">
                     <div id="variablesDiv"></div>
                 </td>
             </tr>
+
+            <tr>
+                <td colspan="2">
+                    <br/>
+                </td>
+            </tr>
         </table>
-        
-        <br/><br/><br/><br/>
         
         <div id="buttonWrapper">
             <input type="button" onclick="exploreDataset()" value="Explore this Dataset!" id="submitButton"/>
+        </div>
+
+        <div id ="submitWarning">
+            Please select at least one dependent variable to continue.
+        </div>
+
+        <div id ="testedBrowser">
+            VisiStat is tested on Google Chrome. Requires window size of at least 1440 x 900 pixels.
         </div>
     </body>
 </html>
