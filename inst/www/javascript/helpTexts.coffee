@@ -59,17 +59,22 @@ root.VisiStat.UI.helpText.interactionEffect2Way = (iv1, iv2, iv3, dv, isSig=true
 		the three-way interaction effect.</p>"
 
 root.VisiStat.UI.helpText.interactionEffectMainEffect = (iv1, iv2, iv3, dv, isSig=true, isHigherSig=true) ->
+	iv3_in = iv3
+	
 	[iv1, iv2, iv3, dv] = (fV(i) for i in [iv1, iv2, iv3, dv])
+
+	excludedEffectText = "<i>without</i> taking into account #{iv2}" + (if iv3_in? then " and #{iv3}" else "")
+
 	(if isSig then \
 		"<p>
 			In the graph that you selected, do you notice how the mean of the #{dv} differs in different levels of #{iv1}?
-			This suggests that #{iv1} influences #{dv}, <i>without</i> taking into account #{iv2} and #{iv3}.
+			This suggests that #{iv1} influences #{dv}, #{excludedEffectText}. 
 			This is called <b>main effect</b>.
 		</p>" \
 		 else \
 		 "<p>
-		 	In the graph that you selected, the mean of the #{dv} do not differ in different levels of #{iv1}, 
-		 	<i>without</i> taking into account #{iv2} and #{iv3}. This suggests that #{iv1} doesn't influences #{dv}.
+		 	In the graph that you selected, the mean of the #{dv} do not differ in different levels of #{iv1}, #{excludedEffectText}. 
+		 	This suggests that #{iv1} doesn't influences #{dv}.
 		 </p>
 		 ") +
 	(if isHigherSig then \

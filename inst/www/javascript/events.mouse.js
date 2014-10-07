@@ -83,7 +83,35 @@ function OnMouseDown(e)
         }
         else
         {
-            if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "effectPlotRects"))
+            if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "statisticalTestNodes")) // When the user clicks on a statistical test in the decision tree
+            {
+                setup(e, target);
+
+                var node = d3.select("#" + target.id + ".statisticalTestNodes");
+                var testName, colour; 
+
+                // If not current test
+                if(node.attr("cursor") == "pointer")
+                {
+                    // Get the name of the statistical test
+                    testName = node.attr("id");
+                    colour = node.attr("fill");
+
+                    console.log("Test name: [" + testName + "]");
+
+                    // Do test (clear current test)
+                    $("#resultsCanvas").empty();
+                    $("#buttonCanvas").empty();
+
+                    // Move focus back to test screen
+                    removeElementsByClassName("decisionTreeBackButton");
+                    removeElementById("decisionTreeDiv");                   
+
+                    usedMultiVariateTestType = colour == "green" ? "proper" : (colour == "yellow") ? "warning" : "error";
+                    doStatisticalTest(testName);    
+                }                
+            }
+            else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "effectPlotRects"))
             {
                 setup(e, target);
 
@@ -150,7 +178,7 @@ function OnMouseDown(e)
             {
                 setup(e, target);                
 
-                d3.select("#statisticalTestName.assumptionNodes").style("text-decoration", "none"); // remove underline
+                d3.select("#statisticalTestName.assumptionNodes").attr("text-decoration", "none"); // remove underline
                 d3.selectAll(".assumptionsText").attr("fill", "black"); // reset text color for assumptions 
 
                 // remove entities in results panel
@@ -166,11 +194,54 @@ function OnMouseDown(e)
                 // reset the viewbox of the plotCanvas
                 d3.select("#plotCanvas").attr("viewBox", "0 0 " + plotPanelWidth + " " + plotPanelHeight);
 
+                // change the appearance of texts
+                d3.select("#statisticalTestName.assumptionNodes").attr("text-decoration", "none");
+                d3.select("#postHocTestName.assumptionNodes").attr("text-decoration", "underline");
+
                 // remove post-hoc results
                 removeElementsByClassName("postHocComparisonTableClickableCells");
                 removeElementsByClassName("postHocComparisonTableCells");
                 removeElementsByClassName("inactivePostHocComparisonCells");
                 removeElementsByClassName("postHocComparisonTable");
+            }
+            else if((e.button == 1 && window.event != null || e.button == 0) && (target.id == "postHocTestName"))
+            {
+                setup(e, target);                
+                
+                d3.selectAll(".assumptionsText").attr("fill", "black"); // reset text color for assumptions 
+
+                // remove post-hoc results
+                removeElementsByClassName("postHocComparisonTableClickableCells");
+                removeElementsByClassName("postHocComparisonTableCells");
+                removeElementsByClassName("inactivePostHocComparisonCells");
+                removeElementsByClassName("postHocComparisonTable");
+
+                // remove entities in results panel
+                if(document.getElementById("postHocResultsPanel") != null) 
+                    removeElementById("postHocResultsPanel");
+
+                if(document.getElementById("effectsPlotPanel") != null)
+                {
+                    var margin = 10;
+                    d3.select("#effectsPlotPanel").attr("style", "position: absolute; left: " + (variablesPanelWidth + margin) + "px; top: " + assumptionsPanelHeight + "px; width: " + (plotPanelWidth - 2*margin) + "px; height: " + (height - resultsPanelHeight - assumptionsPanelHeight) + "px; background-color: #fff; display: inline;");
+                }
+
+                // reset the viewbox of the plotCanvas
+                d3.select("#plotCanvas").attr("viewBox", "0 0 " + plotPanelWidth + " " + plotPanelHeight);
+
+                // change the appearance of texts
+                d3.select("#statisticalTestName.assumptionNodes").attr("text-decoration", "underline");
+                d3.select("#postHocTestName.assumptionNodes").attr("text-decoration", "none");
+
+                // shrink the visualization
+                d3.select("#plotCanvas").attr("viewBox", "0 0 " + (plotPanelWidth*1.67) + " " + plotPanelHeight).attr("preserveAspectRatio", "xMidYMid meet");                
+
+                // determine the appropriate pairwise post-hoc test (default => all pairs)
+                doPostHocTests();                
+                
+                // remove normality/homogeneity plot
+                removeElementsByClassName("densityCurve");
+                removeElementsByClassName("homogeneityPlot");
             }
             
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "postHocComparisonTableClickableCells"))
@@ -192,7 +263,7 @@ function OnMouseDown(e)
                 cellBack.attr("fill", "lightgrey");
 
                 // collect results
-                ID = target.id.split("_")[1];
+                ID = target.id.split("_").length == 1 ? target.id.split("_")[0] : target.id.split("_")[1];
 
                 var levelA = ID.split("-")[0];
                 var levelB = ID.split("-")[1];
@@ -214,8 +285,8 @@ function OnMouseDown(e)
                 if(document.getElementById("postHocResultsPanel") == null)
                 {
                     postHocResultsPanel = d3.select("body").append("div")
-                                                                                            .attr("style", "position: absolute; left: " + variablesPanelWidth + "px; top: " + (assumptionsPanelHeight + plotPanelHeight) + "px; width: " + resultsPanelWidth + "px; height: " + resultsPanelHeight + "px; background-color: #fff")
-                                                                                            .attr("id", "postHocResultsPanel");
+                                                            .attr("style", "position: absolute; left: " + variablesPanelWidth + "px; top: " + (assumptionsPanelHeight + plotPanelHeight) + "px; width: " + resultsPanelWidth + "px; height: " + resultsPanelHeight + "px; background-color: #fff")
+                                                            .attr("id", "postHocResultsPanel");
                 }
                 else
                 {
@@ -256,6 +327,21 @@ function OnMouseDown(e)
                 // remove normality/homogeneity plot
                 removeElementsByClassName("densityCurve");
                 removeElementsByClassName("homogeneityPlot");
+
+                // Change appearance of statistical test
+                d3.select("#statisticalTestName.assumptionNodes").attr("text-decoration", "underline");
+                d3.select("#postHocTestName.assumptionNodes").attr("text-decoration", "none");
+            }
+
+            else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "assumptionNodes"))
+            {
+                setup(e, target);
+
+                var node = d3.select("#" + target.id + ".assumptionNodes");
+                var nodeText = d3.select("#" + target.id + ".assumptionsText");
+
+                if((target.id == "normality") || (target.id == "homogeneity"))
+                    handleAssumptions(nodeText);
             }
 
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.id == "moreText"))
@@ -1057,6 +1143,20 @@ function OnMouseDown(e)
 
                 d3.selectAll(".IQRs, .medians, .TOPFringes, .BOTTOMFringes, .TOPFringeConnectors, .BOTTOMFringeConnectors, .outliers, .CIs, .CITopFringes, .CIBottomFringes").transition().duration(500).style("opacity", "0.35");
                 d3.selectAll(".means").transition().duration(500).attr("r", engorgedMeanRadius);
+
+                selectAllMeans();
+
+                var selectNoneText = d3.select("#text.selectNone");
+                var selectNoneButton = d3.select("#button.selectNone");
+            
+                var selectAllText = d3.select("#text.selectAll");
+                var selectAllButton = d3.select("#button.selectAll");
+
+                selectAllButton.attr("fill", "url(#buttonFillSelected)");
+                selectAllButton.attr("filter", "none");
+                selectAllButton.attr("stroke", "none");
+            
+                selectAllText.attr("fill", "white");
             
                 setTimeout(function()
                 {
@@ -1315,36 +1415,35 @@ function OnMouseDown(e)
                 }                
             }
             
-            else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "resetButtonFront")
+            else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "resetButton")
             {
                 setup(e, target);
-                var resetButtonImage = d3.select(".resetButtonImage");
                 
-                if(selectedVisualisation == "Boxplot" && resetButtonImage.attr("display") == "inline")
+                var buttonRect = d3.select("#button.resetButton");
+                var buttonText = d3.select("#text.resetButton");
+                
+                plotVisualisation();                
+                hideResetButton();
+
+                var canvas = d3.select("#plotCanvas");
+                var variableList = getSelectedVariables();
+    
+                var buttonText = "Compare the Selected Distributions";
+                drawButton(buttonText, "compareNow");                               
+
+                drawButton("Select none", "selectNone", assumptionsPanelWidth*0.25, assumptionsPanelHeight*0.5, "assumptionsCanvas");
+                drawButton("Select all", "selectAll", assumptionsPanelWidth*0.75, assumptionsPanelHeight*0.5, "assumptionsCanvas");
+    
+                freezeMouseEvents = true;
+                d3.selectAll(".IQRs, .medians, .TOPFringes, .BOTTOMFringes, .TOPFringeConnectors, .BOTTOMFringeConnectors, .outliers, .CIs, .CITopFringes, .CIBottomFringes").transition().duration(500).style("opacity", "0.35");
+                d3.selectAll(".means").transition().duration(500).attr("r", engorgedMeanRadius);
+        
+                setTimeout(function()
                 {
-                    plotVisualisation();                
-                    showResetButton();
-
-                    var canvas = d3.select("#plotCanvas");
-                    var variableList = getSelectedVariables();
-        
-                    var buttonText = "Compare the Selected Distributions";
-                    drawButton(buttonText, "compareNow");                               
-
-                    drawButton("Select none", "selectNone", assumptionsPanelWidth*0.25, assumptionsPanelHeight*0.5, "assumptionsCanvas");
-                    drawButton("Select all", "selectAll", assumptionsPanelWidth*0.75, assumptionsPanelHeight*0.5, "assumptionsCanvas");
-        
-                    freezeMouseEvents = true;
-                    d3.selectAll(".IQRs, .medians, .TOPFringes, .BOTTOMFringes, .TOPFringeConnectors, .BOTTOMFringeConnectors, .outliers, .CIs, .CITopFringes, .CIBottomFringes").transition().duration(500).style("opacity", "0.35");
-                    d3.selectAll(".means").transition().duration(500).attr("r", engorgedMeanRadius);
-            
-                    setTimeout(function()
-                    {
-                        freezeMouseEvents = false;
-                    }, 500);
-        
-                    removeElementsByClassName("compareMean");
-                }
+                    freezeMouseEvents = false;
+                }, 500);
+    
+                removeElementsByClassName("compareMean");
             }
     
             else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "regression")
@@ -1440,151 +1539,9 @@ function OnMouseDown(e)
             else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "assumptionsText")
             {
                 setup(e, target);
-        
-                var assumptionText = d3.select("#" + target.id + ".assumptionsText");               
-            
-                if(assumptionText.attr("fill") == "black")
-                {
-                    assumptionText.attr("fill", "#627bf4");
-            
-                    switch(target.id)
-                    {
-                        case "normality":
-                                        {
-                                            removeElementsByClassName("densityCurve");
-                                            var homogeneityText = d3.select("#homogeneity.assumptionsText");                                           
-                                            d3.select("#effectsPlotPanel").attr("style", "display: none");
-                                            d3.select("#statisticalTestName.assumptionNodes").style("text-decoration", "underline");
-                                            
-                                            homogeneityText.attr("fill", "black");
-                                            removeElementsByClassName("tempDisplay")
 
-                                            var variableList = getSelectedVariables();
-                                    
-                                            var dependentVariable = variableList["dependent"][0];
-
-                                            d3.select("#plotCanvas").transition().duration(1000).attr("viewBox", "0 0 " + plotPanelWidth + " " + scaledPlotPanelHeight);
-                                            drawAdvancedPlotButton();
-
-                                            if(variableList["independent"].length == 2)
-                                            {
-                                                var levels = getSelectedMeanLevelsForColourBoxPlotData();
-
-                                                for(var i=0; i<levels.length; i++)
-                                                {   
-                                                    if(distributions.hasOwnProperty(dependentVariable))
-                                                    {
-                                                        if(distributions[dependentVariable][levels[i]] == false)
-                                                        {   
-                                                            //draw boxplots in red 
-                                                            drawBoxPlotInRed(levels[i]);
-                                                            drawNormalityPlot(dependentVariable, levels[i], "notnormal");
-                                                        }
-                                                        else
-                                                        {                                                
-                                                            drawNormalityPlot(dependentVariable, levels[i], "normal");
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                         if(distributions[levels[i]] == false)
-                                                        {   
-                                                            //draw boxplots in red 
-                                                            drawBoxPlotInRed(levels[i]);
-                                                            drawNormalityPlot(dependentVariable, levels[i], "notnormal");
-                                                        }
-                                                        else
-                                                        {                                                
-                                                            drawNormalityPlot(dependentVariable, levels[i], "normal");
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            else
-                                            {
-                                                for(var i=0; i<variableList["independent-levels"].length; i++)
-                                                {   
-                                                    if(distributions.hasOwnProperty(dependentVariable))
-                                                    {
-                                                        if(distributions[dependentVariable][variableList["independent-levels"][i]] == false)
-                                                        {   
-                                                            //draw boxplots in red 
-                                                            drawBoxPlotInRed(variableList["independent-levels"][i]);
-                                                            drawNormalityPlot(dependentVariable, variableList["independent-levels"][i], "notnormal");
-                                                        }
-                                                        else
-                                                        {                                                
-                                                            drawNormalityPlot(dependentVariable, variableList["independent-levels"][i], "normal");
-                                                        }
-                                                    }
-                                                    else if(distributions.hasOwnProperty(variableList["independent-levels"][i]))
-                                                    {
-                                                         if(distributions[variableList["independent-levels"][i]] == false)
-                                                        {   
-                                                            //draw boxplots in red 
-                                                            drawBoxPlotInRed(variableList["independent-levels"][i]);
-                                                            drawNormalityPlot(dependentVariable, variableList["independent-levels"][i], "notnormal");
-                                                        }
-                                                        else
-                                                        {                                                
-                                                            drawNormalityPlot(dependentVariable, variableList["independent-levels"][i], "normal");
-                                                        }
-                                                    }
-                                                    
-                                                }
-                                            }
-                                            
-
-                                            
-                                    
-                                            break;
-                                        }
-                        case "homogeneity":
-                                        {
-                                            var normalityText = d3.select("#normality.assumptionsText");                                                                                       
-                                            normalityText.attr("fill", "black");
-                                            d3.select("#effectsPlotPanel").attr("style", "display: none");
-                                            d3.select("#statisticalTestName.assumptionNodes").style("text-decoration", "underline");
-                                            removeElementsByClassName("tempDisplay")
-
-                                            var variableList = sort(selectedVariables);
-                                            
-                                            var homogeneity = d3.select("#homogeneity.assumptionNodes").attr("fill") == "green" ? true : false;
-
-                                            d3.select("#plotCanvas").transition().duration(1000).attr("viewBox", "0 0 " + plotPanelWidth + " " + scaledPlotPanelHeight);
-                                            drawAdvancedPlotButton();        
-                                            drawHomogeneityPlot(homogeneity);                                               
-
-                                            break;
-                                        }
-                        case "sphericity":
-                                        {                                    
-                                            break;
-                                        }
-                        default: 
-                                alert("this is not supposed to happen!");
-                    }
-                }
-                else
-                {
-                    assumptionText.attr("fill", "black");
-            
-                    switch(target.id)
-                    {
-                        case "normality":
-                                        {
-                                            d3.select("#plotCanvas").transition().duration(1000).attr("viewBox", "0 0 " + plotPanelWidth + " " + plotPanelHeight);
-                                    
-                                            break;
-                                        }
-                        case "homogeneity":
-                                        {
-                                            d3.select("#plotCanvas").transition().duration(1000).attr("viewBox", "0 0 " + plotPanelWidth + " " + plotPanelHeight);
-                                        
-                                            break;
-                                        }                                               
-                    }
-                }
+                var nodeText = d3.select("#" + target.id + ".assumptionsText");        
+                handleAssumptions(nodeText);
             }
             
             else if((e.button == 1 && window.event != null || e.button == 0) && target.className.baseVal == "effectButtonFront")
@@ -2145,6 +2102,15 @@ function OnMouseOver(e)
         else
         {
             /** Hover actions for DOM elements */            
+            if(target.className.baseVal == "statisticalTestNodes")
+            {
+                var node = d3.select("#" + target.id + ".statisticalTestNodes");
+
+                if((node.attr("fill") == "green") || (node.attr("fill") == "yellow") || (node.attr("fill") == "red"))
+                    node.attr("cursor", "pointer");                
+                else                                
+                    node.attr("cursor", "default");                                
+            }
             if(target.className.baseVal == "effectPlotRects")
             {
                 d3.selectAll(".effectPlotRects").attr("cursor", "pointer");
@@ -2570,15 +2536,11 @@ function OnMouseOver(e)
                 helpButtonText.attr("cursor", "pointer");
             } 
             
-            else if(target.className.baseVal == "resetButtonFront")
+            else if(target.className.baseVal == "resetButton")
             {
                 setup(e, target);
             
-                var resetButtonImage = d3.select(".resetButtonImage");
-                var resetButton = d3.select(".resetButtonFront");            
-                        
-                resetButton.attr("cursor", "pointer");
-            
+                d3.selectAll(".resetButton").attr("cursor", "pointer");            
             } 
     
             else if(target.className.baseVal == "outliers")
@@ -2635,32 +2597,22 @@ function OnMouseOver(e)
                 var element = d3.select("#" + target.id + ".CIs");
                 showToolTip(element);
             }
-            
+
             else if(target.className.baseVal == "CIMean")
             {
-                var canvas = d3.select("#plotCanvas");
-        
-                var topFringe = d3.select("#top.CIMean");
-                var bottomFringe = d3.select("#bottom.CIMean");
-    
-                var variableList = sort(selectedVariables);       
-                
-                var top = dec2(multiVariateTestResults["CI"][1]);
-                var bottom = dec2(multiVariateTestResults["CI"][0]);
-                   
-                canvas.append("text")
-                        .attr("x",parseFloat(topFringe.attr("x1")))
-                        .attr("y", parseFloat(topFringe.attr("y1")) - displayOffsetTop)
-                        .attr("text-anchor", "middle")
-                        .text(top)
-                        .attr("class", "hover");
-                
-                canvas.append("text")
-                        .attr("x",parseFloat(bottomFringe.attr("x1")))
-                        .attr("y", parseFloat(bottomFringe.attr("y1")) + displayOffsetBottom)
-                        .attr("text-anchor", "middle")
-                        .text(bottom)
-                        .attr("class", "hover");
+                if(target.id == "center")
+                {
+                    //nothing
+                }
+
+                var element = d3.select("#" + target.id + ".CIMean");
+                showToolTip(element);
+            }
+            
+            else if(target.id == "differenceInMeansMain")
+            {
+                var element = d3.select("#differenceInMeansMain");
+                showToolTip(element);
             }
     
             else if(target.className.baseVal == "regression")
@@ -2941,7 +2893,8 @@ function OnMouseOut(e)
          
         if(target.className.baseVal == "nodes" && (target.id.indexOf("Homogeneity") != -1) || (target.id.indexOf("Normality") != -1))
         {
-            removeElementById("hoverRect");
+            if(document.getElementById("hoverRect"))
+                removeElementById("hoverRect");
         }
 
         else if(target.className.baseVal == "visualisationHolder")                
@@ -3063,7 +3016,8 @@ function setup(e, target)
     document.body.focus();
 
     // prevent text selection in IE
-    document.onselectstart = function () { return false; };
+    target.onselectstart = function () { return false; };
+    
     // prevent IE from trying to drag an image
     target.ondragstart = function() { return false; };		
 }

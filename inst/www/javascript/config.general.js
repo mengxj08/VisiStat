@@ -361,14 +361,14 @@ for(var i=0; i<levelNamesOfDecisionTree.length; i++)
 
 // - - - - - - - - - - - - -  2 levels - - - - - - - - - - - - - 
 
-decisionTree2Levels["Experimental Design?"]["values"] = ["Within-groups factor?"];
+decisionTree2Levels["Experimental Design?"]["values"] = ["Experimental design?"];
 decisionTree2Levels["Experimental Design?"]["parentNodeIDs"] = [null];
 
 var RootInDecisionTreeFor2Levels = decisionTree2Levels[levelNamesOfDecisionTree[0]]["values"][0] + '0';
 
 decisionTree2Levels["Variance is roughly the same?"]["values"] = ["Homogeneity?", "Homogeneity?"];
 decisionTree2Levels["Variance is roughly the same?"]["parentNodeIDs"] = [RootInDecisionTreeFor2Levels, RootInDecisionTreeFor2Levels];
-decisionTree2Levels["Variance is roughly the same?"]["pathLabel"] = ["Yes", "No"];
+decisionTree2Levels["Variance is roughly the same?"]["pathLabel"] = ["within-groups", "between-groups"];
 
 decisionTree2Levels["Normally distributed?"]["values"] = ["Normality?", null, "Normality?", "Normality?"];
 decisionTree2Levels["Normally distributed?"]["parentNodeIDs"] = ["Homogeneity?0", null, "Homogeneity?1", "Homogeneity?1"];
@@ -380,14 +380,14 @@ decisionTree2Levels["Statistical test?"]["pathLabel"] = ["Yes", "No", null, null
 
 // - - - - - - - - - - - - -  3+ levels - - - - - - - - - - - - - 
 
-decisionTree3OrMoreLevels["Experimental Design?"]["values"] = ["Within-groups factor?"];
+decisionTree3OrMoreLevels["Experimental Design?"]["values"] = ["Experimental design?"];
 decisionTree3OrMoreLevels["Experimental Design?"]["parentNodeIDs"] = [null];
 
 var RootInDecisionTreeFor3OrMoreLevels = decisionTree3OrMoreLevels[levelNamesOfDecisionTree[0]]["values"][0] + '0';
 
 decisionTree3OrMoreLevels["Variance is roughly the same?"]["values"] = ["Homogeneity?", "Homogeneity?"];
 decisionTree3OrMoreLevels["Variance is roughly the same?"]["parentNodeIDs"] = [RootInDecisionTreeFor3OrMoreLevels, RootInDecisionTreeFor3OrMoreLevels];
-decisionTree3OrMoreLevels["Variance is roughly the same?"]["pathLabel"] = ["Yes", "No"];
+decisionTree3OrMoreLevels["Variance is roughly the same?"]["pathLabel"] = ["within-groups", "between-groups"];
 
 decisionTree3OrMoreLevels["Normally distributed?"]["values"] = ["Normality?", null, "Normality?", "Normality?"];
 decisionTree3OrMoreLevels["Normally distributed?"]["parentNodeIDs"] = ["Homogeneity?0", null, "Homogeneity?1", "Homogeneity?1"];
@@ -406,7 +406,7 @@ var RootInDecisionTreeFor2OrMoreIndependentVariables = decisionTree2OrMoreIndepe
 
 decisionTree2OrMoreIndependentVariables["Variance is roughly the same?"]["values"] = ["Homogeneity?", "Homogeneity?"];
 decisionTree2OrMoreIndependentVariables["Variance is roughly the same?"]["parentNodeIDs"] = [RootInDecisionTreeFor2OrMoreIndependentVariables, RootInDecisionTreeFor2OrMoreIndependentVariables];
-decisionTree2OrMoreIndependentVariables["Variance is roughly the same?"]["pathLabel"] = ["Yes", "No"];
+decisionTree2OrMoreIndependentVariables["Variance is roughly the same?"]["pathLabel"] = ["within-groups", "between-groups"];
 
 decisionTree2OrMoreIndependentVariables["Normally distributed?"]["values"] = ["Normality?", null, "Normality?", null];
 decisionTree2OrMoreIndependentVariables["Normally distributed?"]["parentNodeIDs"] = ["Homogeneity?0", null, "Homogeneity?1", null];
@@ -418,14 +418,14 @@ decisionTree2OrMoreIndependentVariables["Statistical test?"]["pathLabel"] = ["Ye
 
 // - - - - - - - - - - - - -  Post-hoc tests - - - - - - - - - - - - - 
 
-decisionTreePostHocTests["Experimental Design?"]["values"] = ["Within-groups factor?"];
+decisionTreePostHocTests["Experimental Design?"]["values"] = ["Experimental design?"];
 decisionTreePostHocTests["Experimental Design?"]["parentNodeIDs"] = [null];
 
 var RootInDecisionTreeForPostHocTests = decisionTreePostHocTests[levelNamesOfDecisionTree[0]]["values"][0] + '0';
 
 decisionTreePostHocTests["Variance is roughly the same?"]["values"] = ["Homogeneity?", "Homogeneity?"];
 decisionTreePostHocTests["Variance is roughly the same?"]["parentNodeIDs"] = [RootInDecisionTreeForPostHocTests, RootInDecisionTreeForPostHocTests];
-decisionTreePostHocTests["Variance is roughly the same?"]["pathLabel"] = ["Yes", "No"];
+decisionTreePostHocTests["Variance is roughly the same?"]["pathLabel"] = ["within-groups", "between-groups"];
 
 decisionTreePostHocTests["Normally distributed?"]["values"] = ["Normality?", null, "Normality?", "Normality?"];
 decisionTreePostHocTests["Normally distributed?"]["parentNodeIDs"] = ["Homogeneity?0", null, "Homogeneity?1", "Homogeneity?1"];

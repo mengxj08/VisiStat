@@ -12,8 +12,9 @@ registerEventHandler_History = function(eventName, handler) {
 addEntryToHistory = function(RQ, entryNumber) {
   var html;
   html = "";
-  html += "<tr>\n<td class='left'> <img class='selectedEntryIndicators' id = 'img_" + entryNumber + "' src='images/eyes.png'/> </td>\n<td class='middle'> <div class='entryName' name='" + RQ + "' id='entry_" + entryNumber + "' onclick='historyEntryIsClicked(this.name,this.id)'>" + RQ + "</div> </td>\n<td class='right'><img class='entryCheckbox' id = 'checkbox_" + entryNumber + "' src='images/checkOff.png' onclick='reportCheckboxIsClicked(this.src, this.id)'/> </td>\n		      </tr>";
+  html += "<tr class='historyEntry'>\n<td class='left'> <img class='selectedEntryIndicators' id = 'img_" + entryNumber + "' src='images/eyes.png'/> </td>\n<td class='middle'> <div class='entryName' name='" + RQ + "' id='entry_" + entryNumber + "' onclick='historyEntryIsClicked(this.name,this.id)'>" + RQ + "</div> </td>\n<td class='right'><img class='entryCheckbox' id = 'checkbox_" + entryNumber + "' src='images/checkOff.png' onclick='reportCheckboxIsClicked(this.src, this.id)'/> </td>\n		      </tr>";
   appendDOM('#historyTable', html);
+  $("#entry_" + entryNumber)[0].scrollIntoView();
 };
 
 addEntryToReport = function(reportText, ID) {
@@ -21,6 +22,7 @@ addEntryToReport = function(reportText, ID) {
   html = "";
   html += "<div class='reportText' id='report_" + ID + "'>\n" + reportText + " \n		      </div>";
   appendDOM("#reportSection", html);
+  $("#report_" + ID)[0].scrollIntoView();
 };
 
 //# sourceMappingURL=history.js.map

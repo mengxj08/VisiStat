@@ -18,8 +18,10 @@ performFriedmanTest <- function(dependentVariable, independentVariable, particip
     
     result = findError(distributions);
     error = result$error;
+        
+    eval(parse(text = paste("dataset.modified <- doBy::summaryBy(", dependentVariable, " ~ ", participantVariable, " + ", independentVariable, ", data = dataset, FUN = mean, keep.names=T)", sep="")))    
     
-    result = eval(parse(text = paste("friedman.test(",dependentVariable," ~ ",independentVariable," | ",participantVariable,", data = dataset)",sep="")));
+    result = eval(parse(text = paste("friedman.test(", dependentVariable," ~ ",independentVariable," | ",participantVariable,", data = dataset.modified)",sep="")));
     
     sampleSize = eval(parse(text = paste("length(dataset$",independentVariable,")", sep="")));
     etaSq = result$statistic[["Friedman chi-squared"]]/(sampleSize - 1);

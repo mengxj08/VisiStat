@@ -36,11 +36,15 @@ prettyStringJoin = (stringArray, delimiter = ",", lastDelimiter = "and") ->
 # variable formatting shorthand
 fV = (varName) -> "<i>#{ varName }</i>"
 fCI = (lower, upper) -> "95% CI [#{ lower.toFixed(2) },#{ upper.toFixed(2) }]"
-fP = (p, isHTML = false, includeLabel = true) -> 
+fP = (p, format = "html", includeLabel = true) -> 
   p = Number(p)
   label = ""
+  formattedP = switch format
+    when "html" then "<i>p</i> " 
+    when "svg" then "<tspan font-style='italic'>p</tspan>"
+    else "p "
   if includeLabel
-    label = (if isHTML then "<i>p</i> " else "p ") + (if p >= 0.001 then "= " else "")
+    label = formattedP + (if p >= 0.001 then "= " else "")
   signAndValue = if p < 0.001 then "< .001" else omitZeroPValueNotation(p)
   "#{label}#{signAndValue}"
 
@@ -89,7 +93,7 @@ statNHST = (parameterType, df, parameter, p) ->
   parameterType = String.fromCharCode(967) + String.fromCharCode(178)  if parameterType is "cS"
   dfText = if hasDF[parameterType] then "(" + df + ") " else ""
   
-  ", #{ fV(parameterType) }#{ dfText } = #{ parameter }, #{ fP(p) }."
+  ", #{ fV(parameterType) }#{ dfText } = #{ Number(parameter).toFixed(2) }, #{ fP(p) }."
 
 
 class ReportFactory
@@ -171,7 +175,7 @@ getSignificanceTest2WayReportingText = () ->
   "<p>To compare the effect of #{ iv1 } and #{ iv2 } as well as their interaction " + 
   " on #{ dv }, a #{ multiVariateTestResults["method"] } was conducted.</p>" +
   "<p>" + rFactory.iFX2Way(iv1, iv2, idxIFX) + rFactory.nhstAndES(idxIFX) + "</p>" +
-  "<p>" + ( rFactory.mainFX(i) + rFactory.nhstAndES(i) for i in [0...variableList["independent"].length] ).join("</p>")
+  "<p>" + ( rFactory.mainFX(i) + rFactory.nhstAndES(i) for i in [0...variableList["independent"].length] ).join("</p><p>") + "</p>"
 
 
 

@@ -844,7 +844,10 @@ function logResult()
     d3.select("#statisticalTestName.assumptionNodes").text(multiVariateTestResults["method"]);
     
     var fillColor = usedMultiVariateTestType == "proper" ? "green" : (usedMultiVariateTestType == "warning") ? "yellow" : "red";
-    var displayText = usedMultiVariateTestType == "error" ? "The appropriate test is unavailable in VisiStat. The chosen test should not be reported!" : (usedMultiVariateTestType == "warning") ? "This test does not have the best power for the given data. The appropriate test can be selected from the decision tree (click on the settings button on the top right corner" : "The appropriate test has been chosen based on the assumptions";
+    var displayText = usedMultiVariateTestType == "error" ? "The appropriate test is unavailable in VisiStat. The chosen test should not be reported!" : (usedMultiVariateTestType == "warning") ? "This test does not have the best power for the given data. The appropriate test can be selected from the decision tree." : "The appropriate test has been chosen based on the assumptions";
+
+    if(getToolTip({"id": "statisticalTest", "className": "assumptionNodes"}) != -1)        
+        removeToolTip({"id": "statisticalTest", "className": "assumptionNodes"});
 
     addToolTip("statisticalTest", "assumptionNodes", displayText);
     d3.select("#statisticalTest.assumptionNodes").attr("fill", fillColor);
@@ -861,19 +864,6 @@ function logResult()
     
     if(global.flags.isTestWithoutTimeout)
         return;
-    
-    listOfResearchQuestions.push(multiVariateTestResults["formula"]);
-    listOfVariableSelections.push((selectedVariables.clone()).clone());
-    listOfVisualizationSelections.push(selectedVisualisation);
-    listOfTestTypes.push(multiVariateTestResults["test-type"].slice(0));
-    listOfLevelsCompared.push(getSelectedVariables());
-
-    var levels = (getSelectedVariables())["independent-levels"];
-    variableLists.push(levels.slice(0));
-
-    // ToDo: remove duplicates? 
-    if(listOfResearchQuestions.indexOf(multiVariateTestResults["formula"]) == -1)    
-        updateHistory(multiVariateTestResults["formula"]);
 
     logListTests.push(
         {
@@ -889,6 +879,20 @@ function logResult()
     //writeToFile(String(new Date().getTime()));
 
     log.push(multiVariateTestResults["method"] + ", " + multiVariateTestResults["formula"]);
+
+    if(listOfResearchQuestions.indexOf(multiVariateTestResults["formula"]) != -1)
+        return;
+    
+    listOfResearchQuestions.push(multiVariateTestResults["formula"]);
+    listOfVariableSelections.push((selectedVariables.clone()).clone());
+    listOfVisualizationSelections.push(selectedVisualisation);
+    listOfTestTypes.push(multiVariateTestResults["test-type"].slice(0));
+    listOfLevelsCompared.push(getSelectedVariables());
+
+    var levels = (getSelectedVariables())["independent-levels"];
+    variableLists.push(levels.slice(0));   
+    
+    updateHistory(multiVariateTestResults["formula"]);    
 }
 
 function printLogList()
@@ -1014,6 +1018,9 @@ function addToolTip(id, className, displayText, displaySubText, targetID, target
     if(className != null)
         key = key + "." + className;
 
+    // if(getToolTip({id: id, className: className}) != -1)
+    //     removeToolTip({id: id, className: className});
+
     if(typeof(targetID) === "undefined")
     {
         toolTips[key] = new Opentip($(key), {style: "dark", tipJoint: jointDirection});    
@@ -1028,7 +1035,10 @@ function addToolTip(id, className, displayText, displaySubText, targetID, target
 
 function getToolTip(element)
 {
-    var key = "#" + element.id + "." + element.className;
+    var key = "#" + element.id;
+
+    if(element.className != null) 
+        key += "." + element.className;    
 
     if(toolTips.hasOwnProperty(key))
         return toolTips[key];
@@ -1050,6 +1060,21 @@ function hideToolTip(element)
 
     if(toolTip != -1)
         toolTip.hide();
+}
+
+function removeToolTip(element)
+{
+    var toolTip = getToolTip(element);    
+    var key = "#" + element.id;
+
+    if(element.className != null) 
+        key += "." + element.className;
+
+    if(toolTip != -1)
+    {
+        toolTip.deactivate();
+        delete toolTips.key;
+    }
 }
 
 /**

@@ -44,21 +44,21 @@ function addExplanationTextForPostHocTest(cx)
     // add help text 
     var canvas = d3.select("#buttonCanvas");    
 
-    var helpText = canvas.append("text")
-                                            .attr("x", cx)
-                                            .attr("y", 2*buttonTopOffset + buttonHeight)
-                                            .attr("font-size", fontSizes["post-hoc button help text"])
-                                            .attr("text-anchor", "middle")
-                                            .text("Use this if you want to compare individual levels...")                    
-                                            .attr("id", "refText");
+    // var helpText = canvas.append("text")
+    //                                         .attr("x", cx)
+    //                                         .attr("y", 2*buttonTopOffset + buttonHeight)
+    //                                         .attr("font-size", fontSizes["post-hoc button help text"])
+    //                                         .attr("text-anchor", "middle")
+    //                                         .text("Use this if you want to compare individual levels...")                    
+    //                                         .attr("id", "refText");
 
-    // 'more' button
-    helpText.append("tspan")
-                    .attr("font-weight", "bold")
-                    .attr("fill", "blue")
-                    .attr("text-decoration", "underline")
-                    .text("(more)")
-                    .attr("id", "moreText");
+    // // 'more' button
+    // helpText.append("tspan")
+    //                 .attr("font-weight", "bold")
+    //                 .attr("fill", "blue")
+    //                 .attr("text-decoration", "underline")
+    //                 .text("(more)")
+    //                 .attr("id", "moreText");
 }
 
 function addWhyNotText(cx, text)
@@ -83,6 +83,12 @@ function addWhyNotText(cx, text)
 function renderPostHocComparisonTable()
 {
     updateDecisionTreeNodes(); // Add an entry to the decision tree nodes
+
+    removeElementsByClassName("postHocComparisonTableClickableCells");
+    removeElementsByClassName("postHocComparisonTableCells");
+    removeElementsByClassName("inactivePostHocComparisonCells");
+    removeElementsByClassName("postHocComparisonTable");
+
 
     // - - - - - - - - - - - - - Matrix - - - - - - - - - - - - - 
 
@@ -260,10 +266,7 @@ function updateDecisionTreeNodes()
 }
 
 function displayPostHocResults(levelA, levelB, index)
-{
-    console.log("Results from Post-hoc comparison: ");
-    console.dir(postHocTestResults);
-
+{ 
     var canvas = d3.select("#postHocResultsCanvas");
 
     canvas.append("text")

@@ -46,10 +46,7 @@ div.entryName {
 	max-width: 250px;	
 	// background-position: 4% center;
 	// background-repeat: no-repeat;
-	background-color: @panelBackgroundDefaultColor;
-
 	&:hover {
-		background-color: @panelBackgroundHoverColor;
 		color: @panelTextHoverColor;
 	}
 }
@@ -70,7 +67,19 @@ td.right{
 	width: 50px;
 	padding: 5px;
 	align: center;
-	cursor: pointer
+	cursor: pointer;
+}
+
+tr.historyEntry {
+	.mxnPanelTransition;
+	background-color: @panelBackgroundDefaultColor;
+	&:hover {
+		background-color: @panelBackgroundHoverColor;
+	}
+}
+
+table#historyTable {
+	border-spacing: 0px;
 }
 
 img.selectedEntryIndicators{ 

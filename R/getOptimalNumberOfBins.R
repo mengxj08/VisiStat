@@ -23,7 +23,12 @@ getOptimalNumberOfBins <- function(distributions)
     }
     
     idx <- which.min(C);
-    N[idx] - 1;
+    numBreaks <- N[idx] - 1
+    altBreaks <- nclass.FD(distribution)
+    numBreaks <- ifelse(numBreaks == 2 & altBreaks > numBreaks, altBreaks, numBreaks)
+    
+    # return value for the parallel loop
+    numBreaks
   }
   
   list(nBinsArray = nBins, nBinsArrayNames = names(distributions));

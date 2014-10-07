@@ -73,18 +73,28 @@ fCI = function(lower, upper) {
   return "95% CI [" + (lower.toFixed(2)) + "," + (upper.toFixed(2)) + "]";
 };
 
-fP = function(p, isHTML, includeLabel) {
-  var label, signAndValue;
-  if (isHTML == null) {
-    isHTML = false;
+fP = function(p, format, includeLabel) {
+  var formattedP, label, signAndValue;
+  if (format == null) {
+    format = "html";
   }
   if (includeLabel == null) {
     includeLabel = true;
   }
   p = Number(p);
   label = "";
+  formattedP = (function() {
+    switch (format) {
+      case "html":
+        return "<i>p</i> ";
+      case "svg":
+        return "<tspan font-style='italic'>p</tspan>";
+      default:
+        return "p ";
+    }
+  })();
   if (includeLabel) {
-    label = (isHTML ? "<i>p</i> " : "p ") + (p >= 0.001 ? "= " : "");
+    label = formattedP + (p >= 0.001 ? "= " : "");
   }
   signAndValue = p < 0.001 ? "< .001" : omitZeroPValueNotation(p);
   return "" + label + signAndValue;
@@ -152,7 +162,7 @@ statNHST = function(parameterType, df, parameter, p) {
     parameterType = String.fromCharCode(967) + String.fromCharCode(178);
   }
   dfText = hasDF[parameterType] ? "(" + df + ") " : "";
-  return ", " + (fV(parameterType)) + dfText + " = " + parameter + ", " + (fP(p)) + ".";
+  return ", " + (fV(parameterType)) + dfText + " = " + (Number(parameter).toFixed(2)) + ", " + (fP(p)) + ".";
 };
 
 ReportFactory = (function() {
@@ -260,7 +270,7 @@ getSignificanceTest2WayReportingText = function() {
       _results.push(rFactory.mainFX(i) + rFactory.nhstAndES(i));
     }
     return _results;
-  })()).join("</p>");
+  })()).join("</p><p>") + "</p>";
 };
 
 getSignificanceTest3WayReportingText = function() {

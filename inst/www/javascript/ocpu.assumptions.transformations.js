@@ -209,30 +209,30 @@ function callBackForFindTransformationForHomoscedasticity(output)
     
         // Draw button
         drawButton(buttonText, "transformToHomogeneity");
-        drawButton("Don't transform data", "dontTransformToHomogeneity");
+        drawButton("Leave data as is and violate the assumption", "dontTransformToHomogeneity");
     } 
 }
 
 function getTransformationButtonText(transformationType)
 {
-    var buttonText = "Transform data [";
+    var buttonText = "Transform data to satisfy the assumption using ";
 
     switch(transformationType)
     {
         case "log":
-                    buttonText += "log(x+1)]";
+                    buttonText += "log(x+1)";
                     break;
 
         case "sqrt":
-                    buttonText += "x^(1/2)]";
+                    buttonText += "x^(1/2)";
                     break;
 
         case "cube":
-                    buttonText += "x^(1/3)]";
+                    buttonText += "x^(1/3)";
                     break;
 
         case "reciprocal":
-                    buttonText += "1/x]";
+                    buttonText += "1/x";
                     break;
 
         default:

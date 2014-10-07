@@ -599,7 +599,7 @@ function performFriedmanTest(dependentVariable, independentVariable)
             multiVariateTestResults["p"] = changePValueNotation(output.p);
             multiVariateTestResults["effect-size"] = output.etaSquared;
             multiVariateTestResults["effect-size-type"] = "ηS";       
-            multiVariateTestResults["formula"] = variableList["dependent"][0] + " ~ " + variableList["independent"][0] + " ( " + variableList["independent-levels"] + ")";
+            multiVariateTestResults["formula"] = dependentVariable + " ~ " + independentVariable;
 
             logResult();
 
@@ -634,8 +634,7 @@ function performFriedmanTest(dependentVariable, independentVariable)
         multiVariateTestResults["p"] = changePValueNotation(output.p);
         multiVariateTestResults["effect-size"] = output.etaSquared;
         multiVariateTestResults["effect-size-type"] = "ηS";       
-        multiVariateTestResults["formula"] = variableList["dependent"][0] + " ~ " + variableList["independent"][0] + " ( " + variableList["independent-levels"] + ")";
-
+        multiVariateTestResults["formula"] = dependentVariable + " ~ " + independentVariable;
         logResult();
 
         //drawing stuff

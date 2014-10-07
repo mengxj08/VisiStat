@@ -104,8 +104,13 @@ function plotDecisionTree(canvas, decisionTree)
 				centerX = getBiteSizePowersOfTwo(node, decisionTreeWidth, decisionTree[levelNamesOfDecisionTree[level]]["values"].length) + (plotPanelWidth - decisionTreeWidth);					
 				var nodeOffset = ((node%2 == 1) && (level == (numberOfLevels - 1))) ? 25 : 0;
 
-				if(level == (numberOfLevels - 1))				
-					canvas.rect(centerX - nodeSize/2, centerY - nodeSize/2 + nodeOffset, nodeSize, nodeSize).attr({id: toValidId(decisionTree[levelNamesOfDecisionTree[level]]["values"][node]), class: "nodes", fill: "white", stroke: "black"});				
+				if(level == (numberOfLevels - 1))	
+				{
+					var dataAttributeExperimentalDesign = node < decisionTree[levelNamesOfDecisionTree[level]]["values"].length/2 ? "within-groups" : "between-groups";					
+					var dataAttributeTestType = node % 4 == 0 ? "parametric" : "nonParametric";
+
+					canvas.rect(centerX - nodeSize/2, centerY - nodeSize/2 + nodeOffset, nodeSize, nodeSize).attr({id: toValidId(decisionTree[levelNamesOfDecisionTree[level]]["values"][node]), class: "statisticalTestNodes", "data-experimentalDesign": dataAttributeExperimentalDesign, "data-testType": dataAttributeTestType, fill: "white", stroke: "black"});				
+				}					
 				else
 					canvas.rect(centerX - nodeSize/2, centerY - nodeSize/2, nodeSize, nodeSize).attr({transform: "r45", id: toValidId(decisionTree[levelNamesOfDecisionTree[level]]["values"][node] + node), class: "nodes", fill: "white", stroke: "black"});				
 
@@ -135,11 +140,14 @@ function highlightPath(canvas)
 		homogeneity = true;
 
 	var variableList = getSelectedVariables();
+
+	fillNodesForTestsWithHigherPower();
+	fillNodesForTestsWithLesserPower();
+	fillNodesForTestsWithIncorrectAssumptions();
 	
 	if((experimentalDesign == "within-groups") && (getWithinGroupVariable(variableList) == variableList["independent"][0]))
 	{
-		d3.select("#" + toValidId("Within-groups factor?") + "0Yes.path").attr("stroke-width", "4px");	
-		d3.select("#" + toValidId("Within-groups factor?") + "0.nodes").attr("fill", "green");
+		d3.select("#" + toValidId("Experimental design?") + "0withingroups.path").attr("stroke-width", "4px");			
 
 		if(normality && homogeneity)
 		{
@@ -168,8 +176,7 @@ function highlightPath(canvas)
 	}
 	else
 	{
-		d3.select("#" + toValidId("Within-groups factor?") + "0No.path").attr("stroke-width", "4px");
-		d3.select("#" + toValidId("Within-groups factor?") + "0.nodes").attr("fill", "red");
+		d3.select("#" + toValidId("Experimental design?") + "0betweengroups.path").attr("stroke-width", "4px");
 
 		if(normality && homogeneity)
 		{
@@ -202,19 +209,134 @@ function highlightPath(canvas)
 	}
 
 	if(document.getElementById("postHocTestName") == null)
-	{
-		console.log(multiVariateTestResults["method"]);
-		d3.select("#" + toValidId(multiVariateTestResults["method"]) + ".nodes").attr("fill", d3.select("#statisticalTest.assumptionNodes").attr("fill"));		
+	{		
+		d3.select("#" + toValidId(multiVariateTestResults["method"]) + ".statisticalTestNodes").attr("fill", d3.select("#statisticalTest.assumptionNodes").attr("fill"));		
 	}
 	else
 	{
-		console.log(postHocTestResults["method"]);
-		d3.select("#" + toValidId(postHocTestResults["method"]) + ".nodes").attr("fill", d3.select("#postHocTest.assumptionNodes").attr("fill"));
+		d3.select("#" + toValidId(postHocTestResults["method"]) + ".statisticalTestNodes").attr("fill", d3.select("#postHocTest.assumptionNodes").attr("fill"));
 	}
 }
+
+/**
+ * Fills the nodes of tests with greater power than the currently chosen test (proper)
+ * @return {none}
+ */
+function fillNodesForTestsWithHigherPower()
+{
+	var nodes = document.getElementsByClassName("statisticalTestNodes");
+	var testName = getTestName();
+
+	var currentNode = d3.select("#" + toValidId(testName) + ".statisticalTestNodes");
+
+	var testsWithHigherPower = [];
+
+	// If the currently chosen test is a non-parametric test, all the parametric tests of the same experimental design have higher power
+	if(currentNode.attr("data-testType") == "nonParametric")
+	{
+		for(var i=0; i<nodes.length; i++)
+		{
+			if((nodes[i].getAttribute("data-testType") == "parametric") && (nodes[i].getAttribute("data-experimentalDesign") == currentNode.attr("data-experimentalDesign")))
+			{
+				testsWithHigherPower.push(nodes[i].getAttribute("id"));
+				nodes[i].setAttribute("fill", "green");
+				var displayText = "This is the appropriate test for the chosen distributions.";				
+				addToolTip(nodes[i].getAttribute("id"), "statisticalTestNodes", displayText);
+			}
+		}		
+	} // If the currently chosen test is already a parametric test, we don't have any other tests with higher power (we don't differentiate between parametric tests for the sake of simplicity)
+	else
+	{
+		var displayText = "This is the appropriate test for the chosen distributions.";				
+		addToolTip(currentNode.attr("id"), "statisticalTestNodes", displayText);
+	}
+
+	console.log("testsWithHigherPower = [" + testsWithHigherPower + "]");
+}
+
+/**
+ * Fills the nodes of tests with lesser power than the currently chosen test (warning)
+ * @return {none}
+ */
+function fillNodesForTestsWithLesserPower()
+{
+	var nodes = document.getElementsByClassName("statisticalTestNodes");
+	var testName = getTestName();
+	var currentNode = d3.select("#" + toValidId(testName) + ".statisticalTestNodes");	
+
+	var testsWithLesserPower = [];
+
+	// All non-parametric tests have lesser/equal power
+	for(var i=0; i<nodes.length; i++)
+	{
+		if((nodes[i].getAttribute("data-testType") == "nonParametric") && (nodes[i].getAttribute("data-experimentalDesign") == currentNode.attr("data-experimentalDesign")))
+		{
+			testsWithLesserPower.push(nodes[i].getAttribute("id"));
+			nodes[i].setAttribute("fill", "yellow");
+
+			var displayText = "This test does not have the best power for the given data. The appropriate test can be selected from the decision tree (marked in green).";
+			addToolTip(nodes[i].getAttribute("id"), "statisticalTestNodes", displayText);
+		}
+	}			
+
+	console.log("testsWithLesserPower = [" + testsWithLesserPower + "]");
+}
+
+/**
+ * Fills the nodes of tests with violated assumptions (error)
+ * @return {none} 
+ */
+function fillNodesForTestsWithIncorrectAssumptions()
+{
+	var nodes = document.getElementsByClassName("statisticalTestNodes");
+	var testName = getTestName();
+	var currentNode = d3.select("#" + toValidId(testName) + ".statisticalTestNodes");
+
+
+	var testsWithIncorrectAssumptions = [];
+
+	// For all tests except the current test having the same experimental design, mark them as tests with incorrect assumptions! 
+	for(var i=0; i<nodes.length; i++)
+	{
+		if((nodes[i].getAttribute("data-experimentalDesign") == currentNode.attr("data-experimentalDesign")) && (nodes[i].getAttribute("id") != currentNode.attr("id")) && (nodes[i].getAttribute("fill") != "yellow") && (nodes[i].getAttribute("fill") != "green"))
+		{
+			testsWithIncorrectAssumptions.push(nodes[i].getAttribute("id"));
+			nodes[i].setAttribute("fill", "red");
+
+			var displayText = "The assumptions for this test are violated. The results should not be reported!";
+			addToolTip(nodes[i].getAttribute("id"), "statisticalTestNodes", displayText);
+		}
+	}			
+
+	console.log("testsWithIncorrectAssumptions = [" + testsWithIncorrectAssumptions + "]");
+}
+
+/**
+ * Returns the name of the test (be it multi-variate or post-hoc)
+ * @return {string} 
+ */
+function getTestName()
+{	
+	// Is post-hoc a possibility?
+	if(document.getElementById("postHocTestName") != null)
+	{
+		if(d3.select("#postHocTestName.assumptionNodes").attr("text-decoration") == "underline")
+		{
+			return multiVariateTestResults["method"];
+		}
+		else
+		{
+			return postHocTestResults["method"];
+		}
+	}
+	else
+	{
+		return multiVariateTestResults["method"];
+	}
+}
+
 function getBiteSizeN(index, totalSize, numberOfBites)
 {
-
 	return (index)*(totalSize/(numberOfBites-1)) + nodeSize;
 }
 
@@ -238,7 +360,7 @@ function log10(val)
 function toValidId(id)
 {
 	id = id.replace('?', '');
-	id = id.replace(/'/g, "");
+	id = id.replace(/'/g, "");	
 	id = id.replace("*", "");
 	id = id.replace(/:/g,'');
 	id = id.replace(/\s/g, '');

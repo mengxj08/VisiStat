@@ -27,6 +27,8 @@ function checkIfOverTesting()
  */
 function displayOverTestingPopup(DV, IV)
 {
+	addDimmer();
+
 	// Display warning to the user that over-testing is detected
 	var div = d3.select("body").append("div").attr("id", "overTestingPopup"); // Attach a div to body, where we will append our popup content
 
@@ -38,15 +40,25 @@ function displayOverTestingPopup(DV, IV)
 	{
 		if(listOfLevelsCompared[i]["independent"] == IV)
 		{
-			testedPairs.push(listOfLevelsCompared[i]["independent-levels"][0] + "-" + listOfLevelsCompared[i]["independent-levels"][1]);
+			testedPairs.push("<li>" + listOfLevelsCompared[i]["independent-levels"][0] + " vs. " + listOfLevelsCompared[i]["independent-levels"][1] + "</li>");
 		}
 	}
 
 	var htmlText = "";
 
-	htmlText += "<p> Possible over-testing scenario detected.<br/> Over-testing occurs when multiple tests are done without correcting for type I error inflation. Omni-bus test (e.g., ANOVA) can be performed to avoid this. <br/>You have compared levels " + testedPairs[0] + " and " + testedPairs[1] + ". You could compare all levels of the IV using omni-bus test (see below). <br/> Please select one of the following to continue. </p>";
-	htmlText += "<input type='radio' name='test' onClick='doOmnibusTest()'> Do the omni-bus test: " + DV + " ~ " + IV + "(" + levels + ") </input> <br/>";
-	htmlText += "<input type='radio' name='test' onClick='continuePairwiseTesting()'> Continue with pairwise-tests...</input>";
+	htmlText += "<div class='overTestingHead'>Are these tests for single research questions?</div>" + 
+				"<div class='overTestingBody'>" +
+				"You have compared the following pairs of " + fV(IV) + ":" +
+				"<ul class='overTestingBody'>" +
+				testedPairs.join() +
+				"</ul>" +
+				"Using multiple tests in one research question increases the probability of having a significant effect when there is really none (Type I error)." +
+				"To avoid this error, we suggest using omni-bus test (e.g., ANOVA) followed by a post-hoc test instead. <br/>" +
+				"</div>" +
+	 			"<label class='overTesting'><input type='radio' name='test' onClick='doOmnibusTest()'/> The tests above are considered as <b>single</b> research question. " +
+	 			"<span class='overTestingExplanation'>Perform omni-bus test: " + fV(DV) + " ~ " + fV(IV) + "(" + levels + "). </span></label>" +
+	 			"<label class='overTesting'><input type='radio' name='test' onClick='continuePairwiseTesting()'/>The tests above are considered as <b>multiple</b> research questions." +
+	 			"<span class='overTestingExplanation'>Continue with the tests you've selected.</span> </label>";
 
 	div.html(htmlText)
 	// Point the user to the appropriate omni-bus test	
@@ -54,12 +66,14 @@ function displayOverTestingPopup(DV, IV)
 
 function continuePairwiseTesting()
 {
+	removeDimmer();
 	removeElementById("overTestingPopup");
 	initialiseNumberOfPartialTestsDone();
 }
 
 function doOmnibusTest()
 {	
+	removeDimmer();
 	removeElementById("overTestingPopup");
 	
 	resetSVGCanvas();                                           
@@ -79,6 +93,26 @@ function doOmnibusTest()
 	initialiseNumberOfPartialTestsDone(); 
 }
 
+function autoResizeDimmer() 
+{ 
+	$(".overTestingDimmer").css("height", $(window).height()).css("width", $(window).width());
+}
+
+function addDimmer()
+{
+	$("body").append("<div class='overTestingDimmer'></div>");
+	autoResizeDimmer()
+	$(".overTestingDimmer").fadeIn();
+	$(window).bind("resize", autoResizeDimmer);
+
+}
+function removeDimmer()
+{
+	$(".overTestingDimmer").fadeOut('400', function() {
+		$(window).unbind("resize", autoResizeDimmer);
+		$(".overTestingDimmer").remove();
+	});
+}
 /**
  * Initialises an object that keeps count of number of partial tests done (partial => a subset of levels are compared)
  * @return {none} 

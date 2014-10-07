@@ -626,14 +626,14 @@ function doPostHocTests()
 {
     // ToDo: find post-hoc test when not all pairs are selected
 
-     // Factors needed to make decision: experimental-design, homogeneity, and normality. 
-     var homogeneity = d3.select("#homogeneity.assumptionNodes").attr("fill") == "green" ? true : false;
-     var normality = d3.select("#normality.assumptionNodes").attr("fill") == "green" ? true : false;
+    // Factors needed to make decision: experimental-design, homogeneity, and normality. 
+    var homogeneity = d3.select("#homogeneity.assumptionNodes").attr("fill") == "green" ? true : false;
+    var normality = d3.select("#normality.assumptionNodes").attr("fill") == "green" ? true : false;
 
-     var testType;
+    var testType;
 
-     if(experimentalDesign == "between-groups")
-     {
+    if(experimentalDesign == "between-groups")
+    {
         if(homogeneity)
         {            
             if(normality)
@@ -668,9 +668,9 @@ function doPostHocTests()
                 performTukeyHSDTest();          
             }
         }
-     }
-     else
-     {
+    }
+    else
+    {
         if(homogeneity)
         {
             if(normality)   
@@ -695,7 +695,7 @@ function doPostHocTests()
 
             usedPostHocTestType = "error";
         }
-     }
+    }
 
     // render the results (after getting the R object) in a tabular format and in the results panel
 }

@@ -76,8 +76,7 @@ function plotSimpleMainEffect(left, top, effectPlotWidth, effectPlotHeight)
 	for(var i=0; i<levels.length; i++)
 	{
 		
-		var dist = variables[DV].hasOwnProperty(levels[i] + "-" + otherLevel) ? variables[DV][levels[i] + "-" + otherLevel] : variables[DV][otherLevel + "-" + levels[i]];			
-		console.log(dist);
+		var dist = variables[DV].hasOwnProperty(levels[i] + "-" + otherLevel) ? variables[DV][levels[i] + "-" + otherLevel] : variables[DV][otherLevel + "-" + levels[i]];					
 
 		if(dist.length == 0)
 			continue;
@@ -443,9 +442,6 @@ function plot2WayInteractionEffect(left, top, effectPlotWidth, effectPlotHeight,
 	{
 		for(var j=0; j<levelsForXAxis.length - 1; j++)
 		{
-			console.log("#" + getValidId(levelsForXAxis[j] + "-" + levelsForColor[i]) + ".effectPlotMeans" + levelsForColor[i]);
-			console.log("#" + getValidId(levelsForXAxis[j+1] + "-" + levelsForColor[i]) + ".effectPlotMeans" + levelsForColor[i]);
-
 			var mean1 = d3.select("#" + getValidId(levelsForXAxis[j] + "-" + levelsForColor[i]) + ".effectPlotMeans" + levelsForColor[i]);
 			var mean2 = d3.select("#" + getValidId(levelsForXAxis[j+1] + "-" + levelsForColor[i]) + ".effectPlotMeans" + levelsForColor[i]);
 
@@ -917,8 +913,6 @@ function plotYAxisLabelForInteractionPlots(cx, cy)
 
 	var variableList = sort(selectedVariables);
 	var labelText = variableList["dependent"][0];
-
-	console.log(labelText);
 
 	canvas.append("text")
 		.attr("x", cx)

@@ -41,8 +41,6 @@ function makeBoxPlotInPlotCanvas()
     //for colour boxplot
     var levelsForColor;
     var levelsForXAxis;
-
-    console.dir(variables);
     
     //get data
     if(selectedVariables.length > 1)
@@ -374,8 +372,8 @@ function makeBoxPlotInPlotCanvas()
                     .attr("id", ids[i])
                     .attr("class", "CITopFringes"));
 
-            addToolTip(ids[i], "CIs", Number(dec2(CIs[i][1])).toFixed(2), "Upper 95% confidence interval of mean", ids[i], "CITopFringes", "bottom");
-            addToolTip(ids[i], "CIs", Number(dec2(CIs[i][0])).toFixed(2), "Lower 95% confidence interval of mean", ids[i], "CIBottomFringes", "top");
+            addToolTip(ids[i], "CIs", dec2(CIs[i][1]), "Upper 95% confidence interval of mean", ids[i], "CITopFringes", "bottom");
+            addToolTip(ids[i], "CIs", dec2(CIs[i][0]), "Lower 95% confidence interval of mean", ids[i], "CIBottomFringes", "top");
             
             var outliers = getOutliers(data[i], TOPFringe, BOTTOMFringe);
             
@@ -428,7 +426,7 @@ function makeBoxPlotInPlotCanvas()
                         .attr("data-indepenentVariableB", dataAttributeForIndependentVariableB).attr("data-levelA", levelA).attr("data-levelB", levelB));
 
             // Add tooltips for means
-            addToolTip(ids[i], "means", "Mean = " + Number(dec2(means[i])).toFixed(2));            
+            addToolTip(ids[i], "means", "Mean = " + dec2(means[i]));            
         }        
     }
 }
@@ -1391,9 +1389,9 @@ function drawHomogeneityPlot(homogeneity)
 
     canvas.append("text")   
             .attr("x", plotPanelWidth/2)
-            .attr("y", b + 5*axesOffset)
+            .attr("y", b + 5*axesOffset - 10)
             .attr("font-size", fontSizes["assumptions.label"])
-            .text("Levene's test: " + fP(sessionStorage.getObject("LeveneTestResultPValue")[0],false) + ". (Higher than .05 suggests similar variance.)") 
+            .html("Levene's test: " + fP(sessionStorage.getObject("LeveneTestResultPValue")[0], "svg") + ". (Higher than .05 suggests similar variance.)") 
             .attr("text-anchor", "middle")
             .attr("class", "homogeneityPlot");
 }

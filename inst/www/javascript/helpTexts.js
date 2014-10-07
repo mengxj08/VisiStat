@@ -57,13 +57,14 @@ root.VisiStat.UI.helpText.interactionEffect2Way = function(iv1, iv2, iv3, dv, is
 };
 
 root.VisiStat.UI.helpText.interactionEffectMainEffect = function(iv1, iv2, iv3, dv, isSig, isHigherSig) {
-  var i, _ref;
+  var excludedEffectText, i, iv3_in, _ref;
   if (isSig == null) {
     isSig = true;
   }
   if (isHigherSig == null) {
     isHigherSig = true;
   }
+  iv3_in = iv3;
   _ref = (function() {
     var _i, _len, _ref, _results;
     _ref = [iv1, iv2, iv3, dv];
@@ -74,7 +75,8 @@ root.VisiStat.UI.helpText.interactionEffectMainEffect = function(iv1, iv2, iv3, 
     }
     return _results;
   })(), iv1 = _ref[0], iv2 = _ref[1], iv3 = _ref[2], dv = _ref[3];
-  return (isSig ? "<p> In the graph that you selected, do you notice how the mean of the " + dv + " differs in different levels of " + iv1 + "? This suggests that " + iv1 + " influences " + dv + ", <i>without</i> taking into account " + iv2 + " and " + iv3 + ". This is called <b>main effect</b>. </p>" : "<p> In the graph that you selected, the mean of the " + dv + " do not differ in different levels of " + iv1 + ", <i>without</i> taking into account " + iv2 + " and " + iv3 + ". This suggests that " + iv1 + " doesn't influences " + dv + ". </p>") + (isHigherSig ? "<p> <b>Note:</b> Some of the two- or three-way interaction effects are also significant. In your interpretation, take these interaction effect into account <b>before</b> interpreting the main effect. </p>" : "") + "<p>Click upward arrow to see the two-way and the three-way interaction effect.</p>";
+  excludedEffectText = ("<i>without</i> taking into account " + iv2) + (iv3_in != null ? " and " + iv3 : "");
+  return (isSig ? "<p> In the graph that you selected, do you notice how the mean of the " + dv + " differs in different levels of " + iv1 + "? This suggests that " + iv1 + " influences " + dv + ", " + excludedEffectText + ". This is called <b>main effect</b>. </p>" : "<p> In the graph that you selected, the mean of the " + dv + " do not differ in different levels of " + iv1 + ", " + excludedEffectText + ". This suggests that " + iv1 + " doesn't influences " + dv + ". </p>") + (isHigherSig ? "<p> <b>Note:</b> Some of the two- or three-way interaction effects are also significant. In your interpretation, take these interaction effect into account <b>before</b> interpreting the main effect. </p>" : "") + "<p>Click upward arrow to see the two-way and the three-way interaction effect.</p>";
 };
 
 //# sourceMappingURL=helpTexts.js.map

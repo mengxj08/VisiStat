@@ -255,9 +255,7 @@ function renderSidePanel()
  */
 function updateHistory(researchQuestion)
 {
-    console.log("researchQuestion: " + researchQuestion);
-
-    d3.selectAll(".selectedEntryIndicators").attr("style", "display: none; ");
+    d3.selectAll(".selectedEntryIndicators").attr("style", "display: none;");
 
     addEntryToHistory(researchQuestion, numberOfEntriesInHistory);
     updateNumberOfPartialTestsDone(numberOfEntriesInHistory);
@@ -421,61 +419,22 @@ function resetSVGCanvas()
     }
 
     drawResetButton();    
+    hideResetButton();
 }
 
 function showResetButton()
 {
-
-    d3.select(".resetButtonBack").attr("display", "inline");
-    d3.select(".resetButtonImage").attr("display", "inline");
+    d3.selectAll(".resetButton").attr("display", "inline");
 }
 
 function drawResetButton()
 {
-    var assumptionsCanvas = d3.select("#plotCanvas");        
-
-    var helpButtonOffset = 25;
-    var size = variableNameHolderHeight;
-    
-    assumptionsCanvas.append("rect")
-            .attr("x", assumptionsPanelWidth - size - size/2)
-            .attr("y", plotPanelHeight - size - size/2)
-            .attr("rx", visualizationHolderRadius)
-            .attr("ry", visualizationHolderRadius)
-            .attr("height", size)
-            .attr("width", size)
-            .attr("fill", "url(#buttonFillNormal)")
-            .attr("filter", "url(#Bevel)")
-            .attr("stroke", "black")
-            .attr("display", "none")
-            .attr("class", "resetButtonBack");
-    
-    assumptionsCanvas.append("image")
-            .attr("x", assumptionsPanelWidth - size - size/4)
-            .attr("y", plotPanelHeight - size - size/2 + size/4)
-            .attr("height", size/2)
-            .attr("width", size/2)
-            .attr("display", "none")
-            .attr("xlink:href", "images/reset.png")
-            .attr("class", "resetButtonImage");
-    
-    assumptionsCanvas.append("rect")
-            .attr("x", assumptionsPanelWidth - size - size/2)
-            .attr("y", plotPanelHeight - size - size/2)
-            .attr("rx", visualizationHolderRadius)
-            .attr("ry", visualizationHolderRadius)
-            .attr("height", size)
-            .attr("width", size)
-            .attr("opacity", "0.001")
-            .attr("class", "resetButtonFront");
+    drawButton("Reset selection", "resetButton", plotPanelWidth - 70, plotPanelHeight - 50, "plotCanvas");
 }
 
 function hideResetButton()
 {
-
-    var resetButtonElements = d3.selectAll(".resetButtonBack, .resetButtonImage");
-
-    resetButtonElements.attr("display", "none");
+    d3.selectAll(".resetButton").attr("display", "none");
 }
 
 
@@ -745,10 +704,11 @@ function drawAssumptionNodes(postHocComparisonsArePossible)
 
     // Settings button
 
-    canvas.append("circle")
-                        .attr("cx", assumptionsPanelWidth - settingsButtonOffset - settingsButtonRadius)
-                        .attr("cy", settingsButtonOffset + settingsButtonRadius)
-                        .attr("r", settingsButtonRadius)
+    canvas.append("rect")
+                        .attr("x", assumptionsPanelWidth - settingsButtonOffset - settingsButtonRadius - settingsButtonImageWidth*1.1/2)
+                        .attr("y", settingsButtonOffset + settingsButtonRadius - settingsButtonImageWidth*1.1/2)
+                        .attr("width", settingsButtonImageWidth*1.1)
+                        .attr("height", settingsButtonImageWidth*1.1)
                         .attr("fill", "url(#buttonFillNormal)")
                         .attr("filter", "url(#Bevel)")
                         .attr("stroke", "black")
@@ -765,10 +725,11 @@ function drawAssumptionNodes(postHocComparisonsArePossible)
                         .attr("id", "settingsButtonImage")
                         .attr("class", "settingsButtons");
 
-    canvas.append("circle")
-                        .attr("cx", assumptionsPanelWidth - settingsButtonOffset - settingsButtonRadius)
-                        .attr("cy", settingsButtonOffset + settingsButtonRadius)
-                        .attr("r", settingsButtonRadius)                    
+    canvas.append("rect")
+                        .attr("x", assumptionsPanelWidth - settingsButtonOffset - settingsButtonRadius - settingsButtonImageWidth*1.1/2)
+                        .attr("y", settingsButtonOffset + settingsButtonRadius - settingsButtonImageWidth*1.1/2)
+                        .attr("width", settingsButtonImageWidth*1.1)
+                        .attr("height", settingsButtonImageWidth*1.1)             
                         .attr("fill", "url(#buttonFillNormal)")
                         .attr("filter", "url(#Bevel)")
                         .attr("stroke", "black")
@@ -967,6 +928,8 @@ function drawScalesInBoxplot(cx, cy)
                 .attr("font-size", fontSizes["boxplot.main difference"])
                 .attr("id", "differenceInMeansMain")                
                 .text(dec2(means[means.length-1] - means[0]));
+
+    addToolTip("differenceInMeansMain", null, "Overall difference between the selected means");
     
     var error = parseFloat(multiVariateTestResults["error"]);     
     multiVariateTestResults["CI"] = calculateCI(means[means.length -1] - means[0], error);
@@ -1019,6 +982,10 @@ function drawScalesInBoxplot(cx, cy)
             .attr("stroke-width", strokeWidth["CI"])
             .attr("id", "top")
             .attr("class", "CIMean");
+
+    // addToolTip(id, className, displayText, displaySubText, targetID, targetClassName, jointDirection, toolTipType) 
+    addToolTip("center", "CIMean", dec2(upperCI - means[0]), "Upper 95% confidence interval of difference between means", "top", "CIMean", "bottom");
+    addToolTip("center", "CIMean", dec2(lowerCI - means[0]), "Lower 95% confidence interval of difference between means", "bottom", "CIMean", "top");
     
     if(cy.length >= 2)
     {
@@ -1131,6 +1098,7 @@ function displaySignificanceTestResults()
                             .attr("y2", cyMax)
                             .attr("stroke", "black")
                             .attr("stroke-width", "2px")
+                            .attr("id", "line")
                             .attr("class", "differenceInMeans");
 
 
@@ -1141,6 +1109,7 @@ function displaySignificanceTestResults()
                   .attr("d", "M " + x + " " + y + " L " + (x-5)+ " " + (y+5) + " L " + (x+5) + " " + (y+5) + " z")
                   .attr("stroke", "black")
                   .attr("fill", "black")
+                  .attr("id", "path")
                   .attr("class", "differenceInMeans");
     
     drawScalesInBoxplot(cx, cy);    
@@ -1164,7 +1133,7 @@ function displaySignificanceTestResults()
             .attr("text-anchor", "middle")
             .attr("font-size", fontSizes["test result"] )
             .attr("fill", "#627bf4")
-            .text(multiVariateTestResults["p"])
+            .html("<tspan font-style='italic'>p</tspan>" + multiVariateTestResults["p"].substring(1))
             .attr("class", "significanceTest");
     
     
@@ -1516,7 +1485,7 @@ function drawEffectSize(value, type, resultsCanvas)
             .text(max);
     
     var effectSizeInterpretationIndicators = ["small", "medium", "large"];
-    var effectSizeMagnitude = value >= effectSizeInterpretations[type][0] ? "large" : ((value >= effectSizeInterpretations[type][1]) ? "medium" : ((value >= effectSizeInterpretations[type][2]) ? "small" : undefined));    
+    var effectSizeMagnitude = value >= effectSizeInterpretations[type][0] ? "small" : ((value >= effectSizeInterpretations[type][1]) ? "medium" : ((value >= effectSizeInterpretations[type][2]) ? "large" : undefined));        
         
     for(i=0; i<effectSizeInterpretations[type].length; i++)
     {
@@ -1524,8 +1493,9 @@ function drawEffectSize(value, type, resultsCanvas)
 
         if(effectSizeInterpretationIndicators[i] == effectSizeMagnitude)
         {
-            fontWeight = "bold";
+            fontWeight = "900";
         }
+
         resultsCanvas.append("line")
                 .attr("x1", L + scale(effectSizeInterpretations[type][i]))
                 .attr("y1", T)
@@ -1534,6 +1504,7 @@ function drawEffectSize(value, type, resultsCanvas)
                 .attr("stroke", "black")
                 .attr("display", "none")
                 .attr("class", "effectSizeInterpretationIndicators");
+
         resultsCanvas.append("text")
                 .attr("x", L + scale(effectSizeInterpretations[type][i]))
                 .attr("y", T - yAxisTickTextOffset)
@@ -1542,7 +1513,7 @@ function drawEffectSize(value, type, resultsCanvas)
                 .attr("font-size", fontSizes["effectSizeInterpretationIndicators"])
                 .text(effectSizeInterpretationIndicators[i])
                 .attr("fill", getColor(type, effectSizeInterpretations[type][i]))
-                .attr("font-weight", fontWeight)
+                .style("font-weight", fontWeight)
                 .attr("display", "none")
                 .attr("id", effectSizeInterpretationIndicators[i])
                 .attr("class", "effectSizeInterpretationIndicators");
@@ -1686,7 +1657,7 @@ function drawParameter(DF, parameter, type, resultsCanvas)
                     .attr("text-anchor", "middle")
                     .attr("fill", "#627bf4")
                     .attr("class", "parameter")
-                    .text(type + "(" + DF + ") = " + parameter);
+                    .html("<tspan font-style='italic'>" + type + "</tspan>(" + DF + ") = " + Number(parameter).toFixed(2));
         }
         else
         {
@@ -1697,7 +1668,7 @@ function drawParameter(DF, parameter, type, resultsCanvas)
                 .attr("font-size", fontSizes["test result"] )
                 .attr("fill", "#627bf4")
                 .attr("class", "parameter")
-                .text(type + " = " + parameter);
+                .html("<tspan font-style='italic'>" + type + "</tspan> = " + parameter);
         }
     }
 }    
@@ -1978,7 +1949,7 @@ function drawEffects(effect)
         {
 
             // If user has already selected stuff (later)
-            var simpleMainEffectPlotWidth = plotPanelWidth - 2*margin - leftMarginForAxisLabel;
+            var simpleMainEffectPlotWidth = plotPanelWidth - 3*margin - leftMarginForAxisLabel;
             var simpleMainEffectPlotHeight = height - resultsPanelHeight - assumptionsPanelHeight - 2*config.interactionEffect.navigationButton.height - parseFloat(fontSizes["effect plot title"])*1.5 - 2*margin;
 
             // Title
@@ -2024,6 +1995,7 @@ function drawEffects(effect)
         
             displaySimpleMainEffectResults();
             plotYAxisLabelForInteractionPlots(margin, margin + config.interactionEffect.navigationButton.height + parseFloat(fontSizes["effect plot title"])*1.5 + simpleMainEffectPlotHeight/2);        
+            drawEffectNavigationButton("top", "main");
         }
         else
         {
@@ -2156,7 +2128,6 @@ function drawPopUpToGetInputForSimpleMainEffect(IVs)
 
     html += "<button type='button' onclick='submitButtonClicked()' id='submitButtonSimpleMainEffect'>Find simple main effect</button>"
     html += "</div>"
-    console.log("html = " + html);
 
     appendDOM('#effectsPlotPanel', html);
 };
@@ -2202,7 +2173,7 @@ function submitButtonClicked()
     // Determine type of simple main effect
     if((experimentalDesign == "within-groups") && (getWithinGroupVariable(variableList) == global.interactionEffect.IV))
     {
-        findMixedSimpleMainEffect();
+        findMixedSimpleMainEffect();        
     }   
     else
     {
@@ -2222,7 +2193,7 @@ function displayEffectsPlotHelp(effect, effectObject)
     var helpText = "";
     var variableList = sort(selectedVariables);
     var DV = variableList["dependent"][0];
-    var IVs = variableList["independent"][0];
+    var IVs = variableList["independent"];
 
     var effectsHierarchy = ["main", "2-way interaction", "3-way interaction"];
 
@@ -2235,11 +2206,11 @@ function displayEffectsPlotHelp(effect, effectObject)
     switch(effect)
     {
         case "main":
-                            helpText = root.VisiStat.UI.helpText.interactionEffectMainEffect(IVs[0], IVs[1], IVs[2], DV, isSig, isHigherSig); // iv1, iv2, iv3, dv, isSig=true, isHigherSig=true
+                            helpText = root.VisiStat.UI.helpText.interactionEffectMainEffect(IVs[0], IVs[1], IVs[2] == undefined ? null : IVs[2], DV, isSig, isHigherSig); // iv1, iv2, iv3, dv, isSig=true, isHigherSig=true
                             break;
 
         case "2-way interaction":
-                            helpText = root.VisiStat.UI.helpText.interactionEffect2Way(IVs[0], IVs[1], IVs[2], DV, isSig, isHigherSig); // iv1, iv2, iv3, dv, isSig=true, isHigherSig=true
+                            helpText = root.VisiStat.UI.helpText.interactionEffect2Way(IVs[0], IVs[1], IVs[2] == undefined ? null : IVs[2], DV, isSig, isHigherSig); // iv1, iv2, iv3, dv, isSig=true, isHigherSig=true
                             break;
 
         case "3-way interaction":
@@ -2406,4 +2377,4 @@ function displaySimpleMainEffectResults()
 function flashTestsResults()
 {
     $(".significanceTest, .effectSize, .parameter").pulse({opacity: "0.1"}, {pulses: 1, duration: 750, interval: 500});
-}    
+}  

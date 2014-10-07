@@ -128,7 +128,6 @@ function callBackForFactorialANOVA(output)
     createEffectsObject(); 
 
     highestOrderEffect = effects.hasOwnProperty("3-way interaction") ? "3-way interaction" : "2-way interaction";
-    console.log("highestOrderEffect = " + highestOrderEffect);
     var effectsHierarchy = ["main", "2-way interaction", "3-way interaction"];
 
     // Display the highest-order effect (if main effect, just show the results of ANOVA)
@@ -146,8 +145,6 @@ function callBackForFactorialANOVA(output)
             }
         }
     }   
-
-    console.log("Highest-order significant effect = [" + highestOrderSignificantEffect + "]");
 
     // Display graph            
     drawEffects(highestOrderSignificantEffect);

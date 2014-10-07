@@ -244,8 +244,6 @@ function computeCIForSDs(callBack, transformationType)
         }
     }
 
-    console.dir(distributions);
-
     var req = ocpu.rpc("getConfidenceIntervalForSDs", 
     {
         distribution: distributions
@@ -268,9 +266,7 @@ function computeCIForSDs(callBack, transformationType)
 
             global.CIForSDs[keys[i].split("_")[0]][keys[i].split("_")[1]] = array[i];
             global.SDs[keys[i].split("_")[0]][keys[i].split("_")[1]] = SDArray[i];
-        }
-
-        console.dir(global.CIForSDs);
+        }       
          
         if(callBack)
         {

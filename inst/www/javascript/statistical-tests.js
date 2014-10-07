@@ -105,6 +105,156 @@ function compareMeans()
     }
 }
 
+function removeSignificanceTestStuff()
+{
+    removeElementsByClassName("differenceInMeans")
+    removeElementsByClassName("CIMean")
+    removeElementsByClassName("differenceInMeansText")
+
+    if(document.getElementById("differenceInMeansMain")) removeElementById("differenceInMeansMain");
+}
+
+function doStatisticalTest(testName)
+{
+    var variableList = sort(selectedVariables);
+    var DV = variableList["dependent"][0];
+    var IVs = variableList["independent"];
+    var IV = variableList["independent"][0];
+
+    switch(testName)
+    {
+        case "Pairedt-test":
+                            var groupA, groupB; 
+                            removeSignificanceTestStuff()
+
+                            groupA = variables[DV][variableList["independent-levels"][0]];
+                            groupB = variables[DV][variableList["independent-levels"][1]];
+
+                            performTTest(groupA, groupB, "TRUE", "TRUE");
+
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            break;
+
+        case "Wilcoxonsigned-ranktest":
+                            var groupA, groupB; 
+                            removeSignificanceTestStuff()
+
+                            groupA = variables[DV][variableList["independent-levels"][0]];
+                            groupB = variables[DV][variableList["independent-levels"][1]];
+
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            performWilcoxonSignedRankTest(groupA, groupB);
+
+                            break;
+
+        case "Unpairedt-test":
+                            var groupA, groupB; 
+                            removeSignificanceTestStuff()
+
+                            groupA = variables[DV][variableList["independent-levels"][0]];
+                            groupB = variables[DV][variableList["independent-levels"][1]];
+
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            performTTest(groupA, groupB, "TRUE", "FALSE");
+
+                            break;
+
+        case "Mann-WhitneyUtest":
+                            var groupA, groupB; 
+                            removeSignificanceTestStuff()
+
+                            groupA = variables[DV][variableList["independent-levels"][0]];
+                            groupB = variables[DV][variableList["independent-levels"][1]];
+
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            performMannWhitneyTest(groupA, groupB);
+
+                            break;
+                               
+        case "Welchst-test":
+                            var groupA, groupB; 
+                            removeSignificanceTestStuff()
+
+                            groupA = variables[DV][variableList["independent-levels"][0]];
+                            groupB = variables[DV][variableList["independent-levels"][1]];
+
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            performTTest(groupA, groupB, "FALSE", "FALSE");
+
+                            break;
+
+        case "One-wayRMANOVA":
+                            performOneWayRepeatedMeasuresANOVA(DV, IV);  
+                            removeSignificanceTestStuff()
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            break;
+
+        case "FriedmansAnalysis":
+                            performFriedmanTest(DV, IV);
+                            removeSignificanceTestStuff()
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            break;
+
+        case "One-wayANOVA":
+                            performOneWayANOVA(DV, IV);
+                            removeSignificanceTestStuff()
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            break;
+
+        case "KruskalWallistest":
+                            performKruskalWallisTest(DV, IV);
+                            removeSignificanceTestStuff()
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+                            
+                            break;
+
+        case "WelchsANOVA":
+                            performWelchANOVA(DV, IV);
+                            removeSignificanceTestStuff()
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            break;
+
+        case "Pairwisepairedt-test":
+                            performPairwiseTTestsWithBonferroniCorrection("T", "T");
+                            removeSignificanceTestStuff()
+                            removeToolTip({id: "differenceInMeansMain", className: null});
+
+                            break;
+
+        case "Friedmanmultiple-comparisons":
+                            // ?
+                            
+                            break;
+
+        case "TukeyHSDtest":
+                            performTukeyHSDTest();
+
+                            break;
+
+        case "PairwiseunpairedWilcox-test":
+                            performPairwiseWilcoxTestsWithBonferroniCorrection("F");
+
+                            break;
+
+        case "PairwiseWelchst-test":                            
+                            performPairwiseTTestsWithBonferroniCorrection("F", "F");
+                            
+                            break;
+
+        default:
+                            break;
+    }
+}
+
 function populationMeanEntered()
 {
     var populationValue = document.getElementById("populationValue").value;
@@ -374,7 +524,7 @@ function testSelectionLogicAfterHomogeneityTest()
                         // Paired t-test     
                         usedMultiVariateTestType = "proper";
 
-                        performTTest(groupA, groupB, "FALSE", "TRUE");
+                        performTTest(groupA, groupB, "TRUE", "TRUE");
                     }
                     else if(distributionsAreHomoscedastic)
                     {
@@ -386,9 +536,11 @@ function testSelectionLogicAfterHomogeneityTest()
                     else
                     {
                         console.log("Test not available in VisiStat");
-                        usedMultiVariateTestType = "error";
 
-                        performTTest(groupA, groupB, "FALSE", "TRUE");
+                        usedMultiVariateTestType = "error";
+                        d3.select("#statisticalTest.assumptionNodes").attr("fill", "red");
+
+                        performWilcoxonSignedRankTest(groupA, groupB);
                     }
                 }
                 else
@@ -440,8 +592,9 @@ function testSelectionLogicAfterHomogeneityTest()
                     {
                         console.log("Test not available in VisiStat");
                         usedMultiVariateTestType = "error";
+                        d3.select("#statisticalTest.assumptionNodes").attr("fill", "red");
 
-                        performOneWayRepeatedMeasuresANOVA(DV, IV);
+                        performFriedmanTest(DV, IV);
                     }
                 }
                 else
@@ -523,8 +676,9 @@ function testSelectionLogicAfterNormalityTest()
                     {
                         console.log("Test not available in VisiStat");
                         usedMultiVariateTestType = "error";
+                        d3.select("#statisticalTest.assumptionNodes").attr("fill", "red");
 
-                        performTTest(groupA, groupB, "TRUE", "FALSE");
+                        performMannWhitneyTest(groupA, groupB);
                     }
                 }            
             }
@@ -583,8 +737,9 @@ function testSelectionLogicAfterNormalityTest()
                     {
                         console.log("Test not available in VisiStat");
                         usedMultiVariateTestType = "error";
+                        d3.select("#statisticalTest.assumptionNodes").attr("fill", "red");
 
-                        performOneWayANOVA(DV, IV);
+                        performKruskalWallisTest(DV, IV);
                     }
                 }
             }
@@ -626,6 +781,7 @@ function testSelectionLogicAfterNormalityTest()
                     console.log("Test not available in VisiStat");
 
                     usedMultiVariateTestType = "error";
+                    d3.select("#statisticalTest.assumptionNodes").attr("fill", "red");
 
                     if(isMixedDesign(variableList))
                     {
