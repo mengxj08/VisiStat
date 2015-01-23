@@ -6,6 +6,16 @@ performNWayANOVA <- function (dataset, dependentVariable, independentVariables)
   
   formula = paste(dependentVariable, " ~ ", factorString, sep=""); # append factorString to create formula	
   formula = as.formula(formula)
+
+  # set contrasts for IVs
+  nIVs = length(independentVariables)
+
+  for(i in 1:nIVs)
+  {
+  	# get levels
+  	nLevels = length(levels(eval(parse(text = paste("dataset$", independentVariables[i], sep="")))));
+  	eval(parse(text = paste("contrasts(dataset$", independentVariables[i], ") = contr.helmert(", nLevels, ")", sep="")));
+  }
   
   # get model
   model = lm(formula, data = dataset);
