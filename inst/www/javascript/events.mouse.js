@@ -246,64 +246,8 @@ function OnMouseDown(e)
             
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "postHocComparisonTableClickableCells"))
             {
-                setup(e, target);
-
-                var cellBack = d3.selectAll("#" + target.id + ".postHocComparisonTableCells");
-                var cellFront = d3.selectAll("#" + target.id + ".postHocComparisonTableClickableCells");
-
-                // check if it is a re-click
-                if(cellBack.attr("fill") == "lightgrey")
-                {
-                    console.log("Doing nothing!");
-                    return; // do nothing
-                }
-
-                // fill all cells to white and then fill the cells
-                d3.selectAll(".postHocComparisonTableCells").attr("fill", "white");              
-                cellBack.attr("fill", "lightgrey");
-
-                // collect results
-                ID = target.id.split("_").length == 1 ? target.id.split("_")[0] : target.id.split("_")[1];
-
-                var levelA = ID.split("-")[0];
-                var levelB = ID.split("-")[1];
-
-                var index;
-
-                for(var i=0; i<postHocTestResults["pairs"].length; i++)
-                {
-                    if((postHocTestResults["pairs"][i][0] === levelA && postHocTestResults["pairs"][i][1] === levelB) || (postHocTestResults["pairs"][i][0] === levelB && postHocTestResults["pairs"][i][1] === levelA))
-                    {
-                        index = i;
-                        break;
-                    }
-                }
-
-                var postHocResultsPanel;
-
-                // augment a layer over existing results 
-                if(document.getElementById("postHocResultsPanel") == null)
-                {
-                    postHocResultsPanel = d3.select("body").append("div")
-                                                            .attr("style", "position: absolute; left: " + variablesPanelWidth + "px; top: " + (assumptionsPanelHeight + plotPanelHeight) + "px; width: " + resultsPanelWidth + "px; height: " + resultsPanelHeight + "px; background-color: #fff")
-                                                            .attr("id", "postHocResultsPanel");
-                }
-                else
-                {
-                    postHocResultsPanel = d3.select("#postHocResultsPanel");
-                    removeElementById("postHocResultsCanvas");
-                }
-
-                postHocResultsPanel.append("svg")
-                                                    .attr("x", 0)
-                                                    .attr("y", 0)
-                                                    .attr("width", resultsPanelWidth)
-                                                    .attr("height", resultsPanelHeight)
-                                                    .attr("id", "postHocResultsCanvas");
-
-                // display the new results   
-                displayPostHocResults(levelA, levelB, index);
-                $(".significanceTest, .effectSize, .parameter").pulse({opacity: "0.1"}, {pulses: 1, duration: 750, interval: 500});
+                setup(e, target);   // TODO(Krishna): do we need setup() here?
+                onClickPostHocCell(e, target);
             }
 
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.className.baseVal == "postHocComparison"))
@@ -347,76 +291,13 @@ function OnMouseDown(e)
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.id == "moreText"))
             {
                 setup(e, target);
-
-                if(d3.select("#moreText").attr("fill") != "white")
-                {
-
-                    // delete 'more' text (to be added later)                
-                    d3.select("#moreText").attr("fill", "white")
-
-                    // add additional help text
-                    var canvas = d3.select("#buttonCanvas");
-                    var variableList = getSelectedVariables();
-
-                    // get levels and DV
-                    var levels = variableList["independent-levels"];
-                    var dependentVariable = variableList["dependent"][0];
-                    var textOffset = 25;
-                    var xMargin = buttonsPanelWidth/4;
-
-                    var baseText  = canvas.append("text")
-                                .attr("x", xMargin)
-                                .attr("y", buttonHeight + 3*buttonTopOffset)
-                                .attr("font-size", fontSizes["post-hoc button help text"])
-                                .attr("id", "addedText");
-
-                    baseText.append("tspan")
-                                    .text("E.g., to compare the level ")
-                    
-                    baseText.append("tspan")
-                                        .attr("class", "levelName")
-                                        .text(levels[0]); // ToDo: select level names randomly
-
-                    baseText.append("tspan")                                
-                                    .text("\'s  influence ");
-
-                    baseText.append("tspan")
-                                    .attr("x", xMargin)
-                                    .attr("y", buttonHeight + 3*buttonTopOffset + textOffset)
-                                    .text("against the level ");
-
-                    baseText.append("tspan")
-                                    .attr("class", "levelName")
-                                    .text(levels[1]);
-                    
-                    baseText.append("tspan")                                
-                                    .text("\'s  ");
-
-                    baseText.append("tspan")                                                                
-                                    .text("influence on ");
-
-                    baseText.append("tspan")
-                                    .attr("class", "levelName")
-                                    .text(dependentVariable + " ");
-
-                    baseText.append("tspan")
-                                    .attr("id", "lessText")
-                                    .attr("font-weight", "bold")
-                                    .attr("fill", "blue")
-                                    .attr("text-decoration", "underline")                                
-                                    .text("(less)");
-                }
+                onClickPosthocMoreText(e, target);
             }
 
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.id == "lessText"))
             {
                 setup(e, target);
-
-                removeElementById("addedText");
-
-                var cx = d3.select("#refText").attr("x");
-                removeElementById("refText");
-                addExplanationTextForPostHocTest(cx);
+                onClickPosthocLessText(e, target);
             }
 
             else if((e.button == 1 && window.event != null || e.button == 0) && (target.id == "advancedPlotButtonFront"))

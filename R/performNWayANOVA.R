@@ -13,6 +13,7 @@ performNWayANOVA <- function (dataset, dependentVariable, independentVariables)
   for(i in 1:nIVs)
   {
   	# get levels
+    eval(parse(text = paste0("dataset$", independentVariables[i], " = ", "as.factor(dataset$", independentVariables[i], ")")));
   	nLevels = length(levels(eval(parse(text = paste("dataset$", independentVariables[i], sep="")))));
   	eval(parse(text = paste("contrasts(dataset$", independentVariables[i], ") = contr.helmert(", nLevels, ")", sep="")));
   }

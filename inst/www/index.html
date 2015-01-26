@@ -3,17 +3,21 @@
     <head>
         <!-- Link external stylesheets -->
         <link rel="stylesheet" type="text/css" href="style/datasetSelectionPage.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 
         <!-- Set encoding -->
         <meta charset="utf-8">
         
         <!-- Set title -->
-        <title>VisiStat: Analyse your dataset!</title>
+        <title>Statsplorer</title>
 
        <!-- Jquery, OpenCPU, and D3 -->
         <script type = "text/javascript" src = "dependencies/jquery-1.10.2.js"></script>
         <script type = "text/javascript" src = "dependencies/opencpu.js"></script>        
         <script type = "text/javascript" src = "dependencies/d3.v3.js"></script> 
+
+        <!-- Bootstrap -->
+        <script type = "text/javascript" src = "bootstrap/js/bootstrap.min.js"></script>         
 
         <!-- ToDo: remove unnecessary dependencies -->
         
@@ -55,7 +59,7 @@
                localStorage.setItem("index", 0);              
           
                // load details of default dataset (text entry study)
-               changeDataset();
+               // changeDataset();
             }
 
             function handleFile(files)
@@ -75,6 +79,10 @@
                         sessionStorage.isUploadedFile = "yes";
 
                         removeElementsByClassName("variableList");
+
+                        $("#submitButton").css('display', 'inline-block');
+
+                        $("#browseCover").removeClass("btn-primary");
                     }
                     reader.onerror = function (evt) 
                     {
@@ -114,14 +122,14 @@
                 // construct table with variable names
                 var variablesTable = variablesDiv.append("table")
                                         .attr("border", "1")
-                                        .attr("class", "variableList")
+                                        .attr("class", "variableList table")
                                         .attr("align", "center");
                                             
                 var tr = variablesTable.append("tr");
                             
-                        tr.append("th").text("NAME");
-                        tr.append("th").text("VARIABLE ROLE");
-                        tr.append("th").text("DATA TYPE");
+                        tr.append("th").text("Variable");
+                        tr.append("th").text("Role");
+                        tr.append("th").text("Data type");
                 
                 for(var i=0; i<variables.length; i++)
                 {
@@ -131,7 +139,7 @@
                     var select = tr.append("td").append("select").attr("name", "role").attr("id", variables[i]).attr("class", "roleSelect");                    
                     $(select[0]).change(checkRole);
                     
-                    var unspecified = select.append("option").attr("value", "undefined").text("?");
+                    var unspecified = select.append("option").attr("value", "undefined").text("Undefined");
                     var participant = select.append("option").attr("value", "ID").text("Participant or Subject Variable");
                     var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
                     var independent = select.append("option").attr("value", "IV").text("Independent Variable");
@@ -187,6 +195,8 @@
                     {
                         sessionStorage.setItem(variablesInDataset["uploadedFile"][i], variableRolesInDataset["uploadedFile"][i]);
                     }
+
+                    sessionStorage.setItem("variableTypesInDataset", variableTypesInDataset["uploadedFile"]);
                 }
                 else
                 {
@@ -209,62 +219,27 @@
         </script>            
         <!-- HTML body code starts here-->
 
-        <h1 align="center"> VisiStat </h1>
+        <h1 align="center"> 
+            <img src="images/Statsplorer-logo.svg"/>
+        </h1>
 
-        <table align="center" id="datasetTable">
-            <tr>
-                <td colspan="2">
-                    <br/>
-                </td>
-            </tr>
-
+        <table align="center" id="datasetTable">            
             <tr>
                 <td id="left">
-                    <label class="labels">Upload your own dataset (as CSV): </label>
+                    <label class="labels" style="margin-bottom: 8px;">Dataset: </label>
                 </td>
                 <td id="right">
-                    <input type="file" id="fileInput" name="dataset" accept="text/csv" onchange=handleFile(this.files)>                                        
+                    <div class="input-group">
+                        <div class="input-append">
+                          <input type="text" class="form-control" readonly>
+                          <span class="btn btn-file btn-primary" id='browseCover'>
+                                Browse&hellip; <input type="file" id="fileInput" name="dataset" accept="text/csv" onchange=handleFile(this.files)>                                        
+                        </span>
+                        </div>
+                    </div>
                 </td>
             </tr>
 
-            <tr>
-                <td align="right" colspan="1">
-                    <label class = "labels"> (or) </label>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td id="left">
-                    <label class="labels">Explore one of our datasets: </label>
-                </td>
-                <td id="right">
-                    <select name="dataset" autofocus onchange="changeDataset()" id="datasetList" align="center">                    
-                        <option value="keyboard">Comparison of keyboard layouts </option>
-                        <option value="food">Effect of food types on exam performance </option>
-                        <option value="weightLoss">Weight loss study </option>
-                        <option value="phoneOS">Comparison of mobile OS on stress </option>
-                        <option value="test">Three-way interaction</option>
-                    </select>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td colspan="2">
-                    <br/>
-                </td>
-            </tr>
-            
-            <tr>
-                <td id="left"> 
-                    <label class="labels">Description: </label>
-                </td>
-                <td id="right">
-                    <label id="datasetDescription"></label>
-                </td>
-            </tr>
-            
             <tr>
                 <td colspan="2">
                     <br/>
@@ -277,23 +252,39 @@
                 </td>
             </tr>
 
-            <tr>
-                <td colspan="2">
-                    <br/>
-                </td>
-            </tr>
         </table>
         
         <div id="buttonWrapper">
-            <input type="button" onclick="exploreDataset()" value="Explore this Dataset!" id="submitButton"/>
+            <input type="button" onclick="exploreDataset()" value="Start analysis" class="btn btn-primary" id="submitButton"/>
         </div>
 
-        <div id ="submitWarning">
-            Please select at least one dependent variable to continue.
-        </div>
+        <script type="text/javascript">
+        // handle file browse button (source: http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/)
+        $(document).on('change', '.btn-file :file', function() {
+          var input = $(this),
+              numFiles = input.get(0).files ? input.get(0).files.length : 1,
+              label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+          input.trigger('fileselect', [numFiles, label]);
+        });
 
-        <div id ="testedBrowser">
-            VisiStat is tested on Google Chrome. Requires window size of at least 1440 x 900 pixels.
-        </div>
+        $(document).ready( function() {
+            $('.btn-file :file').on('fileselect', function(event, numFiles, label) {
+                
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+                
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if( log ) alert(log);
+                }
+                
+            });
+        });
+
+        $("#submitButton").css('display', 'none');
+        </script>
+        
+
     </body>
 </html>

@@ -8,6 +8,7 @@
         <link rel="stylesheet" type="text/css" href="style/opentip.css">
         <link rel="stylesheet" type="text/css" href="style/history.css">
         <link rel="stylesheet" type="text/css" href="style/simpleMainEffect.css">
+        <link rel="stylesheet" type="text/css" href="style/dimmer.css">
 
         <!-- Set encoding -->
         <meta charset="utf-8">
@@ -34,6 +35,7 @@
         <script type = "text/javascript" src = "dependencies/Snap.svg-0.3.0/dist/snap.svg.js"></script>
         <script type = "text/javascript" src = "dependencies/AvsAn.js"></script>
         <script type = "text/javascript" src = "dependencies/titleCaps.js"></script>
+        <script type = "text/javascript" src = "dependencies/jQuery-mutex-master/mutex.js"></script>
         
         <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG"></script>
          <script type="text/x-mathjax-config">
@@ -81,7 +83,7 @@
         <script type = "text/javascript" src = "javascript/config.help.js"></script>       
 
         <script type = "text/javascript" src = "javascript/helpTexts.js"></script>       
-        
+        <script type = "text/javascript" src = "javascript/dimmer.js"></script>           
     </head>
     <body>   
         <script type="text/javascript">            
@@ -118,6 +120,7 @@
                 initiateLoadingDatasetAnimation();                               
 
                 var assumptionsCanvas = d3.select("#assumptionsCanvas");
+                variableTypesInDataset = sessionStorage.getItem(variableTypesInDataset)
 
                 if(sessionStorage.fileName == undefined && sessionStorage.isUploadedFile != "yes")
                 {
@@ -129,6 +132,7 @@
                 if(sessionStorage.isUploadedFile === "yes")
                 {   
                     variableNames = sessionStorage.getObject("variables");                 
+                    variableTypesInDataset = sessionStorage.getItem("variableTypesInDataset");
                     dataset = sessionStorage.getObject("dataset");
 
                     for(var i=0; i<variableNames.length; i++)        
@@ -150,7 +154,7 @@
 
                     computeNumberOfBins();
                     computeCIForSDs();
-                    initialiseNumberOfPartialTestsDone();
+                    // initialiseNumberOfPartialTestsDone();
                 }
                 else
                     loadFile();                                 

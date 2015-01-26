@@ -30,7 +30,6 @@ function loadFile()
 
         computeNumberOfBins();
         computeCIForSDs();
-        initialiseNumberOfPartialTestsDone();
     });
     //if R returns an error, alert the error message
     req.fail(function()
@@ -61,15 +60,14 @@ function parseStringToDataFrame()
         var variablesDiv = d3.select("#variablesDiv");
 
         var variablesTable = variablesDiv.append("table")
-                                            .attr("border", "1")
-                                            .attr("class", "variableList")
+                                            .attr("class", "table table-hover")
                                             .attr("align", "center");
         
         var tr = variablesTable.append("tr");
 
-        tr.append("th").text("NAME");
-        tr.append("th").text("VARIABLE ROLE");
-        tr.append("th").text("DATA TYPE");
+        tr.append("th").text("Variable");
+        tr.append("th").text("Role");
+        tr.append("th").text("Data type");
 
         for(var i=0; i<variableNames.length; i++)
         {
@@ -82,12 +80,13 @@ function parseStringToDataFrame()
             var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
             var participant = select.append("option").attr("value", "ID").text("Participant or Subject IDs");            
             
-            select = tr.append("td").append("select").attr("name", "dataType").attr("id", variableNames[i] + ".datatype").attr("class", "roleSelect");
+            select = tr.append("td").append("select").attr("name", "dataType").attr("id", variableNames[i] + ".datatype").attr("class", "dataTypeSelect");
 
-            var nominal = select.append("option").attr("value", "nominal").text("nominal");
-            var ordinal = select.append("option").attr("value", "ordinal").text("ordinal");
-            var interval = select.append("option").attr("value", "interval").text("interval");
-            var ratio = select.append("option").attr("value", "ratio").text("ratio");
+            var interval = select.append("option").attr("value", "interval").text("Ordered and has equally spaced intervals");
+            var ordinal = select.append("option").attr("value", "ordinal").text("Ordered levels");
+            var nominal = select.append("option").attr("value", "nominal").text("Unordered levels");
+            
+            // var ratio = select.append("option").attr("value", "ratio").text("Ratio");
         }
     });
     //if R returns an error, alert the error message

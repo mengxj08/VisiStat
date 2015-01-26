@@ -258,7 +258,6 @@ function updateHistory(researchQuestion)
     d3.selectAll(".selectedEntryIndicators").attr("style", "display: none;");
 
     addEntryToHistory(researchQuestion, numberOfEntriesInHistory);
-    updateNumberOfPartialTestsDone(numberOfEntriesInHistory);
     
     numberOfEntriesInHistory++;
 
@@ -330,7 +329,7 @@ function plotVisualisation()
                                                                                 .attr("font-size", "16px")
                                                                                 .attr("text-anchor", "middle")
                                                                                 .attr("fill", "grey")
-                                                                                .text("Please select independent variables (up to 3) \n and/or a dependent variable to continue.");
+                                                                                .text("");
                                     
     }
 }

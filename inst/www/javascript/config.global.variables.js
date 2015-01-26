@@ -13,12 +13,6 @@ global.flags = {};
 global.flags.isTestWithoutTimeout  = false; // if true, perform tests without delay (for re-plots)
 global.flags.userDidSelectTestManually = false; 
 
-/////////////////
-//Over-testing //
-/////////////////
-
-global.numberOfPartialTestsDone = {};
-
 ///////////////////////
 //Interaction-effect //
 ///////////////////////
