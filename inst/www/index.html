@@ -4,12 +4,12 @@
         <!-- Link external stylesheets -->
         <link rel="stylesheet" type="text/css" href="style/datasetSelectionPage.css">
         <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
-
+        <link rel="stylesheet" type="text/css" href="style/newIndex.css">
         <!-- Set encoding -->
         <meta charset="utf-8">
         
         <!-- Set title -->
-        <title>Statsplorer</title>
+        <title>NEXP-Analysis</title>
 
        <!-- Jquery, OpenCPU, and D3 -->
         <script type = "text/javascript" src = "dependencies/jquery-1.10.2.js"></script>
@@ -218,10 +218,19 @@
 
         </script>            
         <!-- HTML body code starts here-->
-
-        <h1 align="center"> 
-            <img src="images/Statsplorer-logo.svg"/>
-        </h1>
+        <div class="container">
+          <div class="header">
+            <nav>
+              <ul class="nav nav-pills pull-right">
+                <li role="presentation" class="active"><a href="">Home</a></li>
+                <li role="presentation"><a href="">Help</a></li>
+              </ul>
+            </nav>
+            <h3 class="text-muted">NEXP</h3>
+          </div>
+          <div class="jumbotron">
+              <p>Analyzing platform</p>
+          </div>
 
         <table align="center" id="datasetTable">            
             <tr>
@@ -253,9 +262,13 @@
             </tr>
 
         </table>
-        
         <div id="buttonWrapper">
             <input type="button" onclick="exploreDataset()" value="Start analysis" class="btn btn-primary" id="submitButton"/>
+        </div>
+
+          <footer class="footer">
+            <p>&copy; NUS-HCI Lab</p>
+          </footer>
         </div>
 
         <script type="text/javascript">
