@@ -143,6 +143,7 @@
                     var participant = select.append("option").attr("value", "ID").text("Participant or Subject Variable");
                     var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
                     var independent = select.append("option").attr("value", "IV").text("Independent Variable");
+                    var tmp = select.append("option").attr("value","useless").text("Other factors or information");
                     
                     switch(roles[i])
                     {
@@ -156,6 +157,10 @@
                         
                         case "IV":
                                             independent.attr("selected", "yes");
+                                            break;
+                                            
+                        case "useless":
+                                            tmp.attr("selected", "yes");
                                             break;
                     }
                     
@@ -228,21 +233,21 @@
             </nav>
             <h3 class="text-muted">NEXP</h3>
           </div>
-          <div class="jumbotron">
-              <p>Analyzing platform</p>
+          <div class="headingOne" align="center">
+              <h1>Analyzing platform</h1>
+              <br />
+              <br />
+              <br />
           </div>
 
         <table align="center" id="datasetTable">            
             <tr>
-                <td id="left">
-                    <label class="labels" style="margin-bottom: 8px;">Dataset: </label>
-                </td>
-                <td id="right">
+                <td id="centre">
                     <div class="input-group">
                         <div class="input-append">
-                          <input type="text" class="form-control" readonly>
+                          <input type="text" class="form-control" placeholder="Dataset" style="margin-bottom: 8px;margin-right: 16px;" readonly>
                           <span class="btn btn-file btn-primary" id='browseCover'>
-                                Browse&hellip; <input type="file" id="fileInput" name="dataset" accept="text/csv" onchange=handleFile(this.files)>                                        
+                                Open&hellip; <input type="file" id="fileInput" name="dataset" accept="text/csv" onchange=handleFile(this.files)>                                        
                         </span>
                         </div>
                     </div>
@@ -262,10 +267,9 @@
             </tr>
 
         </table>
-        <div id="buttonWrapper">
+        <div id="buttonWrapper" style="margin-bottom: 15px;">
             <input type="button" onclick="exploreDataset()" value="Start analysis" class="btn btn-primary" id="submitButton"/>
-        </div>
-
+        </div>   
           <footer class="footer">
             <p>&copy; NUS-HCI Lab</p>
           </footer>

@@ -180,7 +180,7 @@
 
             <span class="leftPaneSectionHead">graphs</span>
             <div class="leftPaneSection" id="graphSection">
-                <label>
+                <label style="visibility: hidden;">
                     <input type="radio" class="graphRadio" name="graphType" value="Histogram"/>
                     <div class="graphName">
                         <img src="images/histogram.png"/>
@@ -191,17 +191,19 @@
                     <input type="radio" class="graphRadio" name="graphType" value="Boxplot"/>
                     <div class="graphName">
                         <img src="images/boxplot.png"/>
-                        Compare data
+                        <font color="black">Significance Testing</font>
                     </div>
                 </label>
-                <label>
+                <p style="font-size:13px">Choose at least one independent variable and dependent variable to compare
+                data. The analyzing platform is able to automatically test the significance.</p>
+                <label style="visibility: hidden;">
                     <input type="radio" class="graphRadio" name="graphType" value="Scatterplot" disabled="disabled"/>
                     <div class="graphName">
                         <img src="images/scatterplot.png"/>
                         Correlate two data
                     </div>
                 </label>
-                <label>
+                <label style="visibility: hidden;">
                     <input type="radio" class="graphRadio" name="graphType" value="Scatterplot matrix"/>
                     <div class="graphName">
                         <img src="images/scatterplotMatrix.png"/>
@@ -241,12 +243,12 @@
         </div>
 
         <div class="rightPane">
-            <span class="rightPaneSectionHead">history</span>
+            <span class="rightPaneSectionHead">Statistical Analysis</span>
             <div class="rightPaneSection" id="historySection">
                 <table id="historyTable" style="width: 350px;">                    
                 </table>
             </div>
-
+		
             <span class="rightPaneSectionHead">reports</span>
             <div class="rightPaneSection" id="reportSection">
                 <!-- Reports are rendered here -->
