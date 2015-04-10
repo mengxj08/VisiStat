@@ -78,7 +78,8 @@ function parseStringToDataFrame()
         
             var independent = select.append("option").attr("value", "IV").text("Independent Variable");            
             var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
-            var participant = select.append("option").attr("value", "ID").text("Participant or Subject IDs");            
+            var participant = select.append("option").attr("value", "ID").text("Participant or Subject IDs");
+            var tmp = select.append("option").attr("value", "Other").text("Other factors or information");              
             
             select = tr.append("td").append("select").attr("name", "dataType").attr("id", variableNames[i] + ".datatype").attr("class", "dataTypeSelect");
 

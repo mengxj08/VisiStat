@@ -103,73 +103,73 @@
             };
 
             // loads dataset properties when dataset is changed
-            function changeDataset()
-            {
-                fileName = $("#datasetList").val();                
-                sessionStorage.fileName = fileName;
-                sessionStorage.isUploadedFile = "no";
+            // function changeDataset()
+            // {
+            //     fileName = $("#datasetList").val();                
+            //     sessionStorage.fileName = fileName;
+            //     sessionStorage.isUploadedFile = "no";
                                 
-                $("#datasetDescription").text(datasetDescription[fileName]);
+            //     $("#datasetDescription").text(datasetDescription[fileName]);
                 
-                var variables = variablesInDataset[fileName];
-                var roles = variableRolesInDataset[fileName];
-                var dataTypes = variableTypesInDataset[fileName];
-                var variablesDiv = d3.select("#variablesDiv");
+            //     var variables = variablesInDataset[fileName];
+            //     var roles = variableRolesInDataset[fileName];
+            //     var dataTypes = variableTypesInDataset[fileName];
+            //     var variablesDiv = d3.select("#variablesDiv");
                 
-                // ?
-                removeElementsByClassName("variableList");
+            //     // ?
+            //     removeElementsByClassName("variableList");
                
-                // construct table with variable names
-                var variablesTable = variablesDiv.append("table")
-                                        .attr("border", "1")
-                                        .attr("class", "variableList table")
-                                        .attr("align", "center");
+            //     // construct table with variable names
+            //     var variablesTable = variablesDiv.append("table")
+            //                             .attr("border", "1")
+            //                             .attr("class", "variableList table")
+            //                             .attr("align", "center");
                                             
-                var tr = variablesTable.append("tr");
+            //     var tr = variablesTable.append("tr");
                             
-                        tr.append("th").text("Variable");
-                        tr.append("th").text("Role");
-                        tr.append("th").text("Data type");
+            //             tr.append("th").text("Variable");
+            //             tr.append("th").text("Role");
+            //             tr.append("th").text("Data type");
                 
-                for(var i=0; i<variables.length; i++)
-                {
-                    var tr = variablesTable.append("tr");                                        
-                             tr.append("td").text(variables[i]);
+            //     for(var i=0; i<variables.length; i++)
+            //     {
+            //         var tr = variablesTable.append("tr");                                        
+            //                  tr.append("td").text(variables[i]);
                                 
-                    var select = tr.append("td").append("select").attr("name", "role").attr("id", variables[i]).attr("class", "roleSelect");                    
-                    $(select[0]).change(checkRole);
+            //         var select = tr.append("td").append("select").attr("name", "role").attr("id", variables[i]).attr("class", "roleSelect");                    
+            //         $(select[0]).change(checkRole);
                     
-                    //var unspecified = select.append("option").attr("value", "undefined").text("Undefined");
-                    var participant = select.append("option").attr("value", "ID").text("Participant or Subject IDs");
-                    var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
-                    var independent = select.append("option").attr("value", "IV").text("Independent Variable");
-                    var tmp = select.append("option").attr("value","other").text("Other factors or information");
+            //         //var unspecified = select.append("option").attr("value", "undefined").text("Undefined");
+            //         var participant = select.append("option").attr("value", "ID").text("Participant or Subject IDs");
+            //         var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
+            //         var independent = select.append("option").attr("value", "IV").text("Independent Variable");
+            //         var tmp = select.append("option").attr("value","other").text("Other factors or information");
                     
-                    switch(roles[i])
-                    {
-                        case "ID":
-                                            participant.attr("selected", "yes");
-                                            break;
+            //         switch(roles[i])
+            //         {
+            //             case "ID":
+            //                                 participant.attr("selected", "yes");
+            //                                 break;
                         
-                        case "DV":
-                                            dependent.attr("selected", "yes");
-                                            break;
+            //             case "DV":
+            //                                 dependent.attr("selected", "yes");
+            //                                 break;
                         
-                        case "IV":
-                                            independent.attr("selected", "yes");
-                                            break;
+            //             case "IV":
+            //                                 independent.attr("selected", "yes");
+            //                                 break;
                                             
-                        case "Other":
-                                            tmp.attr("selected", "yes");
-                                            break;
-                    }
+            //             case "Other":
+            //                                 tmp.attr("selected", "yes");
+            //                                 break;
+            //         }
                     
-                    tr.append("td").text(dataTypes[i]);
-                }
+            //         tr.append("td").text(dataTypes[i]);
+            //     }
 
-                // check role after each data set is loaded
-                checkRole();
-            }
+            //     // check role after each data set is loaded
+            //     checkRole();
+            // }
             
             // called when user clicks on 'explore dataset'
             function exploreDataset()
