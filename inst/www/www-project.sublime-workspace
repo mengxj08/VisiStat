@@ -1,0 +1,1099 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"wi",
+				"Withintmp"
+			],
+			[
+				"index",
+				"indexElement"
+			],
+			[
+				"le",
+				"length"
+			],
+			[
+				"wid",
+				"width"
+			],
+			[
+				"in",
+				"inline"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"result",
+				"resultArray"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"r",
+				"ReadLocalJsonFile"
+			],
+			[
+				"w",
+				"writeToJson"
+			],
+			[
+				"par",
+				"parseInt"
+			],
+			[
+				"ps",
+				"parseInt"
+			],
+			[
+				"ind",
+				"independent_variable"
+			],
+			[
+				"l",
+				"length"
+			],
+			[
+				"coun",
+				"counter_balance"
+			],
+			[
+				"s",
+				"subject_design"
+			],
+			[
+				"com",
+				"compare_solutions"
+			],
+			[
+				"f",
+				"FormatBwtweenString"
+			],
+			[
+				"b",
+				"betweenStringFormated"
+			],
+			[
+				"bw",
+				"betweenStringFormated"
+			],
+			[
+				"id",
+				"idvWithin"
+			],
+			[
+				"W",
+				"WriteToJson"
+			],
+			[
+				"number",
+				"numberOfBetweenArrangement"
+			],
+			[
+				"n",
+				"numberOfParticipants"
+			],
+			[
+				"To",
+				"toString"
+			],
+			[
+				"De",
+				"design_guide"
+			],
+			[
+				"bet",
+				"betweenString"
+			],
+			[
+				"to",
+				"toString"
+			],
+			[
+				"num",
+				"numberOfBetweenArrangement"
+			],
+			[
+				"G",
+				"GenerateBetweenArrangment"
+			],
+			[
+				"p",
+				"push"
+			],
+			[
+				"tm",
+				"tmpArrangement"
+			],
+			[
+				"idv",
+				"idvBetween"
+			],
+			[
+				"tot",
+				"totalArrangement"
+			],
+			[
+				"bwt",
+				"betweenArrangement"
+			],
+			[
+				"Gen",
+				"GenerateIndividualArrangment"
+			],
+			[
+				"i",
+				"individual"
+			],
+			[
+				"numb",
+				"numberOfConditions"
+			],
+			[
+				"numberO",
+				"numberOfParticipants"
+			],
+			[
+				"for",
+				"forEach"
+			],
+			[
+				"arr",
+				"arrangement"
+			],
+			[
+				"level",
+				"levelsName"
+			],
+			[
+				"v",
+				"variables"
+			],
+			[
+				"d",
+				"design_guide"
+			],
+			[
+				"local",
+				"localStorageServiceProvider"
+			],
+			[
+				"va",
+				"value"
+			],
+			[
+				"se",
+				"selectedIndex"
+			],
+			[
+				"inde",
+				"indexOf"
+			],
+			[
+				"pa",
+				"parse"
+			],
+			[
+				"page",
+				"pageOneControl"
+			],
+			[
+				"border-c",
+				"border-color"
+			],
+			[
+				"co",
+				"color"
+			],
+			[
+				"int",
+				"inputID"
+			],
+			[
+				"inp",
+				"inputID"
+			],
+			[
+				"selec",
+				"selectID"
+			],
+			[
+				"ma",
+				"margin-bottom"
+			],
+			[
+				"tex",
+				"text-align"
+			],
+			[
+				"mar",
+				"margin-bottom"
+			],
+			[
+				"h",
+				"html"
+			],
+			[
+				"ID",
+				"ID2"
+			],
+			[
+				"max",
+				"max_blocks"
+			],
+			[
+				"cu",
+				"CurrentTrial_tmp"
+			],
+			[
+				"tr",
+				"trial"
+			],
+			[
+				"m",
+				"max_blocks"
+			],
+			[
+				"con",
+				"condition"
+			],
+			[
+				"max_",
+				"max_trials"
+			],
+			[
+				"da",
+				"data_name"
+			],
+			[
+				"Id",
+				"ID1"
+			],
+			[
+				"Tr",
+				"TrialsperBlock"
+			],
+			[
+				"block",
+				"blockNum"
+			],
+			[
+				"trial",
+				"trialNum"
+			],
+			[
+				"_",
+				"_COOKIE"
+			],
+			[
+				"stop",
+				"stop_timer"
+			],
+			[
+				"hr",
+				"href"
+			],
+			[
+				"subject",
+				"subject_file"
+			],
+			[
+				"xw",
+				"xwindowArray"
+			],
+			[
+				"ac",
+				"acpArray"
+			],
+			[
+				"arrangem",
+				"arrangementArray"
+			],
+			[
+				"array_p",
+				"array_push"
+			],
+			[
+				"temp",
+				"tempArray"
+			],
+			[
+				"arrange",
+				"arrangementJson"
+			],
+			[
+				"Arr",
+				"array"
+			],
+			[
+				"ta",
+				"taskNum"
+			],
+			[
+				"task",
+				"taskNum"
+			],
+			[
+				"arrang",
+				"arrangementNum"
+			],
+			[
+				"a",
+				"arrangement"
+			],
+			[
+				"array_co",
+				"array_count_values"
+			],
+			[
+				"simple",
+				"simplexml_load_file"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "index.html",
+			"settings":
+			{
+				"buffer_size": 14127,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "javascript/ocpu.dataset.io.js",
+			"settings":
+			{
+				"buffer_size": 10924,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "javascript/config.global.variables.js",
+			"settings":
+			{
+				"buffer_size": 4621,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "javascript/config.dataset.js",
+			"settings":
+			{
+				"buffer_size": 8735,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "<!DOCTYPE html>\n<html lang=\"en\">\n    <head>\n        <!-- Link external stylesheet -->\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/mainPage.css\">\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/help.css\">\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/variableSelection.css\">\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/opentip.css\">\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/history.css\">\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/simpleMainEffect.css\">\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"style/dimmer.css\">\n\n        <!-- Set encoding -->\n        <meta charset=\"utf-8\">\n\n        <!-- Set Title -->\n        <title>VisiStat: Visualization-driven, Interactive Statistical Analysis</title>\n\n        <!-- Jquery, OpenCPU, D3, JQuery-easing, and Base64 -->        \n        <script type = \"text/javascript\" src = \"dependencies/jquery-2.1.1.min.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/opencpu.js\"></script>        \n        <script type = \"text/javascript\" src = \"dependencies/d3.v3.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/jquery.easing.1.3.js\"></script>        \n        <script type = \"text/javascript\" src = \"dependencies/jquery.pulse.min.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/webtoolkit.base64.js\"></script>        \n        <script type = \"text/javascript\" src = \"dependencies/html2canvas.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/canvg.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/rgbcolor.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/StackBlur.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/FileSaver.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/paper-full.min.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/opentip-jquery.js\"></script>\n        <!-- // <script type = \"text/javascript\" src = \"dependencies/Blob.js\"></script>\n        // <script type = \"text/javascript\" src = \"dependencies/canvas-toBlob.js\"></script> -->\n        <script type = \"text/javascript\" src = \"dependencies/Snap.svg-0.3.0/dist/snap.svg.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/AvsAn.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/titleCaps.js\"></script>\n        <script type = \"text/javascript\" src = \"dependencies/jQuery-mutex-master/mutex.js\"></script>\n        \n        <script type=\"text/javascript\" src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_SVG\"></script>\n         <script type=\"text/x-mathjax-config\">\n            MathJax.Hub.Config({\n                                    tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']]}\n                               });\n        </script>\n\n             \n         <!-- Visualizations (tukey hsd plot and interaction plot are for analyzing) -->\n        <script type = \"text/javascript\" src = \"javascript/visualization.histogram.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/visualization.boxplot.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/visualization.scatterplot.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/visualization.scatterplot.matrix.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/effectPlots.js\"></script>\n        \n        <script type = \"text/javascript\" src = \"javascript/events.mouse.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/draw.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/statistical-tests.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/statistics-helper.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/report.js\"></script>  \n        <script type = \"text/javascript\" src = \"javascript/decisionTree.js\"></script> \n        <script type = \"text/javascript\" src = \"javascript/rendering.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/history.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/postHocComparisons.js\"></script>   \n        <script type = \"text/javascript\" src = \"javascript/over-testing.js\"></script>           \n\n        <script type = \"text/javascript\" src = \"javascript/callbacks.assumptions.transformation.js\"></script>      \n        <script type = \"text/javascript\" src = \"javascript/callbacks.significanceTests.js\"></script>      \n        \n        <script type = \"text/javascript\" src = \"javascript/ocpu.dataset.io.js\"></script>        \n        <script type = \"text/javascript\" src = \"javascript/ocpu.significance.tests.js\"></script> \n        <script type = \"text/javascript\" src = \"javascript/ocpu.post.hoc.tests.js\"></script>        \n        <script type = \"text/javascript\" src = \"javascript/ocpu.assumptions.transformations.js\"></script>        \n        <script type = \"text/javascript\" src = \"javascript/ocpu.correlation.regression.js\"></script>        \n        <script type = \"text/javascript\" src = \"javascript/ocpu.factorial.ANOVA.js\"></script>        \n        \n        <script type = \"text/javascript\" src = \"javascript/utils.helper.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/utils.math.js\"></script>\n\n        <script type = \"text/javascript\" src = \"javascript/config.general.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/config.global.variables.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/config.dataset.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/config.effectsize.js\"></script>\n        <script type = \"text/javascript\" src = \"javascript/config.help.js\"></script>       \n\n        <script type = \"text/javascript\" src = \"javascript/helpTexts.js\"></script>       \n        <script type = \"text/javascript\" src = \"javascript/dimmer.js\"></script>           \n    </head>\n    <body>   \n        <script type=\"text/javascript\">            \n        \n            window.onload = function()\n            {    \n                initMouseEventHandlers();                \n                localStorage.setItem(\"index\", parseInt(localStorage.getItem(\"index\")) + parseInt(1));                \n\n                d3.select(\"#assumptionsPanel\")\n                        .attr(\"style\", \"position: absolute; left: \" + variablesPanelWidth + \"px; top: 0px; height: \" + assumptionsPanelHeight + \"px; width: \" + assumptionsPanelWidth + \"px;\");\n\n                d3.select(\"#plotPanel\")\n                        .attr(\"style\", \"position: absolute; left: \" + variablesPanelWidth + \"px; top: \" + assumptionsPanelHeight + \"px; height: \" + plotPanelHeight + \"px; width: \" + plotPanelWidth + \"px;\");\n\n                d3.select(\"#resultsPanel\")\n                        .attr(\"style\", \"position: absolute; left: \" + variablesPanelWidth + \"px; top: \" + (assumptionsPanelHeight + plotPanelHeight) + \"px; height: \" + resultsPanelHeight + \"px; width: \" + resultsPanelWidth + \"px;\");\n\n                d3.select(\"#buttonsPanel\")\n                        .attr(\"style\", \"position: absolute; left: \" + (variablesPanelWidth + resultsPanelWidth) + \"px; top: \" + (assumptionsPanelHeight + plotPanelHeight) + \"px; height: \" + buttonsPanelHeight + \"px; width: \" + buttonsPanelWidth + \"px;\");\n\n                d3.select(\"#reportButtonPanel\")\n                        .attr(\"style\", \"position: absolute; left: \" + (variablesPanelWidth + assumptionsPanelWidth) + \"px; top: \" + (sidePanelHeight - sideCanvasButtonHeight) + \"px; height: \" + sideCanvasButtonHeight + \"px; width: \" + sidePanelWidth + \"px; overflow: hidden;\");\n\n                d3.select(\"#modeButtonPanel\")\n                        .attr(\"style\", \"position: absolute; left: \" + (variablesPanelWidth + assumptionsPanelWidth) + \"px; top: 0px; height: \" + sideCanvasButtonHeight + \"px; width: \" + sidePanelWidth + \"px; overflow: hidden;\");\n\n                d3.select(\"#reportPanel\")\n                        .attr(\"style\", \"position: absolute; left: \" + width + \"px; top: 0px; height: \" + (sidePanelHeight) + \"px; width: \" + (width - sidePanelWidth) + \"px; overflow: auto;\");\n            \n                // Load SVG and start the loading animation\n                resetSVGCanvas();\n                renderSidePanel();\n                initiateLoadingDatasetAnimation();                               \n\n                var assumptionsCanvas = d3.select(\"#assumptionsCanvas\");\n                variableTypesInDataset = sessionStorage.getItem(variableTypesInDataset)\n\n                if(sessionStorage.fileName == undefined && sessionStorage.isUploadedFile != \"yes\")\n                {\n                    window.location = \"index.html\"; // If file is not loaded, redirect to index.html\n                    return;\n                }\n                \n                // Load data from a given file                \n                if(sessionStorage.isUploadedFile === \"yes\")\n                {   \n                    variableNames = sessionStorage.getObject(\"variables\");                 \n                    variableTypesInDataset = sessionStorage.getItem(\"variableTypesInDataset\");\n                    dataset = sessionStorage.getObject(\"dataset\");\n\n                    for(var i=0; i<variableNames.length; i++)        \n                        variablesFromOpenCPU[variableNames[i]] = sessionStorage.getItem(variableNames[i]) == undefined ? \"?\" : sessionStorage.getItem(variableNames[i]);        \n\n                    variablesDidLoad(); \n\n                    //for each variable, get the data and the IQR\n                    for(var i=0; i<variableNames.length; i++)\n                    {      \n                        variables[variableNames[i]] = new Object();\n                        MIN[variableNames[i]] = new Object();\n                        MAX[variableNames[i]] = new Object();\n                        IQR[variableNames[i]] = new Object();\n                        CI[variableNames[i]] = new Object();\n\n                        getData(dataset, variableNames[i]);      \n                    } \n\n                    computeNumberOfBins();\n                    computeCIForSDs();\n                    // initialiseNumberOfPartialTestsDone();\n                }\n                else\n                    loadFile();                                 \n            }   \n        </script>\n        \n        <!-- Define divs -->\n        <div class=\"leftPane\">\n            <span class=\"leftPaneSectionHead\">variables</span>\n            <div class=\"leftPaneSection\" id=\"variableSection\">\n                <!-- The template below is rendered by rendering.coffee -->\n                <!-- \n                <label class=\"varLabel\" id=\"varLabelTemplate\">\n                    <input type=\"checkbox\" class=\"variableCheckbox\" name=\"VARIABLE NAME\"/>\n                    <span class=\"variableName\">VARIABLE NAME</span>\n                    <span class=\"variableRole\">\n                        <span class=\"variableRoleDisplay\">DV</span>\n                        <button id=\"variableRoleButton\" class=\"panelItemButton variableRoleButton\">DV</button>\n                    </span>\n                </label> \n                 -->\n            </div>\n\n            <span class=\"leftPaneSectionHead\">graphs</span>\n            <div class=\"leftPaneSection\" id=\"graphSection\">\n                <label style=\"visibility: hidden;\">\n                    <input type=\"radio\" class=\"graphRadio\" name=\"graphType\" value=\"Histogram\"/>\n                    <div class=\"graphName\">\n                        <img src=\"images/histogram.png\"/>\n                        Examine data distribution\n                    </div>\n                </label>\n                <label>\n                    <input type=\"radio\" class=\"graphRadio\" name=\"graphType\" value=\"Boxplot\"/>\n                    <div class=\"graphName\">\n                        <img src=\"images/boxplot.png\"/>\n                        Significance Testing\n                    </div>\n                </label>\n                <label style=\"visibility: hidden;\">\n                    <input type=\"radio\" class=\"graphRadio\" name=\"graphType\" value=\"Scatterplot\" disabled=\"disabled\"/>\n                    <div class=\"graphName\">\n                        <img src=\"images/scatterplot.png\"/>\n                        Correlate two data\n                    </div>\n                </label>\n                <label style=\"visibility: hidden;\">\n                    <input type=\"radio\" class=\"graphRadio\" name=\"graphType\" value=\"Scatterplot matrix\"/>\n                    <div class=\"graphName\">\n                        <img src=\"images/scatterplotMatrix.png\"/>\n                        Correlate multiple data\n                    </div>\n                </label>\n            </div>\n            <p style=\"font-size:13px\">Choose at least one independent variable and dependent variable to compare\n            data. The analyzing platform is able to automatically test the significance.</p>\n            <span class=\"leftPaneSectionHead\">design</span>\n            <div class=\"leftPaneSection\" id=\"designSection\">\n                <!-- BEGIN: Placeholders will be filled by rendering.coffee -->\n                <div id=\"designDescription\">\n                    <span id=\"designName\">DESIGN NAME</span> <br/>\n                    <span id=\"designDeterminer\">determined by\n                        <span id=\"designDeterminerVariable\" class=\"isVariable\">VARIABLE NAME</span>\n                    </span>\n                </div>\n                <button id=\"designDeterminerButton\" class=\"panelItemButton\">x</button>\n                <!-- END: Placeholders will be filled by render.coffee -->\n            </div>\n\n            <div class=\"popupBox\" id=\"variableRoleMenu\">\n                <label class=\"variableRoleRadioLabel\">\n                    <input type=\"radio\" name=\"varRoleRadio\" value=\"IV\" class=\"variableRole\"/>\n                    <span class=\"variableRoleRadioLabel\">Independent variable</span>\n                </label>\n                <label class=\"variableRoleRadioLabel\">\n                    <input type=\"radio\" name=\"varRoleRadio\" value=\"DV\" class=\"variableRole\"/>\n                    <span class=\"variableRoleRadioLabel\">Dependent variable</span>\n                </label>\n                <label class=\"variableRoleRadioLabel\">\n                    <input type=\"radio\" name=\"varRoleRadio\" value=\"ID\" class=\"variableRole\"/>\n                    <span class=\"variableRoleRadioLabel\">Subject's ID</span>\n                </label>\n            </div>\n\n        </div>\n\n        <div class=\"rightPane\">\n            <span class=\"rightPaneSectionHead\">Statistical Analysis</span>\n            <div class=\"rightPaneSection\" id=\"historySection\">\n                <table id=\"historyTable\" style=\"width: 350px;\">                    \n                </table>\n            </div>\n		\n            <span class=\"rightPaneSectionHead\">reports</span>\n            <div class=\"rightPaneSection\" id=\"reportSection\">\n                <!-- Reports are rendered here -->\n            </div>\n            <script type=\"text/javascript\">\n                function openReport()\n                {\n                    var reportHTML = $(\".report\").html();\n                    var reportWindow = window.open();\n                    $(reportWindow.document.body).html(reportHTML);\n                }\n            </script>\n\n        </div>\n\n            <script>\n                function variablesDidLoad()\n                {                \n                    window.VisiStat.UI.leftPane.renderVariables(variablesFromOpenCPU);\n                    \n                    // enable/disable graph types (only values in the given array will be enabled)\n                    window.VisiStat.UI.leftPane.disableGraphs([\"Histogram\", \"Boxplot\", \"Scatterplot\", \"Scatterplot matrix\"]);                   \n\n                    // update experimental design\n                    var experimentalDesign = \"between\"; // Possible: \"within\", \"between\"\n                    var determinerColumnName = undefined; // Possible undefined (determined by row)\n                    window.VisiStat.UI.leftPane.updateExperimentalDesign(experimentalDesign, determinerColumnName);\n                    window.VisiStat.UI.leftPane.init();                    \n                }\n                \n                // register event handlers\n                function didRemoveDesignDeterminer() {\n                    console.log(\"Event: didRemoveDesignDeterminer\")\n                    window.VisiStat.UI.leftPane.updateExperimentalDesign(\"between\")\n                }\n                function variableInclusionDidChange(variableName, isIncluded) {\n                    // console.log(\"Event: variableInclusionDidChange(\" + variableName + \" \" + isIncluded + \")\")\n\n                    removeElementsByClassName(\"toolTips\"); // i.e., if there are tooltips\n            \n                    //add to list of variables selected\n                    selectedVariables = addToArrayWithoutDuplicates(selectedVariables, variableName);\n\n                    removeElementsByClassName(\"displayDataTable\");\n                    removeElementsByClassName(\"displayDataText\");\n                  \n                    selectDefaultVisualisation(); // selects the appropriate visualization based on the variables selected (role, number of)\n                    plotVisualisation(); //checks which plot is selected and draws that plot\n                    setVisibilityOfVisualisations(); //manages the fill colors of vizualizations (only one at a time) [ToDo]\n                    \n                    hideResetButton();\n                }\n\n                function variableRoleShouldChange(variableName, currentRole, selectedVarRole){\n                    console.log(\"Event: variableRoleShouldChange(\" + variableName + \" from \" + currentRole + \" to \" + selectedVarRole + \")\")\n\n                    var graphChanged = true; \n                    if (selectedVarRole == \"ID\" && graphChanged)\n                    {\n                        return confirm(\"Press OK to use \" + variableName + \" as the Subject ID. This will reset the current graph.\")    \n                    }\n                    return true;\n                }\n                function variableRoleDidChange(variableName, prevRole, currentRole){\n                    console.log(\"Event: variableRoleDidChange(\" + variableName + \" from \" + prevRole + \" to \" + currentRole + \")\")\n\n                    if ((prevRole == \"ID\" || currentRole == \"ID\"))\n                    {\n                            console.log(\"reset graph\")\n                            experimentalDesign = findExperimentalDesign()\n                            window.VisiStat.UI.leftPane.updateExperimentalDesign(experimentalDesign, variableName)\n                    }\n                    \n                }\n                function graphChoiceDidChange(graphName){\n                    console.log(\"Graph changed to \" + graphName)\n                    selectedVisualisation = graphName;        \n                    setVisibilityOfVisualisations();        \n                    plotVisualisation();                    \n                    hideResetButton();\n                }\n                \n                /**\n                 * Event handler for history entry checkbox: click. Does history navigation and report generation. \n                 * @param  {[type]}  RQ         [description]\n                 * @param  {Boolean} isIncluded [description]\n                 * @param  {[type]}  ID         [description]\n                 * @return {[type]}             [description]\n                 */\n                function historyEntryIsClicked(RQ, ID) \n                {                       \n                    console.log(\"Event: historyEntryIsClicked(\" + RQ + \",\" + ID + \")\");                                                              \n                    ID = ID.split(\"_\")[1];\n\n                    d3.selectAll(\".selectedEntryIndicators\").attr(\"style\", \"display: none; \");\n                    d3.select(\"#img_\" + ID + \".selectedEntryIndicators\").attr(\"style\", \"display: inline\");\n\n                    global.flags.isTestWithoutTimeout = true;\n                    \n\n                    // Plot & perform test                        \n                    resetSVGCanvas();                                           \n                    selectedVariables = listOfVariableSelections[ID].clone(); // Get the list of variables that were selected                    \n                    selectedVisualisation = listOfVisualizationSelections[ID]; // Get the visualization that was selected                        \n\n                    selectDefaultVisualisation(); // selects the appropriate visualization based on the variables selected (role, number of)\n                    plotVisualisation(); //checks which plot is selected and draws that plot\n                    setVisibilityOfVisualisations(); //manages the fill colors of vizualizations (only one at a time) [ToDo]\n                    \n                    removeElementsByClassName(\"compareMean\");\n                \n                    d3.selectAll(\".IQRs, .medians, .TOPFringes, .BOTTOMFringes, .TOPFringeConnectors, .BOTTOMFringeConnectors, .outliers, .CIs, .CITopFringes, .CIBottomFringes\").style(\"opacity\", \"0.35\"); // Make some elements of the boxplot transparent\n                    selectMeansFromArray(variableLists[ID]); // Select means specified in this array                \n\n                    compareMeans(); // Perform the significance test                                          \n                }\n\n                /**\n                 * Event handler for history entry: click. Updates the variables, visualisation, and performs the statistical test. \n                 * @param  {string} ID [ID of the button that was clicked]\n                 * @return {none]}    \n                 */\n                function reportCheckboxIsClicked(srcImage, ID)\n                {\n                    console.log(\"Event: reportCheckboxIsClicked()\"); \n\n                    var index = ID.split(\"_\")[1]; // Get index\n                    var RQ = listOfResearchQuestions[index];                    \n\n                    if(d3.select(\"#checkbox_\" + index).attr(\"src\") == \"images/checkOff.png\") // Is checked?\n                    {\n                         // Generate report                        \n                        addEntryToReport(reportingTextsArray[RQ], index);                        \n\n                        d3.select(\"#checkbox_\" + index).attr(\"src\", \"images/checkOn.png\");\n                    }                   \n                    else if(d3.select(\"#checkbox_\" + index).attr(\"src\") == \"images/checkOn.png\") // Is un-checked?\n                    {\n                        // Remove report\n                        d3.select(\"#report_\" + index).remove();\n\n                        d3.select(\"#checkbox_\" + index).attr(\"src\", \"images/checkOff.png\");\n                    }\n                }\n\n                window.VisiStat.UI.leftPane.registerEventHandler(\"didRemoveDesignDeterminer\", didRemoveDesignDeterminer);\n                window.VisiStat.UI.leftPane.registerEventHandler(\"variableInclusionDidChange\", variableInclusionDidChange);\n                window.VisiStat.UI.leftPane.registerEventHandler(\"variableRoleShouldChange\", variableRoleShouldChange);\n                window.VisiStat.UI.leftPane.registerEventHandler(\"variableRoleDidChange\", variableRoleDidChange);\n                window.VisiStat.UI.leftPane.registerEventHandler(\"graphChoiceDidChange\", graphChoiceDidChange);               \n                \n            </script>            \n        </div>\n        <div id = \"plotPanel\"></div>    \n        <div id = \"assumptionsPanel\"></div>    \n        <div id = \"resultsPanel\"></div>\n        <div id = \"buttonsPanel\"></div>\n        \n        <div id = \"historyPanel\"></div>\n        <div id = \"modeButtonPanel\"></div>\n        <div id = \"reportPanel\" href=\"\"></div>\n        <div id = \"reportButtonPanel\"></div> \n\n        <svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n          <defs>\n            <filter id=\"shadow\" x=\"0\" y=\"0\" width=\"150%\" height=\"150%\">\n              <feOffset result=\"offOut\" in=\"SourceAlpha\" dx=\"5\" dy=\"5\" />\n              <feGaussianBlur result=\"blurOut\" in=\"offOut\" stdDeviation=\"5\" />\n              <feBlend in=\"SourceGraphic\" in2=\"blurOut\" mode=\"normal\" />\n            </filter>            \n            <filter id=\"OriginalBevel\" filterUnits=\"objectBoundingBox\" x=\"-10%\" y=\"-10%\" width=\"150%\" height=\"150%\">\n              <feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"3\" result=\"blur\"/>\n              <feSpecularLighting in=\"blur\" surfaceScale=\"5\" specularConstant=\"0.5\" specularExponent=\"10\" result=\"specOut\" lighting-color=\"white\">\n                <fePointLight x=\"-5000\" y=\"-10000\" z=\"20000\"/>\n              </feSpecularLighting>\n              <feComposite in=\"specOut\" in2=\"SourceAlpha\" operator=\"in\" result=\"specOut2\"/>\n              <feComposite in=\"SourceGraphic\" in2=\"specOut2\" operator=\"arithmetic\" k1=\"0\" k2=\"1\" k3=\"1\" k4=\"0\" result=\"litPaint\" />\n              <feOffset result=\"offOut\" in=\"SourceAlpha\" dx=\"2.5\" dy=\"2.5\" />\n              <feGaussianBlur result=\"blurOut\" in=\"offOut\" stdDeviation=\"5\" />\n              <feBlend in=\"SourceGraphic\" in2=\"blurOut\" mode=\"normal\" />\n            </filter>\n            <filter id=\"Bevel\" x=\"0\" y=\"0\">\n                <feGaussianBlur in=\"SourceGraphic\" stdDeviation=\"0.05\" />\n            </filter>\n            <filter id=\"buttonFilterNormal\" filterUnits=\"objectBoundingBox\" x=\"-0.1\" y=\"-0.1\" width=\"1.2\" height=\"1.2\">\n                <feOffset result=\"offOut\" in=\"SourceAlpha\" dx=\"5\" dy=\"5\" />\n                <feGaussianBlur result=\"blurOut\" in=\"offOut\" stdDeviation=\"5\" />\n                <feBlend in=\"SourceGraphic\" in2=\"blurOut\" mode=\"normal\" />\n                <feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"1\" result=\"alpha_blur\"/>\n                <feSpecularLighting in=\"alpha_blur\" surfaceScale=\"5\" specularConstant=\"1\" specularExponent=\"15\" lighting-color=\"#FFFFFF\" result=\"spec_light\">\n                    <fePointLight x=\"-200\" y=\"75\" z=\"250\"/>\n                </feSpecularLighting>\n                <feComposite in=\"SourceGraphic\" in2=\"spec_light\" operator=\"out\"/>\n            </filter>\n            <filter id=\"buttonFilterSelected\" filterUnits=\"objectBoundingBox\" x=\"-0.1\" y=\"-0.1\" width=\"1.2\" height=\"1.2\">\n                <feOffset result=\"offOut\" in=\"SourceAlpha\" dx=\"5\" dy=\"5\" />\n                <feGaussianBlur result=\"blurOut\" in=\"offOut\" stdDeviation=\"5\" />\n                <feBlend in=\"SourceGraphic\" in2=\"blurOut\" mode=\"normal\" />\n                <feGaussianBlur in=\"SourceAlpha\" stdDeviation=\"1\" result=\"alpha_blur\"/>\n                <feSpecularLighting in=\"alpha_blur\" surfaceScale=\"5\" specularConstant=\"1\" specularExponent=\"15\" lighting-color=\"#FFFFFF\" result=\"spec_light\">\n                    <fePointLight x=\"+200\" y=\"+400\" z=\"50\"/>\n                </feSpecularLighting>\n                <feComposite in=\"SourceGraphic\" in2=\"spec_light\" operator=\"out\"/>\n            </filter>\n            <linearGradient id=\"buttonFillNormal\" gradientUnits=\"objectBoundingBox\" x1=\"1\" x2=\"1\" y1=\"0\" y2=\"1\">\n                    <stop stop-color=\"#f8f9f7\" offset=\"0\"/>\n                    <stop stop-color=\"#b6b6b6\" offset=\"1.0\"/>\n            </linearGradient>\n            <linearGradient id=\"buttonFillSelected\" gradientUnits=\"objectBoundingBox\" x1=\"1\" x2=\"1\" y1=\"0\" y2=\"1\">\n                    <stop stop-color=\"#627bf4\" offset=\"0\"/>\n                    <stop stop-color=\"#6B8FD4\" offset=\"1.0\"/>\n            </linearGradient>\n            <linearGradient id=\"buttonFillDisabled\" gradientUnits=\"objectBoundingBox\" x1=\"1\" x2=\"1\" y1=\"0\" y2=\"1\">\n                    <stop stop-color=\"#616D7F\" offset=\"0\"/>\n                    <stop stop-color=\"#1C2624\" offset=\"1.0\"/>\n            </linearGradient>\n            <linearGradient id=\"sidePanelFadeout\" gradientUnits=\"objectBoundingBox\" x1=\"1\" x2=\"1\" y1=\"0\" y2=\"1\">\n                    <stop stop-color=\"#627bf4\" offset=\"0\"/>\n                    <stop stop-color=\"#ffffff\" offset=\"1.0\"/>\n            </linearGradient>\n          </defs>\n        </svg>\n        <script type=\"text/javascript\">\n            // Adjust left pane height to fit the window size\n            $(\".leftPane\").css(\"height\", getHeight() + \"px\")\n            $(\".rightPane\").css(\"height\", getHeight() + \"px\")\n        </script>\n    </body>\n</html>   \n",
+			"file": "main.html",
+			"file_size": 29001,
+			"file_write_time": 130731230480931964,
+			"settings":
+			{
+				"buffer_size": 28522,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "Searching 275 files for \"variableSection\"\n\nD:\\Soc-Computer\\Code\\GitHub\\VisiStat\\inst\\www\\\\main.html:\n  165          <div class=\"leftPane\">\n  166              <span class=\"leftPaneSectionHead\">variables</span>\n  167:             <div class=\"leftPaneSection\" id=\"variableSection\">\n  168                  <!-- The template below is rendered by rendering.coffee -->\n  169                  <!-- \n\nD:\\Soc-Computer\\Code\\GitHub\\VisiStat\\inst\\www\\\\javascript\\rendering.coffee:\n   95  			</label>\n   96  			\"\"\" for aVariableName, aVariableRole of variables\n   97: 	appendDOM('#variableSection', html)\n   98  \n   99  	# initial appearance of the subject variable\n\nD:\\Soc-Computer\\Code\\GitHub\\VisiStat\\inst\\www\\\\javascript\\rendering.js:\n  102      html += \"<label class='varLabel' id='varLabel_\" + aVariableName + \"'>\\n    <input type='checkbox' class='variableCheckbox' name='\" + aVariableName + \"'/>\\n    <span class='variableName'>\" + aVariableName + \"</span>\\n    <span class=\\\"variableRole\\\">\\n		    		<span class=\\\"variableRoleDisplay\\\">\" + aVariableRole + \"</span>\\n		    		<button id=\\\"variableRoleButton\\\" class=\\\"panelItemButton variableRoleButton\\\">\" + aVariableRole + \"</button>\\n		    	</span>\\n</label>\";\n  103    }\n  104:   appendDOM('#variableSection', html);\n  105    updateVariableEnabling();\n  106  };\n\nD:\\Soc-Computer\\Code\\GitHub\\VisiStat\\inst\\www\\\\style\\variableSelection.css:\n    1  #designSection{vertical-align:middle;display:block}#designDescription{font-size:14px;font-family:sans-serif;color:#707070;text-decoration:none;text-align:left;line-height:40px;width:190px;padding-left:25px;line-height:normal;margin-top:10px;margin-bottom:10px;display:inline-block}#designDeterminer{font-size:.8em;color:#b4b4b4}#designDeterminerVariable{font-size:1em}#designDeterminerVariable.isVariable{font-weight:700}#designConfigButton{width:30px;display:inline-block}input[type=checkbox].variableCheckbox{display:none}span.variableName{-webkit-transition:background-color 150ms ease-in;-moz-transition:background-color 150ms ease-in;-ms-transition:background-color 150ms ease-in;-o-transition:background-color 150ms ease-in;transition:background-color 150ms ease-in;font-size:14px;font-family:sans-serif;color:#707070;text-decoration:none;text-align:left;line-height:40px;width:205px;height:40px;padding-left:40px;display:block;cursor:pointer;position:relative;white-space:nowrap;text-overflow:ellipsis;background-position:4% center;background-repeat:no-repeat;background-color:#f5f5f5}span.variableName:hover{background-color:#d8d8d8;color:#525252}input[type=checkbox].variableCheckbox:not(:checked)+span.variableName{background-image:url(../images/checkOff.png)}input[type=checkbox].variableCheckbox:hover+span.variableName{background-color:#d8d8d8}input[type=checkbox].variableCheckbox:checked+span.variableName{background-image:url(../images/checkOn.png);background-color:#e0e0e0;color:#808080;font-weight:700;letter-spacing:1px}input[type=checkbox].variableCheckbox:checked:hover+span.variableName{background-color:#d8d8d8}.panelItemButton{-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;font-size:14px;font-family:sans-serif;color:#707070;text-decoration:none;text-align:left;line-height:40px;color:#fafafa;text-align:center;line-height:30px;font-size:1em;font-style:italic;background-color:#b4b4b4;width:30px;height:30px;border:0;right:10px;padding:0;cursor:pointer;display:block;float:right;position:relative;outline:none}.panelItemButton:hover{background:#aaa;color:#fafafa}span:hover+.panelItemButton,div:hover+.panelItemButton{background:#b4b4b4;color:#fafafa}button.variableRoleButton{top:-30px;left:0}span.variableRole{-webkit-border-radius:15px;-moz-border-radius:15px;border-radius:15px;font-size:14px;font-family:sans-serif;color:#707070;text-decoration:none;text-align:left;line-height:40px;color:#b4b4b4;text-align:center;line-height:30px;font-style:italic;width:30px;height:30px;border:0;right:10px;padding:0px\n    2: 	cursor: pointer;display:block;float:right;position:relative;outline:none;top:-35px;visibility:hidden}input.variableCheckbox:checked~span.variableRole{visibility:visible}div.popupBox{-webkit-box-shadow:2px 2px 3px 0 rgba(50,50,50,0.7);-moz-box-shadow:2px 2px 3px 0 rgba(50,50,50,0.7);box-shadow:2px 2px 3px 0 rgba(50,50,50,0.7);-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;font-size:14px;font-family:sans-serif;color:#707070;text-decoration:none;text-align:left;line-height:40px;font-size:.8em;line-height:20px;display:none;z-index:2;font-weight:lighter;border:3px;padding:10px;letter-spacing:.2px;cursor:pointer;border:1px solid;border-color:#b4b4b4;background-color:#f5f5f5;position:fixed}input[type=radio].variableRole{display:inline-block}label.variableRoleRadioLabel{display:block}input[type=radio].graphRadio{display:none}div.graphName{width:205px;height:40px;padding-left:40px;display:block;cursor:pointer;-webkit-transition:background-color 150ms ease-in;-moz-transition:background-color 150ms ease-in;-ms-transition:background-color 150ms ease-in;-o-transition:background-color 150ms ease-in;transition:background-color 150ms ease-in;font-size:14px;font-family:sans-serif;text-decoration:none;text-align:left;line-height:40px;color:#707070;white-space:nowrap;background-color:#f5f5f5;background-position:4% center;background-repeat:no-repeat}div.graphName>img{vertical-align:middle;opacity:.6}div.graphName:hover{background-color:#d8d8d8;color:#525252}div.graphName:hover>img{opacity:1}input[type=radio].graphRadio+div.graphName{background-image:url(../images/radioOff.png)}input[type=radio].graphRadio:hover+div.graphName{background-image:url(../images/radioOffHover.png);background-color:#d8d8d8}input[type=radio].graphRadio:checked+div.graphName{background-image:url(../images/radioOn.png);background-color:#e0e0e0;}input[type=radio].graphRadio:checked+div.graphName>img{opacity:1}input[type=radio].graphRadio:checked:hover+div.graphName{background-color:#d8d8d8}input[type=radio].graphRadio:disabled+div.graphName{background-image:url(../images/radioDisabled.png);color:#cecece}input[type=radio].graphRadio:disabled+div.graphName>img{opacity:.3}div.leftPane{-webkit-box-shadow:2px 0 5px 0 rgba(50,50,50,0.2);-moz-box-shadow:2px 0 5px 0 rgba(50,50,50,0.2);box-shadow:2px 0 5px 0 rgba(50,50,50,0.2);display:block;width:245px;height:100%;max-height:100%;padding:0;margin:0;background:#f5f5f5;float:left}div.leftPaneSection{display:block;overflow-y:auto;overflow-x:hidden}div.leftPaneSection#graphSection{height:170px;min-height:170px}div.leftPaneSection#variableSection{max-height:calc(100% - 400px);min-height:200px}span.leftPaneSectionHead{display:block;padding-left:15px;width:230px;padding-top:10px;margin-top:10px;text-align:left;font-family:sans-serif;font-weight:100;font-variant:small-caps;letter-spacing:1px;color:#707070}body{margin-top:0;margin-bottom:0;margin-left:0;margin-right:0}\n\nD:\\Soc-Computer\\Code\\GitHub\\VisiStat\\inst\\www\\\\style\\variableSelection.less:\n  290  	}\n  291  \n  292: 	&#variableSection {\n  293  		max-height: ~\"calc(100% - 400px)\";		// NOTE: 400px is the height of other elements on the left pane\n  294  		min-height: 200px;\n\nD:\\Soc-Computer\\Code\\GitHub\\VisiStat\\inst\\www\\javascript\\rendering.js:\n  102      html += \"<label class='varLabel' id='varLabel_\" + aVariableName + \"'>\\n    <input type='checkbox' class='variableCheckbox' name='\" + aVariableName + \"'/>\\n    <span class='variableName'>\" + aVariableName + \"</span>\\n    <span class=\\\"variableRole\\\">\\n		    		<span class=\\\"variableRoleDisplay\\\">\" + aVariableRole + \"</span>\\n		    		<button id=\\\"variableRoleButton\\\" class=\\\"panelItemButton variableRoleButton\\\">\" + aVariableRole + \"</button>\\n		    	</span>\\n</label>\";\n  103    }\n  104:   appendDOM('#variableSection', html);\n  105    updateVariableEnabling();\n  106  };\n\nD:\\Soc-Computer\\Code\\GitHub\\VisiStat\\inst\\www\\main.html:\n  165          <div class=\"leftPane\">\n  166              <span class=\"leftPaneSectionHead\">variables</span>\n  167:             <div class=\"leftPaneSection\" id=\"variableSection\">\n  168                  <!-- The template below is rendered by rendering.coffee -->\n  169                  <!-- \n\n7 matches across 7 files\n",
+			"settings":
+			{
+				"buffer_size": 8176,
+				"line_ending": "Windows",
+				"name": "Find Results",
+				"scratch": true
+			}
+		},
+		{
+			"file": "javascript/rendering.js",
+			"settings":
+			{
+				"buffer_size": 8036,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "test.html",
+			"settings":
+			{
+				"buffer_size": 863,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "style/mainPage.css",
+			"settings":
+			{
+				"buffer_size": 2056,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/javascript/report.coffee",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/function checkForOverTesting()",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/www-project.sublime-project",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/javascript/config.general.js",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/javascript/config.help.js",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/javascript/config.effectsize.js",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/test.html",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/style/variableSelection.css",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/javascript/draw.js",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/index.html",
+		"/D/xampp/htdocs/nexp/guidedesignFive.html",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/bootstrap/js/bootstrap.js",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/style/newIndex.css",
+		"/D/xampp/htdocs/nexp/guidedesignFour.html",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/bootstrap/js/bootstrap.min.js",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/bootstrap/css/bootstrap.min.css",
+		"/D/xampp/htdocs/nexp/css/bootstrap.min.css",
+		"/D/Soc-Computer/Code/GitHub/VisiStat/inst/www/style/datasetSelectionPage.css",
+		"/D/xampp/htdocs/nexp/guidedesign.html",
+		"/D/xampp/htdocs/nexp/index.html",
+		"/D/xampp/htdocs/nexp/guidedesignThree.html",
+		"/D/xampp/htdocs/nexp/guidedesignTwo.html",
+		"/D/xampp/htdocs/nexp/contents/helpPage5.html",
+		"/D/xampp/htdocs/nexp/contents/helpPage6.html",
+		"/D/xampp/htdocs/nexp/css/guidedesignFive.css",
+		"/D/xampp/htdocs/nexp/contents/helpPage4.html",
+		"/D/xampp/htdocs/nexp/css/guidedesignTwo.css",
+		"/D/xampp/htdocs/nexp/css/guidedesignFour.css",
+		"/D/xampp/htdocs/nexp/css/guidedesignThree.css",
+		"/D/xampp/htdocs/nexp/contents/helpPage3.html",
+		"/D/xampp/htdocs/nexp/guidedesignOne.html",
+		"/D/xampp/htdocs/nexp/css/guidedesignOne.css",
+		"/D/xampp/htdocs/nexp/contents/helpPage2.html",
+		"/C/Users/workshop/Downloads/Amelie_2001_720p_BRRip_AC3_x264_MacGuffin.srt",
+		"/D/xampp/htdocs/nexp/contents/helpPage1.html",
+		"/D/xampp/htdocs/nexp/js/pageTwoControl.js",
+		"/D/xampp/htdocs/nexp/js/pageThreeControl.js",
+		"/D/xampp/htdocs/nexp/js/pageFourControl.js",
+		"/D/xampp/htdocs/platformframework/design/test.json",
+		"/D/xampp/htdocs/platformframework/download.php",
+		"/D/xampp/htdocs/platformframework/analyze2.php",
+		"/D/xampp/htdocs/platformframework/task.php",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (2).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (3).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (6).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (7).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (12).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (13).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (14).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (17).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (16).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (15).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (10).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (9).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (8).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (5).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (4).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (1).csv",
+		"/D/xampp/htdocs/platformframework/analyze1.php",
+		"/D/xampp/htdocs/platformframework/array-to-csv.php",
+		"/C/Users/workshop/Desktop/1",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Touchstone/touchstone-workspace/design-platform-1.2/design-platform/build.xml",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Touchstone/touchstone-workspace/design-platform-1.2/design-platform/._tmp.xml",
+		"/C/Users/workshop/Desktop/1.xml",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Touchstone/touchstone-workspace/PointVSDyna-1.2/PointVSDyna/experiment.xml",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Touchstone/touchstone-workspace/PointVSDyna-1.2/PointVSDyna/experiment.design",
+		"/D/xampp/htdocs/platformframework/index.php",
+		"/D/xampp/htdocs/platformframework/config/config.json",
+		"/D/xampp/htdocs/platformframework/final.php",
+		"/D/xampp/htdocs/platformframework/.gitignore",
+		"/D/xampp/htdocs/Infovisplatform/task.php",
+		"/D/xampp/htdocs/platformframework/config/config.xml",
+		"/D/Soc-Computer/Code/GitHub/NEXP/NEXP/NEXP/bin/Debug/PCPvsSCP.xml",
+		"/D/xampp/htdocs/nexp/js/initData.js",
+		"/D/xampp/htdocs/nexp/js/pageFiveControl.js",
+		"/D/xampp/htdocs/nexp/css/nexp.css",
+		"/C/Users/workshop/Desktop/New folder/merge-Single-CSV-file-To-All.bat",
+		"/D/xampp/htdocs/nexp/SaveDataToCookies.php",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0.csv",
+		"/D/xampp/htdocs/platformframework/mask.php",
+		"/C/Users/workshop/Desktop/VisiStat-master/VisiStat-master/data/test.csv",
+		"/C/Users/workshop/Downloads/result (2).csv",
+		"/C/Users/workshop/Desktop/New folder/merge.bat",
+		"/C/Users/workshop/Desktop/New folder/ResultOfAllParticipants.csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-1.csv",
+		"/C/Users/workshop/Desktop/New folder/combinedFiles.csv",
+		"/C/Users/workshop/Desktop/New folder/ResultOfParticipant-0 (11).csv",
+		"/C/Users/workshop/Desktop/New folder/new.csv",
+		"/C/Users/workshop/Desktop/New folder/ResultOfParticipant-0.csv",
+		"/C/Users/workshop/Desktop/test1.xlsx",
+		"/C/Users/workshop/Desktop/test1.csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-0 (11).csv",
+		"/C/Users/workshop/Downloads/result (3).csv",
+		"/C/Users/workshop/Downloads/result (4).csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant-.csv",
+		"/C/Users/workshop/Downloads/ResultOfParticipant.csv",
+		"/C/Users/workshop/Downloads/result (6).csv",
+		"/C/Users/workshop/Downloads/result (5).csv",
+		"/D/xampp/htdocs/nexp/download.php",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Run platform/xiaole/xiaole/trials/test.html",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Run platform/xiaole/xiaole/trials/Welcome_1.html",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Run platform/xiaole/xiaole/trials/Welcome.html",
+		"/D/Soc-Computer/LAB/Project/ExperimentDesignTool/Run platform/xiaole/xiaole/variables/write_to_file.js",
+		"/D/xampp/htdocs/platformframework/js/draw_picture.js",
+		"/D/xampp/htdocs/platformframework/image/index.js",
+		"/D/xampp/htdocs/runplatform/extrajs/default.js",
+		"/D/xampp/htdocs/runplatform/extrajs/defaultlib.js",
+		"/D/xampp/htdocs/runplatform/test/caretposition.js",
+		"/D/xampp/htdocs/runplatform/test/sample2.html",
+		"/D/xampp/htdocs/runplatform/test/sample.html",
+		"/D/xampp/htdocs/runplatform/js/module/functions.js",
+		"/D/xampp/htdocs/runplatform/js/base_class.js",
+		"/D/xampp/htdocs/nexp/downloadDesign.php",
+		"/D/xampp/htdocs/runplatform/js/module/init.js",
+		"/D/xampp/htdocs/runplatform/js/module/ui.js",
+		"/D/xampp/htdocs/runplatform/js/module/window_element.js",
+		"/D/xampp/htdocs/runplatform/js/module/data.js",
+		"/D/xampp/htdocs/runplatform/js/caretposition.js",
+		"/D/xampp/htdocs/runplatform/js/index.min.js",
+		"/D/xampp/htdocs/runplatform/testenv.html",
+		"/D/xampp/htdocs/runplatform/interface1.php",
+		"/D/xampp/htdocs/runplatform/external_files.php",
+		"/C/Users/workshop/Downloads/Arrangement (5).json",
+		"/C/Users/workshop/Downloads/Arrangement (7).json",
+		"/C/Users/workshop/Downloads/Design (3).json",
+		"/C/Users/workshop/Downloads/Design (2).json",
+		"/C/Users/workshop/Downloads/Design (1).json",
+		"/C/Users/workshop/Downloads/Design.json"
+	],
+	"find":
+	{
+		"height": 38.0
+	},
+	"find_in_files":
+	{
+		"height": 102.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"variableSection",
+			"exploreDataset",
+			"changeDataset",
+			"parseStringToDataFrame",
+			"changeDataset",
+			"handleFile",
+			"exploreDataset",
+			"variableList",
+			"leftPane",
+			"left",
+			"Subject",
+			"datasetList",
+			"participantID",
+			"”",
+			"“",
+			"trim",
+			"numberOfBetweenArrangement",
+			"console",
+			"min_number",
+			"width",
+			"&#xa;",
+			"<br />",
+			"&#xa;",
+			"<head>",
+			"show_image",
+			"console",
+			"upload",
+			"imageFileType",
+			"fileType",
+			"flowFactoryProvider",
+			"numberOfConditions",
+			"/=",
+			"int",
+			"%",
+			"groupsCtrl",
+			"info",
+			"log",
+			"accept",
+			"scope",
+			"init",
+			"onclick",
+			"json",
+			"btn",
+			"heuristic",
+			"container",
+			"marketing",
+			"row marketing",
+			"col-lg-6",
+			"Project Name",
+			"home",
+			"about",
+			"Vecchio Bridge",
+			"jsonip",
+			"showCirc",
+			"vg",
+			"vglnk",
+			"\\n",
+			"'",
+			"<a",
+			"con",
+			"bubble",
+			"button",
+			"traits",
+			"draw_SCP",
+			"skuli",
+			"initWithPath",
+			"getRelativePath",
+			"obj.var",
+			"simu",
+			"tasklist",
+			"\",\"",
+			"typeErrpe",
+			"typeerror",
+			"cannot read",
+			"tasklist",
+			"vD.tasks",
+			"tasks",
+			"tasklist",
+			"obj",
+			"obj.acp",
+			"obj.Stimuli",
+			"acp",
+			"tasklist"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\"",
+			" ",
+			"",
+			"<br/>",
+			"<br />",
+			"FileType",
+			"var",
+			"ng-click"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 6,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "index.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14127,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9790,
+								9812
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4134.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "javascript/ocpu.dataset.io.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10924,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3923,
+								3923
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 977.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "javascript/config.global.variables.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4621,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								555,
+								568
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2112.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "javascript/config.dataset.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8735,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7580,
+								7580
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "main.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 28522,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								10672,
+								10687
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3518.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8176,
+						"regions":
+						{
+							"match":
+							{
+								"flags": 112,
+								"regions":
+								[
+									[
+										261,
+										276
+									],
+									[
+										567,
+										582
+									],
+									[
+										1239,
+										1254
+									],
+									[
+										6544,
+										6559
+									],
+									[
+										6991,
+										7006
+									],
+									[
+										7732,
+										7747
+									],
+									[
+										8020,
+										8035
+									]
+								],
+								"scope": ""
+							}
+						},
+						"selection":
+						[
+							[
+								711,
+								711
+							]
+						],
+						"settings":
+						{
+							"detect_indentation": false,
+							"line_numbers": false,
+							"output_tag": 1,
+							"result_base_dir": "",
+							"result_file_regex": "^([A-Za-z\\\\/<].*):$",
+							"result_line_regex": "^ +([0-9]+):",
+							"scroll_past_end": true,
+							"syntax": "Packages/Default/Find Results.hidden-tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "javascript/rendering.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8036,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3597,
+								3613
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1930.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "test.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 863,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "style/mainPage.css",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2056,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2055,
+								2055
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1252.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"project": "www-project.sublime-project",
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 178.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

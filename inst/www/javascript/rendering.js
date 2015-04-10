@@ -58,13 +58,16 @@ updateVariableEnabling = function() {
   var k, v;
   $("input.variableCheckbox").removeAttr("disabled");
   currentSubjectIdVariable = $(".variableRoleDisplay:contains('ID')").parents(".varLabel").find(".variableName").first().text();
+  currentOtherVariable = $(".variableRoleDisplay:contains('Other')").parents(".varLabel").find(".variableName").first().text();
   for (k in variables) {
     v = variables[k];
     if (v === "ID") {
       k;
     }
   }
-  return $("input.variableCheckbox[name='" + currentSubjectIdVariable + "']").attr("disabled", "disabled").removeAttr("checked");
+  $("input.variableCheckbox[name='" + currentOtherVariable + "']").attr("disabled", "disabled").removeAttr("checked");
+  $("input.variableCheckbox[name='" + currentSubjectIdVariable + "']").attr("disabled", "disabled").removeAttr("checked");
+  return;
 };
 
 disableGraphs = function(graphNames) {
