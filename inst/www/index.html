@@ -234,17 +234,18 @@
 
         <table align="center" id="datasetTable">            
             <tr>
-                <td id="center">
+                <td id="left">
+                    <label class="labels" style="margin-bottom: 8px;">Dataset: </label>
+                </td>
+                <td id="right">
                     <div class="input-group">
                         <div class="input-append">
-                          <input type="text" class="form-control" placeholder="Dataset" readonly>
+                          <input type="text" class="form-control" readonly>
+                          <span class="btn btn-file btn-primary" id='browseCover'>
+                                Browse&hellip; <input type="file" id="fileInput" name="dataset" accept="text/csv" onchange=handleFile(this.files)>                                        
+                        </span>
                         </div>
                     </div>
-                </td>
-                 <td id="center">&nbsp;&nbsp;
-                      <span class="btn btn-file btn-primary" id='browseCover'>
-                            Browse&hellip; <input type="file" id="fileInput" name="dataset" accept="text/csv" onchange=handleFile(this.files)>                                        
-                    </span>
                 </td>
             </tr>
 
