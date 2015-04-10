@@ -139,11 +139,11 @@
                     var select = tr.append("td").append("select").attr("name", "role").attr("id", variables[i]).attr("class", "roleSelect");                    
                     $(select[0]).change(checkRole);
                     
-                    var unspecified = select.append("option").attr("value", "undefined").text("Undefined");
-                    var participant = select.append("option").attr("value", "ID").text("Participant or Subject Variable");
+                    //var unspecified = select.append("option").attr("value", "undefined").text("Undefined");
+                    var participant = select.append("option").attr("value", "ID").text("Participant or Subject IDs");
                     var dependent = select.append("option").attr("value", "DV").text("Dependent Variable");
                     var independent = select.append("option").attr("value", "IV").text("Independent Variable");
-                    var tmp = select.append("option").attr("value","useless").text("Other factors or information");
+                    var tmp = select.append("option").attr("value","other").text("Other factors or information");
                     
                     switch(roles[i])
                     {
@@ -159,7 +159,7 @@
                                             independent.attr("selected", "yes");
                                             break;
                                             
-                        case "useless":
+                        case "Other":
                                             tmp.attr("selected", "yes");
                                             break;
                     }

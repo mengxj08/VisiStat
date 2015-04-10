@@ -60,7 +60,7 @@ variablesInDataset["test"] = ["IV1","IV2","IV3","DV"];
  
 
 // The roles of the variable (dependent, independent, or participant/subject)
-var roles = ["ID", "DV", "IV"];
+var roles = ["ID", "DV", "IV","Other"];
 var variableRolesInDataset = new Object();
 
 variableRolesInDataset["keyboard"] = [roles[0], roles[2], roles[2], roles[1]];
