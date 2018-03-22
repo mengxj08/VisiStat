@@ -1,3 +1,5 @@
+### I integrated VisiStat as part of NexP project: the analysis platform. Therefore, by now, NexP has three integrated platforms: design, running and analysis platform. They could all be found in my git repositories.
+
 VisiStat
 =======
 
